@@ -4,14 +4,14 @@
  *
  * touchInlineEdit Module
  *
- * Copyright (c) 2010 Christoph Gruber, <www.touchdesign.de>
+ * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
  * @version 1.0
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
- * @link http://www.homepage-community.de/index.php?topic=1680
+ * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
  * @todo add content_block handling
