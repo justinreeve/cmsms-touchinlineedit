@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.0
+ * @version 1.1
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -42,6 +42,7 @@
  *
  */
 
+$this->RemovePreference();
 $this->RemovePermission('Use touchInlineEdit', 'Use touchInlineEdit');
 
 ?>

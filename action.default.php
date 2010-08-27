@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.0
+ * @version 1.1
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -58,6 +58,9 @@ if(isset($gCms->modules['touchInlineEdit'])
 			die($touchInlineEdit->updateContent());		
 		}
 		$smarty->assign('hasInlineEditRights',1);
+		$smarty->assign('tieFeEditButton',$touchInlineEdit->GetPreference("touchInlineEdit.feEditButton"));
+		$smarty->assign('tieFeFullPanel',$touchInlineEdit->GetPreference("touchInlineEdit.feFullPanel"));
+		$smarty->assign('tieFeUpdateAlert',$touchInlineEdit->GetPreference("touchInlineEdit.feUpdateAlert"));
 	}
 }
 

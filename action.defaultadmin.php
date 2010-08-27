@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.0
+ * @version 1.1
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -60,7 +60,40 @@ echo $this->StartTabContent();
 
 echo $this->StartTab("settings");
 
-/* nothing yet */
+$yn = array(
+	$this->Lang("yes") => 'Y',
+	$this->Lang("no") => 'N'
+);
+
+$bool = array(
+	$this->Lang("yes") => 'true',
+	$this->Lang("no") => 'false'
+);
+
+// Form start
+$this->smarty->assign('formstart',$this->CreateFormStart($id,"savesettings",$returnid));
+
+// Enable disable inlineEdit button in FE
+$this->smarty->assign('feEditButton_label',$this->Lang("feEditButton_label"));
+$this->smarty->assign('feEditButton_help',$this->Lang("feEditButton_help"));
+$this->smarty->assign('feEditButton_input',$this->CreateInputRadioGroup($id,"feEditButton",$yn,$this->GetPreference("touchInlineEdit.feEditButton","Y"),"","\n"));
+
+// Enable full panel in FE
+$this->smarty->assign('feFullPanel_label',$this->Lang("feFullPanel_label"));
+$this->smarty->assign('feFullPanel_help',$this->Lang("feFullPanel_help"));
+$this->smarty->assign('feFullPanel_input',$this->CreateInputRadioGroup($id,"feFullPanel",$bool,$this->GetPreference("touchInlineEdit.feFullPanel","true"),"","\n"));
+
+// Enable alert an content update
+$this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
+$this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
+$this->smarty->assign('feUpdateAlert_input',$this->CreateInputRadioGroup($id,"feUpdateAlert",$bool,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
+
+// Submit / cancel
+$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
+$this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
+
+// Form end
+$this->smarty->assign('formend',$this->CreateFormEnd());
 
 echo $this->ProcessTemplate("adminsettings.tpl");
 

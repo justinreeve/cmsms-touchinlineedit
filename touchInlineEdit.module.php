@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.0
+ * @version 1.1
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -53,9 +53,9 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	function GetVersion() { 
-		return '1.0';
+		return '1.1';
 	}
-	
+
 	function GetHelp() { 
 		return $this->Lang('help');
 	}
@@ -76,54 +76,74 @@ class touchInlineEdit extends CMSModule {
 		return 'c.gruber@touchdesign.de';
 	}
 
+	function GetAdminSection() {
+		return 'extensions';
+	}
+
+	function SetParameters() {	  
+		/* Nothing yet */
+	}
+
+	function InstallPostMessage() {
+		return $this->Lang('postinstall');
+	}
+
+	function UninstallPostMessage() {
+		return $this->Lang('postuninstall');
+	}
+	
 	function SmartyPreCompile(&$content) {
 		global $gCms;
 
 		$pageInfo = $gCms->variables['pageinfo'];
 
 		// nicEdit
-		$head = '{if $hasInlineEditRights}';
-		$head.= '<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>';
-		$head.= '<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>';
-		$head.= '{/if}';
+		$head = '{if $hasInlineEditRights}' . "\n";
+		$head.= '	<!-- '.$this->getName().' module -->' . "\n";
+		$head.= '	<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
+		$head.= '	<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+		$head.= '{/if}' . "\n";
 
 		$script = "
-		{literal}
-		<script type='text/javascript' charset='utf-8'>
-		var area1;
-		function toggleInlineEdit() {
-			if(!area1) {
-				area1 = new nicEditor({
-					fullPanel : true, 
-					iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
-					onSave:function(content,id,instance){touchInlineEditSave(id,content)}
-				}).panelInstance(
-					'touchInlineEditId".$pageInfo->content_id."',
-					{hasPanel : true}
-				);
-			} else {
-				area1.removeInstance('touchInlineEditId".$pageInfo->content_id."');
-				area1 = null;
-			}
-		}
-		bkLib.onDomLoaded(
-			function() { 
-				//...
-			}
-		);
-		function touchInlineEditSave(id,content){
-			$.ajax({
-				type: 'POST',
-				url: '".$_SERVER['REQUEST_URI']."',
-				data: 'id=".$pageInfo->content_id."&content=' + content,
-				success: function(msg){
-					alert('Content updated');
-					toggleInlineEdit();
+		{if \$hasInlineEditRights}
+			{literal}
+			<!-- ".$this->getName()." module -->
+			<script type='text/javascript' charset='utf-8'>
+			var cBlockMain;
+			function toggleInlineEdit() {
+				if(!cBlockMain) {
+					cBlockMain = new nicEditor({
+						fullPanel : {/literal}{\$tieFeFullPanel}{literal},
+						iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
+						onSave:function(content,id,instance){touchInlineEditSave(id,content)}
+					}).panelInstance(
+						'touchInlineEditId".$pageInfo->content_id."',
+						{hasPanel : true}
+					);
+				} else {
+					cBlockMain.removeInstance('touchInlineEditId".$pageInfo->content_id."');
+					cBlockMain = null;
 				}
-			});
-		}
-		</script>
-		{/literal}";
+			}
+			bkLib.onDomLoaded(
+				function() { 
+					// Nothing yet...
+				}
+			);
+			function touchInlineEditSave(id,content){
+				$.ajax({
+					type: 'POST',
+					url: '".$_SERVER['REQUEST_URI']."',
+					data: 'id=".$pageInfo->content_id."&content=' + content,
+					success: function(msg){
+						{/literal}{if \$tieFeUpdateAlert == 'true'}alert('".$this->Lang('feUpdateAlert')."');{/if}{literal}
+						toggleInlineEdit();
+					}
+				});
+			}
+			</script>
+			{/literal}
+		{/if}";
 
 		$content = str_replace('</head>',$head . $script . '</head>',$content);
 
@@ -133,7 +153,9 @@ class touchInlineEdit extends CMSModule {
 
 		// Before content
 		$contentBefore = '{if $hasInlineEditRights}';
-		$contentBefore.= '<button onclick="toggleInlineEdit();">Inline Edit</button>';
+		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
+		$contentBefore.= '		<button onclick="toggleInlineEdit();">'.$this->Lang("feInlineEditButton").'</button>';
+		$contentBefore.= '	{/if}';
 		$contentBefore.= '<div ondblclick="toggleInlineEdit();" id="touchInlineEditId'.$pageInfo->content_id.'" class="touchInlineEdit">';
 		$contentBefore.= '{/if}';
 

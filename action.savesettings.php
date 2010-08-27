@@ -42,9 +42,21 @@
  *
  */
 
-$this->CreatePermission('Use touchInlineEdit', 'Use touchInlineEdit');
-$this->SetPreference('touchInlineEdit.feEditButton', 'Y');
-$this->SetPreference('touchInlineEdit.feFullPanel', 'true');
-$this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
+if (!$this->CheckPermission('Modify Site Settings')) {
+	echo $this->lang("nopermission");
+	return;
+}
+
+if(isset($params["feEditButton"]) && !empty($params["feEditButton"])) {
+	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
+}
+if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])) {
+	$this->SetPreference("touchInlineEdit.feFullPanel",$params["feFullPanel"]);
+}
+if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])) {
+	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
+}
+
+$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
 
 ?>
