@@ -42,21 +42,10 @@
  *
  */
 
-if (!$this->CheckPermission('Modify Site Settings')) {
-	echo $this->lang("nopermission");
-	return;
-}
+global $gCms;
 
-if(isset($params["feEditButton"]) && !empty($params["feEditButton"])) {
-	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
-}
-if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])) {
-	$this->SetPreference("touchInlineEdit.feFullPanel",$params["feFullPanel"]);
-}
-if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])) {
-	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
-}
+$smarty = &$gCms->smarty;
 
-$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
+$smarty->clear_compiled_tpl();
 
 ?>

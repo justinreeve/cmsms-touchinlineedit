@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.1
+ * @version 1.2
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -52,7 +52,7 @@ if(isset($gCms->modules['touchInlineEdit'])
 	$config = &$gCms->config;
 
 	//Debug
-	$smarty->force_compile = true;
+	//$smarty->force_compile = true;
 
 	if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 		if($touchInlineEdit->isAJAXRequest()){

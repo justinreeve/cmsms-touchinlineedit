@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.1
+ * @version 1.2
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -53,7 +53,7 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	function GetVersion() { 
-		return '1.1';
+		return '1.2';
 	}
 
 	function GetHelp() { 
@@ -91,7 +91,11 @@ class touchInlineEdit extends CMSModule {
 	function UninstallPostMessage() {
 		return $this->Lang('postuninstall');
 	}
-	
+
+	function MinimumCMSVersion() {
+		return "1.6.8";
+	}
+
 	function SmartyPreCompile(&$content) {
 		global $gCms;
 
