@@ -152,7 +152,7 @@ class touchInlineEdit extends CMSModule {
 		// Before content
 		$contentBefore = '{if $hasInlineEditRights}';
 		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
-		$contentBefore.= '		<button onclick="toggleInlineEdit();">'.$this->Lang("feInlineEditButton").'</button>';
+		$contentBefore.= '		<button class="touchInlineEditButton" onclick="toggleInlineEdit();">'.$this->Lang("feInlineEditButton").'</button>';
 		$contentBefore.= '	{/if}';
 		$contentBefore.= '<div ondblclick="toggleInlineEdit();" id="touchInlineEditId{\$gCms->variables.content_id}" class="touchInlineEdit">';
 		$contentBefore.= '{/if}';
