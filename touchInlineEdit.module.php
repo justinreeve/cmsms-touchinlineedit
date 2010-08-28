@@ -95,8 +95,6 @@ class touchInlineEdit extends CMSModule {
 	function SmartyPreCompile(&$content) {
 		global $gCms;
 
-		$pageInfo = $gCms->variables['pageinfo'];
-
 		// nicEdit
 		$head = '{if $hasInlineEditRights}' . "\n";
 		$head.= '	<!-- '.$this->getName().' module -->' . "\n";
@@ -117,11 +115,11 @@ class touchInlineEdit extends CMSModule {
 						iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
 						onSave:function(content,id,instance){touchInlineEditSave(id,content)}
 					}).panelInstance(
-						'touchInlineEditId".$pageInfo->content_id."',
+						'touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}',
 						{hasPanel : true}
 					);
 				} else {
-					cBlockMain.removeInstance('touchInlineEditId".$pageInfo->content_id."');
+					cBlockMain.removeInstance('touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}');
 					cBlockMain = null;
 				}
 			}
@@ -133,8 +131,8 @@ class touchInlineEdit extends CMSModule {
 			function touchInlineEditSave(id,content){
 				$.ajax({
 					type: 'POST',
-					url: '".$_SERVER['REQUEST_URI']."',
-					data: 'id=".$pageInfo->content_id."&content=' + content,
+					url: '{/literal}{\$smarty.server.REQUEST_URI}{literal}',
+					data: 'id={/literal}{\$gCms->variables.content_id}{literal}&content=' + content,
 					success: function(msg){
 						{/literal}{if \$tieFeUpdateAlert == 'true'}alert('".$this->Lang('feUpdateAlert')."');{/if}{literal}
 						toggleInlineEdit();
@@ -156,7 +154,7 @@ class touchInlineEdit extends CMSModule {
 		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
 		$contentBefore.= '		<button onclick="toggleInlineEdit();">'.$this->Lang("feInlineEditButton").'</button>';
 		$contentBefore.= '	{/if}';
-		$contentBefore.= '<div ondblclick="toggleInlineEdit();" id="touchInlineEditId'.$pageInfo->content_id.'" class="touchInlineEdit">';
+		$contentBefore.= '<div ondblclick="toggleInlineEdit();" id="touchInlineEditId{\$gCms->variables.content_id}" class="touchInlineEdit">';
 		$contentBefore.= '{/if}';
 
 		// After content
@@ -178,16 +176,16 @@ class touchInlineEdit extends CMSModule {
 	function updateContent(){
 		global $gCms;
 
-		$contentId = (int)$_POST['id'];
-		$contentValue = $_POST['content'];
-
 		$pageInfo = $gCms->variables['pageinfo'];
 
+		$contentId = $pageInfo->content_id;
+		$contentValue = $_POST['content'];
+
 		$manager =& $gCms->GetHierarchyManager();
-		$node =& $manager->sureGetNodeById($pageInfo->content_id);
+		$node =& $manager->sureGetNodeById($contentId);
 
 		if(!is_object($node)){
-			return "Invalid ContentId";
+			return "Invalid ContentId: " . $contentId;
 		}
 
 		$contentObj =& $node->GetContent(true,true);

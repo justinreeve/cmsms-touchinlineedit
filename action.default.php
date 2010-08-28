@@ -49,14 +49,16 @@ if(isset($gCms->modules['touchInlineEdit'])
 
 	$touchInlineEdit = $gCms->modules['touchInlineEdit']['object'];
 	$smarty = &$gCms->smarty;
+	$config = &$gCms->config;
 
 	//Debug
-	//$smarty->force_compile = true;
+	$smarty->force_compile = true;
 
 	if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 		if($touchInlineEdit->isAJAXRequest()){
 			die($touchInlineEdit->updateContent());		
 		}
+
 		$smarty->assign('hasInlineEditRights',1);
 		$smarty->assign('tieFeEditButton',$touchInlineEdit->GetPreference("touchInlineEdit.feEditButton"));
 		$smarty->assign('tieFeFullPanel',$touchInlineEdit->GetPreference("touchInlineEdit.feFullPanel"));
