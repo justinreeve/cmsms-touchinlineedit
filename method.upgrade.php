@@ -47,6 +47,5 @@ global $gCms;
 $smarty = &$gCms->smarty;
 
 $smarty->clear_compiled_tpl();
-$this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
 
 ?>
