@@ -119,9 +119,13 @@ class touchInlineEdit extends CMSModule {
 			<script type='text/javascript' charset='utf-8'>
 
 			var cBlockMain;
+			var contentId = {/literal}{\$gCms->variables.content_id}{literal};
 
 			function toggleInlineEdit() {
 				if(!cBlockMain) {
+
+					touchInlineEditInitContent(contentId);
+
 					cBlockMain = new nicEditor({
 						fullPanel : {/literal}{\$tieFeFullPanel}{literal},
 						iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
@@ -130,10 +134,22 @@ class touchInlineEdit extends CMSModule {
 						'touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}',
 						{hasPanel : true}
 					);
+
 				} else {
 					cBlockMain.removeInstance('touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}');
 					cBlockMain = null;
 				}
+			}
+
+			function touchInlineEditInitContent(id){
+				$.ajax({async:false,
+					type: 'POST',
+					url: '{/literal}{\$smarty.server.REQUEST_URI}{literal}',
+					data: 'method=getContent&id=' + id,
+					success:function(data){
+						$('#touchInlineEditId' + contentId).html(data);
+				}
+				});
 			}
 
 			function touchInlineEditSave(id,content){
@@ -165,6 +181,7 @@ class touchInlineEdit extends CMSModule {
 
 		$content = str_replace('</head>',$head . $script . '</head>',$content);
 
+		// TODO: Grep blocks, content underscore blockname -> default is content_en
 		//if(preg_match("/block=[\"|']\w+[\"|']/", $content, $match)){
 		//	$block = $match{0};
 		//}
@@ -193,7 +210,31 @@ class touchInlineEdit extends CMSModule {
 			== 'xmlhttprequest' ? true : false;
 	}
 
-	function updateContent(){
+	function getContent($block="content_en"){
+		global $gCms;
+
+		$pageInfo = $gCms->variables['pageinfo'];
+
+		$contentId = $pageInfo->content_id;
+
+		$manager =& $gCms->GetHierarchyManager();
+		$node =& $manager->sureGetNodeById($contentId);
+
+		if(!is_object($node)){
+			return "Invalid ContentId: " . $contentId;
+		}
+
+		$contentObj =& $node->GetContent(true,true);
+
+		$content = "Empty...";
+		if($contentObj->HasProperty($block)){
+			$content = $contentObj->GetPropertyValue($block);
+		}
+
+		return $content;
+	}
+
+	function updateContent($block="content_en"){
 		global $gCms;
 
 		$pageInfo = $gCms->variables['pageinfo'];
@@ -210,7 +251,7 @@ class touchInlineEdit extends CMSModule {
 
 		$contentObj =& $node->GetContent(true,true);
 
-		$params['content_en'] = $contentValue;
+		$params[$block] = $contentValue;
 
 		$contentObj->FillParams($params);
 

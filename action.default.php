@@ -56,7 +56,12 @@ if(isset($gCms->modules['touchInlineEdit'])
 
 	if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 		if($touchInlineEdit->isAJAXRequest()){
-			die($touchInlineEdit->updateContent());		
+			switch ($_POST['method']) {
+				case 'updateContent':
+					die($touchInlineEdit->updateContent());
+				case 'getContent':
+					die($touchInlineEdit->getContent());
+			}
 		}
 		// Assign prefs
 		$smarty->assign('hasInlineEditRights',1);
