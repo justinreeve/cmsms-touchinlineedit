@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id$
+ * $Id: action.savesettings.php 8 2010-08-28 03:56:09Z touchdesign $
  *
  * touchInlineEdit Module
  *
@@ -42,54 +42,17 @@
  *
  */
 
-if(!isset($gCms)){
-	exit;
-}
-
-if(!$this->CheckPermission('Use touchInlineEdit')){
+if(!$this->CheckPermission('Modify Templates')){
 	echo $this->lang("nopermission");
 	return;
 }
 
-// Active tab
-$activeTab = "";
-if(!empty($params["tab"])){
-	$activeTab = $params["tab"];
+if(isset($params['reset'])){
+	$this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
+}elseif(isset($params["touchInlineEditButton"]) && !empty($params["touchInlineEditButton"])){
+	$this->SetTemplate('touchInlineEditButton', $params['touchInlineEditButton']);
 }
 
-$yn = array(
-	$this->Lang("yes") => 'Y',
-	$this->Lang("no") => 'N'
-);
-
-$bool = array(
-	$this->Lang("yes") => 'true',
-	$this->Lang("no") => 'false'
-);
-
-echo $this->StartTabHeaders();
-
-echo $this->SetTabHeader("settings",$this->Lang("settings"),($activeTab == 'settings' ? true : false));
-echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
-
-echo $this->EndTabHeaders();
-
-echo $this->StartTabContent();
-
-// Tab settings
-echo $this->StartTab("settings");
-include(dirname(__FILE__).'/function.admin_settings.php');
-echo $this->EndTab();
-
-// Tab templates
-if($this->CheckPermission('Modify Templates')){
-
-	echo $this->StartTab("templates");
-	include(dirname(__FILE__).'/function.admin_templates.php');
-	echo $this->EndTab();
-
-}
-
-echo $this->EndTabContent();
+$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("templatessaved"),"tab" => "templates"));
 
 ?>

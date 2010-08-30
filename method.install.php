@@ -46,5 +46,6 @@ $this->CreatePermission('Use touchInlineEdit', 'Use touchInlineEdit');
 $this->SetPreference('touchInlineEdit.feEditButton', 'Y');
 $this->SetPreference('touchInlineEdit.feFullPanel', 'true');
 $this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
+$this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
 
 ?>

@@ -12,6 +12,10 @@
 		<p class="pageinput">{$feUpdateAlert_input}<br/>{$feUpdateAlert_help}</p>
 	</div>
 	<div class="pageoverflow">
+		<p class="pagetext">{$feJQueryLoad_label}</p>
+		<p class="pageinput">{$feJQueryLoad_input}<br/>{$feJQueryLoad_help}</p>
+	</div>
+	<div class="pageoverflow">
 		<p class="pagetext">&nbsp;</p>
 		<p class="pageinput">{$submit}{$cancel}</p>
 	</div>

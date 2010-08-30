@@ -44,6 +44,10 @@
 
 class touchInlineEdit extends CMSModule {
 
+	var $defaultTemplate = array(
+		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
+	);
+
 	function GetName() { 
 		return 'touchInlineEdit'; 
 	}
@@ -103,7 +107,9 @@ class touchInlineEdit extends CMSModule {
 		$head = '{if $hasInlineEditRights}' . "\n";
 		$head.= '	<!-- '.$this->getName().' module -->' . "\n";
 		$head.= '	<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
-		$head.= '	<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+		$head.= '	{if $tieJQueryLoad == "Y"}' . "\n";
+		$head.= '		<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+		$head.= '	{/if}' . "\n";
 		$head.= '{/if}' . "\n";
 
 		$script = "
@@ -111,7 +117,9 @@ class touchInlineEdit extends CMSModule {
 			{literal}
 			<!-- ".$this->getName()." module -->
 			<script type='text/javascript' charset='utf-8'>
+
 			var cBlockMain;
+
 			function toggleInlineEdit() {
 				if(!cBlockMain) {
 					cBlockMain = new nicEditor({
@@ -127,22 +135,30 @@ class touchInlineEdit extends CMSModule {
 					cBlockMain = null;
 				}
 			}
-			bkLib.onDomLoaded(
-				function() { 
-					// Nothing yet...
-				}
-			);
+
 			function touchInlineEditSave(id,content){
 				$.ajax({
 					type: 'POST',
 					url: '{/literal}{\$smarty.server.REQUEST_URI}{literal}',
 					data: 'id={/literal}{\$gCms->variables.content_id}{literal}&content=' + content,
 					success: function(msg){
-						{/literal}{if \$tieFeUpdateAlert == 'true'}alert('".$this->Lang('feUpdateAlert')."');{/if}{literal}
+						{/literal}{if \$tieFeUpdateAlert == 'true'}alert('{\$tieLang.feUpdateAlert}');{/if}{literal}
 						toggleInlineEdit();
 					}
 				});
 			}
+
+			$(document).ready(function(){
+				$('.touchInlineEditButton').click(function(){
+					toggleInlineEdit();
+					return false;
+				});
+				$('.touchInlineEdit').dblclick(function(){
+					toggleInlineEdit();
+					return false;
+				});
+			});
+
 			</script>
 			{/literal}
 		{/if}";
@@ -156,9 +172,9 @@ class touchInlineEdit extends CMSModule {
 		// Before content
 		$contentBefore = '{if $hasInlineEditRights}';
 		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
-		$contentBefore.= '		<button class="touchInlineEditButton" onclick="toggleInlineEdit();">'.$this->Lang("feInlineEditButton").'</button>';
+		$contentBefore.= '		{$tieTemplateEditButton}';
 		$contentBefore.= '	{/if}';
-		$contentBefore.= '<div ondblclick="toggleInlineEdit();" id="touchInlineEditId{\$gCms->variables.content_id}" class="touchInlineEdit">';
+		$contentBefore.= '<div id="touchInlineEditId{\$gCms->variables.content_id}" class="touchInlineEdit">';
 		$contentBefore.= '{/if}';
 
 		// After content
@@ -201,6 +217,13 @@ class touchInlineEdit extends CMSModule {
 		$contentObj->Update();
 
 		return $contentValue;
+	}
+
+	function getDefaultTemplate($template){
+		if(isset($this->defaultTemplate[$template])){
+			return $this->defaultTemplate[$template];
+		}
+		return false;
 	}
 }
 

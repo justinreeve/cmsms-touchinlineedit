@@ -56,6 +56,9 @@ if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])) {
 if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])) {
 	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
 }
+if(isset($params["feJQueryLoad"]) && !empty($params["feJQueryLoad"])) {
+	$this->SetPreference("touchInlineEdit.feJQueryLoad",$params["feJQueryLoad"]);
+}
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
 

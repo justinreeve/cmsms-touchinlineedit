@@ -43,6 +43,7 @@
  */
 
 $this->RemovePreference();
-$this->RemovePermission('Use touchInlineEdit', 'Use touchInlineEdit');
+$this->RemovePermission('Use touchInlineEdit');
+$this->DeleteTemplate();
 
 ?>

@@ -42,54 +42,29 @@
  *
  */
 
-if(!isset($gCms)){
+if(!isset($gCms)){ 
 	exit;
 }
 
-if(!$this->CheckPermission('Use touchInlineEdit')){
-	echo $this->lang("nopermission");
+if(!$this->VisibleToAdminUser()){
+	$this->ShowErrors($this->Lang("accessdenied"));
 	return;
 }
 
-// Active tab
-$activeTab = "";
-if(!empty($params["tab"])){
-	$activeTab = $params["tab"];
-}
+// Form start
+$this->smarty->assign('formstart',$this->CreateFormStart($id,"savetemplates",$returnid));
 
-$yn = array(
-	$this->Lang("yes") => 'Y',
-	$this->Lang("no") => 'N'
-);
+$this->smarty->assign('touchInlineEditButton_label',$this->Lang("touchInlineEditButton_label"));
+$this->smarty->assign('touchInlineEditButton', $this->CreateTextArea(false,$id, $this->GetTemplate('touchInlineEditButton'),
+	'touchInlineEditButton',"pagesmalltextarea","","","",'40','5'));
 
-$bool = array(
-	$this->Lang("yes") => 'true',
-	$this->Lang("no") => 'false'
-);
+// Submit / cancel
+$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
+$this->smarty->assign('reset',$this->CreateInputSubmit($id,"reset",$this->Lang("reset")));
 
-echo $this->StartTabHeaders();
+// Form end
+$this->smarty->assign('formend',$this->CreateFormEnd());
 
-echo $this->SetTabHeader("settings",$this->Lang("settings"),($activeTab == 'settings' ? true : false));
-echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
-
-echo $this->EndTabHeaders();
-
-echo $this->StartTabContent();
-
-// Tab settings
-echo $this->StartTab("settings");
-include(dirname(__FILE__).'/function.admin_settings.php');
-echo $this->EndTab();
-
-// Tab templates
-if($this->CheckPermission('Modify Templates')){
-
-	echo $this->StartTab("templates");
-	include(dirname(__FILE__).'/function.admin_templates.php');
-	echo $this->EndTab();
-
-}
-
-echo $this->EndTabContent();
+echo $this->ProcessTemplate("admintemplates.tpl");
 
 ?>
