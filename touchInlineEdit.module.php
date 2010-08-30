@@ -118,33 +118,43 @@ class touchInlineEdit extends CMSModule {
 			<!-- ".$this->getName()." module -->
 			<script type='text/javascript' charset='utf-8'>
 
+			{/literal}
 			var cBlockMain;
-			var contentId = {/literal}{\$gCms->variables.content_id}{literal};
+			var contentId = {\$gCms->variables.content_id};
+			var requestUri = '{\$smarty.server.REQUEST_URI}';
+			var updateAlert = '{\$tieFeUpdateAlert}';
+			var updateAlertMessage = '{\$tieLang.feUpdateAlert}';
+			{literal}
+
+			function touchInlineEditInitEditor() {
+				cBlockMain = new nicEditor({
+					fullPanel : {/literal}{\$tieFeFullPanel}{literal},
+					iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
+					onSave:function(content,id,instance){touchInlineEditSave(id,content)}
+				}).panelInstance(
+					'touchInlineEditId' + contentId,
+					{hasPanel : true}
+				);
+			}
+
+			function touchInlineEditRemoveEditor() {
+				cBlockMain.removeInstance('touchInlineEditId' + contentId);
+				cBlockMain = null;
+			}
 
 			function toggleInlineEdit() {
 				if(!cBlockMain) {
-
-					touchInlineEditInitContent(contentId);
-
-					cBlockMain = new nicEditor({
-						fullPanel : {/literal}{\$tieFeFullPanel}{literal},
-						iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
-						onSave:function(content,id,instance){touchInlineEditSave(id,content)}
-					}).panelInstance(
-						'touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}',
-						{hasPanel : true}
-					);
-
+					touchInlineEditInitContent();
+					touchInlineEditInitEditor();
 				} else {
-					cBlockMain.removeInstance('touchInlineEditId{/literal}{\$gCms->variables.content_id}{literal}');
-					cBlockMain = null;
+					touchInlineEditRemoveEditor();
 				}
 			}
 
 			function touchInlineEditInitContent(id){
 				$.ajax({async:false,
 					type: 'POST',
-					url: '{/literal}{\$smarty.server.REQUEST_URI}{literal}',
+					url: requestUri,
 					data: 'method=getContent&id=' + id,
 					success:function(data){
 						$('#touchInlineEditId' + contentId).html(data);
@@ -155,10 +165,12 @@ class touchInlineEdit extends CMSModule {
 			function touchInlineEditSave(id,content){
 				$.ajax({
 					type: 'POST',
-					url: '{/literal}{\$smarty.server.REQUEST_URI}{literal}',
-					data: 'id={/literal}{\$gCms->variables.content_id}{literal}&content=' + content,
+					url: requestUri,
+					data: 'method=updateContent&id=' + contentId + '&content=' + content,
 					success: function(msg){
-						{/literal}{if \$tieFeUpdateAlert == 'true'}alert('{\$tieLang.feUpdateAlert}');{/if}{literal}
+						if(updateAlert == 'true'){
+							alert(updateAlertMessage);
+						}
 						toggleInlineEdit();
 					}
 				});
