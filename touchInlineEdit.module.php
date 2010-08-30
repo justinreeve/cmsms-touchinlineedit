@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.2
+ * @version 1.3
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -48,59 +48,59 @@ class touchInlineEdit extends CMSModule {
 		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
 	);
 
-	function GetName() { 
+	function GetName(){ 
 		return 'touchInlineEdit'; 
 	}
 
-	function GetFriendlyName() { 
+	function GetFriendlyName(){ 
 		return 'InlineEdit'; 
 	}
 
-	function GetVersion() { 
-		return '1.2';
+	function GetVersion(){ 
+		return '1.3';
 	}
 
-	function GetHelp() { 
+	function GetHelp(){ 
 		return $this->Lang('help');
 	}
 
-	function IsPluginModule() { 
+	function IsPluginModule(){
 		return true;
 	}
 	
-	function HasAdmin() { 
+	function HasAdmin(){
 		return true; 
 	}
 
-	function GetAuthor() {
+	function GetAuthor(){
 		return 'Christoph Gruber <touchDesign.de>';
 	}
 
-	function GetAuthorEmail() {
+	function GetAuthorEmail(){
 		return 'c.gruber@touchdesign.de';
 	}
 
-	function GetAdminSection() {
+	function GetAdminSection(){
 		return 'extensions';
 	}
 
-	function SetParameters() {	  
+	function SetParameters(){	  
 		/* Nothing yet */
 	}
 
-	function InstallPostMessage() {
+	function InstallPostMessage(){
 		return $this->Lang('postinstall');
 	}
 
-	function UninstallPostMessage() {
+	function UninstallPostMessage(){
 		return $this->Lang('postuninstall');
 	}
 
-	function MinimumCMSVersion() {
+	function MinimumCMSVersion(){
 		return "1.6.8";
 	}
 
-	function SmartyPreCompile(&$content) {
+	function SmartyPreCompile(&$content){
 		global $gCms;
 
 		// nicEdit

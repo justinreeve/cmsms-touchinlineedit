@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.2
+ * @version 1.3
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -42,21 +42,21 @@
  *
  */
 
-if (!$this->CheckPermission('Modify Site Settings')) {
+if(!$this->CheckPermission('Modify Site Settings')){
 	echo $this->lang("nopermission");
 	return;
 }
 
-if(isset($params["feEditButton"]) && !empty($params["feEditButton"])) {
+if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
 	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
 }
-if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])) {
+if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])){
 	$this->SetPreference("touchInlineEdit.feFullPanel",$params["feFullPanel"]);
 }
-if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])) {
+if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])){
 	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
 }
-if(isset($params["feJQueryLoad"]) && !empty($params["feJQueryLoad"])) {
+if(isset($params["feJQueryLoad"]) && !empty($params["feJQueryLoad"])){
 	$this->SetPreference("touchInlineEdit.feJQueryLoad",$params["feJQueryLoad"]);
 }
 
