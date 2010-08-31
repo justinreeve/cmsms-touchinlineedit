@@ -222,10 +222,11 @@ class touchInlineEdit extends CMSModule {
 			== 'xmlhttprequest' ? true : false;
 	}
 
-	function getContent($block="content_en"){
+	function getContent($block="content_en",$fetch=false){
 		global $gCms;
 
-		$pageInfo = $gCms->variables['pageinfo'];
+		$smarty = &$gCms->smarty;
+		$pageInfo = &$gCms->variables['pageinfo'];
 
 		$contentId = $pageInfo->content_id;
 
@@ -241,6 +242,9 @@ class touchInlineEdit extends CMSModule {
 		$content = "Empty...";
 		if($contentObj->HasProperty($block)){
 			$content = $contentObj->GetPropertyValue($block);
+			if($fetch){
+				// Fetch content...
+			}
 		}
 
 		return $content;
