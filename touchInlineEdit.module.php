@@ -151,11 +151,11 @@ class touchInlineEdit extends CMSModule {
 				}
 			}
 
-			function touchInlineEditInitContent(id){
+			function touchInlineEditInitContent(){
 				$.ajax({async:false,
 					type: 'POST',
 					url: requestUri,
-					data: 'method=getContent&id=' + id,
+					data: 'method=getContent&id=' + contentId,
 					success:function(data){
 						$('#touchInlineEditId' + contentId).html(data);
 				}
@@ -167,11 +167,12 @@ class touchInlineEdit extends CMSModule {
 					type: 'POST',
 					url: requestUri,
 					data: 'method=updateContent&id=' + contentId + '&content=' + content,
-					success: function(msg){
+					success: function(data){
 						if(updateAlert == 'true'){
 							alert(updateAlertMessage);
 						}
 						toggleInlineEdit();
+						$('#touchInlineEditId' + contentId).html(data);
 					}
 				});
 			}
@@ -241,7 +242,8 @@ class touchInlineEdit extends CMSModule {
 		if($contentObj->HasProperty($block)){
 			$content = $contentObj->GetPropertyValue($block);
 			if($fetch){
-				// TODO: Fetch content...
+				// Fetch content...
+				$content = $smarty->fetch('content:' . $block, '', $contentId);
 			}
 		}
 
@@ -271,7 +273,7 @@ class touchInlineEdit extends CMSModule {
 
 		$contentObj->Update();
 
-		return $contentValue;
+		return $this->getContent($block,true);
 	}
 
 	function getDefaultTemplate($template){
