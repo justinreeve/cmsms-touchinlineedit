@@ -194,9 +194,7 @@ class touchInlineEdit extends CMSModule {
 		$content = str_replace('</head>',$head . $script . '</head>',$content);
 
 		// TODO: Grep blocks, content underscore blockname -> default is content_en
-		//if(preg_match("/block=[\"|']\w+[\"|']/", $content, $match)){
-		//	$block = $match{0};
-		//}
+		//preg_match_all("/\{content.*?block=[\"|']([^\"|']+)[\"|'].*?\}/", $content, $matches);
 
 		// Before content
 		$contentBefore = '{if $hasInlineEditRights}';
@@ -212,7 +210,7 @@ class touchInlineEdit extends CMSModule {
 		$contentAfter.= '{/if}';
 
 		// Basic content
-		$content = preg_replace("/\{content(.*) iseditable=[\"|']true[\"']\}/", $contentBefore."{content \\1}".$contentAfter, $content);
+		$content = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", $contentBefore."{content \\1}".$contentAfter, $content);
 	}
 
 	function isAJAXRequest(){
@@ -243,7 +241,7 @@ class touchInlineEdit extends CMSModule {
 		if($contentObj->HasProperty($block)){
 			$content = $contentObj->GetPropertyValue($block);
 			if($fetch){
-				// Fetch content...
+				// TODO: Fetch content...
 			}
 		}
 
