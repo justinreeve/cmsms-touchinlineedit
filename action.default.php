@@ -52,7 +52,7 @@ if(isset($gCms->modules['touchInlineEdit'])
 	$config = &$gCms->config;
 
 	//Debug
-	//$smarty->force_compile = true;
+	$smarty->force_compile = true;
 
 	if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 		if($touchInlineEdit->isAJAXRequest()){
