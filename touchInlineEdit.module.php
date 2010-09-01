@@ -143,7 +143,7 @@ class touchInlineEdit extends CMSModule {
 		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
 		$contentBefore.= '		{$tieTemplateEditButton}';
 		$contentBefore.= '	{/if}';
-		$contentBefore.= '<div id="touchInlineEditId{\$gCms->variables.content_id}" class="touchInlineEdit">';
+		$contentBefore.= '<div id="touchInlineEditId{$gCms->variables.content_id}" class="touchInlineEdit">';
 		$contentBefore.= '{/if}';
 
 		// After content
