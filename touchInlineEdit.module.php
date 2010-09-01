@@ -191,6 +191,8 @@ class touchInlineEdit extends CMSModule {
 		if($contentObj->HasProperty($block)){
 			$content = $contentObj->GetPropertyValue($block);
 			if($fetch){
+				// TODO: clear modified template clear_compiled_tpl('content: ...')
+				$smarty->clear_compiled_tpl();
 				// Fetch content...
 				$content = $smarty->fetch('content:' . $block, '', $contentId);
 			}
