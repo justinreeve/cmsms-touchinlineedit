@@ -100,6 +100,14 @@ class touchInlineEdit extends CMSModule {
 		return "1.6.8";
 	}
 
+	function SmartyPostCompile(&$content){
+		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+			if($this->isMainTemplate($content)){
+				// Nothing yet
+			}
+		}
+	}
+
 	function SmartyPreCompile(&$content){
 		global $gCms;
 
@@ -110,87 +118,20 @@ class touchInlineEdit extends CMSModule {
 		$head.= '	{if $tieJQueryLoad == "Y"}' . "\n";
 		$head.= '		<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
 		$head.= '	{/if}' . "\n";
+		$head.= '	<script src="modules/'.$this->getName().'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
 		$head.= '{/if}' . "\n";
 
-		$script = "
-		{if \$hasInlineEditRights}
-			{literal}
-			<!-- ".$this->getName()." module -->
-			<script type='text/javascript' charset='utf-8'>
-
-			{/literal}
-			var cBlockMain;
-			var contentId = {\$gCms->variables.content_id};
-			var requestUri = '{\$smarty.server.REQUEST_URI}';
-			var updateAlert = '{\$tieFeUpdateAlert}';
-			var updateAlertMessage = '{\$tieLang.feUpdateAlert}';
-			{literal}
-
-			function touchInlineEditInitEditor() {
-				cBlockMain = new nicEditor({
-					fullPanel : {/literal}{\$tieFeFullPanel}{literal},
-					iconsPath : 'modules/".$this->getName()."/img/nicEditorIcons.gif',
-					onSave:function(content,id,instance){touchInlineEditSave(id,content)}
-				}).panelInstance(
-					'touchInlineEditId' + contentId,
-					{hasPanel : true}
-				);
-			}
-
-			function touchInlineEditRemoveEditor() {
-				cBlockMain.removeInstance('touchInlineEditId' + contentId);
-				cBlockMain = null;
-			}
-
-			function toggleInlineEdit() {
-				if(!cBlockMain) {
-					touchInlineEditInitContent();
-					touchInlineEditInitEditor();
-				} else {
-					touchInlineEditRemoveEditor();
-				}
-			}
-
-			function touchInlineEditInitContent(){
-				$.ajax({async:false,
-					type: 'POST',
-					url: requestUri,
-					data: 'method=getContent&id=' + contentId,
-					success:function(data){
-						$('#touchInlineEditId' + contentId).html(data);
-				}
-				});
-			}
-
-			function touchInlineEditSave(id,content){
-				$.ajax({
-					type: 'POST',
-					url: requestUri,
-					data: 'method=updateContent&id=' + contentId + '&content=' + content,
-					success: function(data){
-						if(updateAlert == 'true'){
-							alert(updateAlertMessage);
-						}
-						toggleInlineEdit();
-						$('#touchInlineEditId' + contentId).html(data);
-					}
-				});
-			}
-
-			$(document).ready(function(){
-				$('.touchInlineEditButton').click(function(){
-					toggleInlineEdit();
-					return false;
-				});
-				$('.touchInlineEdit').dblclick(function(){
-					toggleInlineEdit();
-					return false;
-				});
-			});
-
-			</script>
-			{/literal}
-		{/if}";
+		$script = '{if $hasInlineEditRights}' . "\n";
+		$script.= '	<!-- '.$this->getName().' module -->' . "\n";
+		$script.= '	<script type="text/javascript" charset="utf-8">' . "\n";
+		$script.= '		var cBlockMain;' . "\n";
+		$script.= '		var tieContentId = {$gCms->variables.content_id};' . "\n";
+		$script.= '		var tieRequestUri = "{$smarty.server.REQUEST_URI}";' . "\n";
+		$script.= '		var tieUpdateAlert = {$tieFeUpdateAlert};' . "\n";
+		$script.= '		var tieUpdateAlertMessage = "{$tieLang.feUpdateAlert}";' . "\n";
+		$script.= '		var tieFullPanel = {$tieFeFullPanel};' . "\n";
+		$script.= '	</script>' . "\n";
+		$script.= '{/if}' . "\n";
 
 		$content = str_replace('</head>',$head . $script . '</head>',$content);
 
@@ -212,6 +153,14 @@ class touchInlineEdit extends CMSModule {
 
 		// Basic content
 		$content = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", $contentBefore."{content \\1}".$contentAfter, $content);
+	}
+
+	function isMainTemplate($template){
+
+		if(strpos($template, '<head>') === false){
+			return false;
+		}
+		return true;
 	}
 
 	function isAJAXRequest(){
@@ -277,6 +226,7 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	function getDefaultTemplate($template){
+
 		if(isset($this->defaultTemplate[$template])){
 			return $this->defaultTemplate[$template];
 		}
