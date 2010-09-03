@@ -213,7 +213,7 @@ class touchInlineEdit extends CMSModule {
 		$node =& $manager->sureGetNodeById($contentId);
 
 		if(!is_object($node)){
-			return "Invalid ContentId: " . $contentId;
+			return "Invalid contentId: " . $contentId;
 		}
 
 		$contentObj =& $node->GetContent(true,true);
@@ -222,9 +222,15 @@ class touchInlineEdit extends CMSModule {
 
 		$contentObj->FillParams($params);
 
+		$errors = $contentObj->ValidateData();
+		if($errors !== false){
+			// TODO: throw errors
+			return "Invalid content";
+		}
+
 		$contentObj->Update();
 
-		return $this->getContent($block,true);
+		return $contentObj->getContent($block,true){;
 	}
 
 	function getDefaultTemplate($template){
