@@ -83,18 +83,15 @@ function touchInlineEditInitContent(){
 
 function touchInlineEditSave(id,content){
 
-	$.ajax({
-		type: 'POST',
-		url: tieRequestUri,
-		data: 'method=updateContent&id=' + tieContentId + '&content=' + escape(content),
-		success: function(data){
+	$.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
+		function(data){
 			if(tieUpdateAlert){
 				alert(tieUpdateAlertMessage);
 			}
 			touchInlineEditToggleEditor();
 			$('#touchInlineEditId' + tieContentId).html(data);
 		}
-	});
+	);
 }
 
 $(document).ready(function(){

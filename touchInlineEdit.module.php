@@ -207,7 +207,7 @@ class touchInlineEdit extends CMSModule {
 		$pageInfo = $gCms->variables['pageinfo'];
 
 		$contentId = $pageInfo->content_id;
-		$contentValue = urldecode($_POST['content']);
+		$contentValue = $_POST['content'];
 
 		$manager =& $gCms->GetHierarchyManager();
 		$node =& $manager->sureGetNodeById($contentId);
