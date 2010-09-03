@@ -230,7 +230,7 @@ class touchInlineEdit extends CMSModule {
 
 		$contentObj->Update();
 
-		return $contentObj->getContent($block,true){;
+		return $this->getContent($block,true);
 	}
 
 	function getDefaultTemplate($template){
