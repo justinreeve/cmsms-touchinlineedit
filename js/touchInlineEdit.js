@@ -86,7 +86,7 @@ function touchInlineEditSave(id,content){
 	$.ajax({
 		type: 'POST',
 		url: tieRequestUri,
-		data: 'method=updateContent&id=' + tieContentId + '&content=' + content,
+		data: 'method=updateContent&id=' + tieContentId + '&content=' + escape(content),
 		success: function(data){
 			if(tieUpdateAlert){
 				alert(tieUpdateAlertMessage);
