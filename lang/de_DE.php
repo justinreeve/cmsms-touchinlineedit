@@ -33,5 +33,6 @@ $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Erfolgreich gespeichert...';
 $lang['postinstall'] = 'Modul installation erfolgreich.';
 $lang['postuninstall'] = 'Modul erfolgreich deinstalliert.';
+$lang['postupgrade'] = 'Modul erfolgreich auf Version %s aktualisiert.';
 
 ?>

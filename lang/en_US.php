@@ -34,5 +34,6 @@ $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
+$lang['postupgrade'] = 'Upgrade success Version %s...';
 
 ?>

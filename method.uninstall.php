@@ -48,7 +48,6 @@ $this->DeleteTemplate();
 $this->RemoveEventHandler('Core', 'ContentPostRender');
 
 // Log uninstall info
-$this->Audit(0, $this->Lang('friendlyname'), 
-	$this->Lang('uninstalled', $this->GetVersion()));
+$this->Audit(0, $this->GetFriendlyName(), $this->Lang('postuninstall'));
 
 ?>

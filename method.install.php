@@ -51,7 +51,6 @@ $this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInli
 $this->AddEventHandler('Core', 'ContentPostRender', false);
 
 // Log install info
-$this->Audit(0, $this->Lang('friendlyname'), 
-	$this->Lang('installed', $this->GetVersion()));
+$this->Audit(0, $this->GetFriendlyName(), $this->Lang('postinstall'));
 
 ?>

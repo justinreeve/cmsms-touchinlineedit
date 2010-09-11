@@ -54,7 +54,7 @@ if(version_compare($oldversion, '1.6', '<')){
 }
 
 // Log upgrade info
-$this->Audit(0, $this->Lang('friendlyname'), 
-	$this->Lang('upgraded', $this->GetVersion()));
+$this->Audit(0, $this->GetFriendlyName(), 
+	$this->Lang('postupgrade', $this->GetVersion()));
 
 ?>
