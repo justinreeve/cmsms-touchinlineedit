@@ -34,5 +34,6 @@ $lang['feUpdateAlert'] = 'Erfolgreich gespeichert...';
 $lang['postinstall'] = 'Modul installation erfolgreich.';
 $lang['postuninstall'] = 'Modul erfolgreich deinstalliert.';
 $lang['postupgrade'] = 'Modul erfolgreich auf Version %s aktualisiert.';
+$lang['postcontentupdate'] = 'Content mit content_id:%s aktualisiert.';
 
 ?>

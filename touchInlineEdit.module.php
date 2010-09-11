@@ -216,6 +216,10 @@ class touchInlineEdit extends CMSModule {
 
 		$contentObj->Update();
 
+		// Log update info
+		$this->Audit(0, $this->GetFriendlyName(), 
+			$this->Lang('postcontentupdate', $contentId));
+
 		return $this->getContent($block,true);
 	}
 
