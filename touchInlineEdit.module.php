@@ -120,14 +120,6 @@ class touchInlineEdit extends CMSModule {
 		}
 	}
 
-	function SmartyPostCompile(&$content){
-		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
-			if($this->isMainTemplate($content)){
-				// Nothing yet
-			}
-		}
-	}
-
 	function SmartyPreCompile(&$content){
 		global $gCms;
 
@@ -159,14 +151,6 @@ class touchInlineEdit extends CMSModule {
 			return true;
 		}
 		return false;
-	}
-
-	function isMainTemplate($template){
-
-		if(strpos($template, '<head>') === false){
-			return false;
-		}
-		return true;
 	}
 
 	function isAJAXRequest(){
