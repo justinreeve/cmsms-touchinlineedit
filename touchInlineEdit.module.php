@@ -109,8 +109,6 @@ class touchInlineEdit extends CMSModule {
 		return $lang;
 	}
 
-	/* ---- EVENTS ---- */
-
 	function DoEvent( $originator, $eventname, &$params ){
 		if ($originator == 'Core' && $eventname == 'ContentPostRender'){
 			if($this->hasInlineEditRights()){
@@ -142,8 +140,6 @@ class touchInlineEdit extends CMSModule {
 		// Basic content
 		$content = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", $contentBefore."{content \\1}".$contentAfter, $content);
 	}
-
-	/* ---- touchInlineEdit ---- */
 
 	function hasInlineEditRights(){
 
