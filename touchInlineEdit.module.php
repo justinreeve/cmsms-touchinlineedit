@@ -100,6 +100,26 @@ class touchInlineEdit extends CMSModule {
 		return "1.6.8";
 	}
 
+	function GetLangVars(){
+
+		$lang = array();
+		$lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
+		$lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
+
+		return $lang;
+	}
+
+	/* ---- EVENTS ---- */
+
+	function DoEvent( $originator, $eventname, &$params ){
+		if ($originator == 'Core' && $eventname == 'ContentPostRender'){
+			if($this->hasInlineEditRights()){
+				$params['content'] = str_replace('</head>', $this->GetJavascripts() 
+					. '</head>', $params['content']);
+			}
+		}
+	}
+
 	function SmartyPostCompile(&$content){
 		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 			if($this->isMainTemplate($content)){
@@ -111,36 +131,12 @@ class touchInlineEdit extends CMSModule {
 	function SmartyPreCompile(&$content){
 		global $gCms;
 
-		// nicEdit
-		$head = '{if $hasInlineEditRights}' . "\n";
-		$head.= '	<!-- '.$this->getName().' module -->' . "\n";
-		$head.= '	<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
-		$head.= '	{if $tieJQueryLoad == "Y"}' . "\n";
-		$head.= '		<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
-		$head.= '	{/if}' . "\n";
-		$head.= '	<script src="modules/'.$this->getName().'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
-		$head.= '{/if}' . "\n";
-
-		$script = '{if $hasInlineEditRights}' . "\n";
-		$script.= '	<!-- '.$this->getName().' module -->' . "\n";
-		$script.= '	<script type="text/javascript" charset="utf-8">' . "\n";
-		$script.= '		var cBlockMain;' . "\n";
-		$script.= '		var tieContentId = {$gCms->variables.content_id};' . "\n";
-		$script.= '		var tieRequestUri = "{$smarty.server.REQUEST_URI}";' . "\n";
-		$script.= '		var tieUpdateAlert = {$tieFeUpdateAlert};' . "\n";
-		$script.= '		var tieUpdateAlertMessage = "{$tieLang.feUpdateAlert}";' . "\n";
-		$script.= '		var tieFullPanel = {$tieFeFullPanel};' . "\n";
-		$script.= '	</script>' . "\n";
-		$script.= '{/if}' . "\n";
-
-		$content = str_replace('</head>',$head . $script . '</head>',$content);
-
 		// TODO: Grep blocks, content underscore blockname -> default is content_en
 		//preg_match_all("/\{content.*?block=[\"|']([^\"|']+)[\"|'].*?\}/", $content, $matches);
 
 		// Before content
 		$contentBefore = '{if $hasInlineEditRights}';
-		$contentBefore.= '	{if $tieFeEditButton == "Y"}';
+		$contentBefore.= '	{if $tiePref.feEditButton == "Y"}';
 		$contentBefore.= '		{$tieTemplateEditButton}';
 		$contentBefore.= '	{/if}';
 		$contentBefore.= '<div id="touchInlineEditId{$gCms->variables.content_id}" class="touchInlineEdit">';
@@ -153,6 +149,16 @@ class touchInlineEdit extends CMSModule {
 
 		// Basic content
 		$content = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", $contentBefore."{content \\1}".$contentAfter, $content);
+	}
+
+	/* ---- touchInlineEdit ---- */
+
+	function hasInlineEditRights(){
+
+		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+			return true;
+		}
+		return false;
 	}
 
 	function isMainTemplate($template){
@@ -239,6 +245,44 @@ class touchInlineEdit extends CMSModule {
 			return $this->defaultTemplate[$template];
 		}
 		return false;
+	}
+
+	function getPrefVars(){
+
+		$preferences = array();
+
+		$preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
+		$preferences['feFullPanel'] = $this->GetPreference("touchInlineEdit.feFullPanel");
+		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
+		$preferences['jQueryLoad'] = $this->GetPreference("touchInlineEdit.feJQueryLoad");
+
+		return $preferences;
+	}
+
+	function getJavascripts(){
+		global $gCms;
+
+		$tiePref = $this->GetPrefVars();
+		$tieLang = $this->GetLangVars();
+
+		// nicEdit
+		$head = '	<!-- '.$this->getName().' module -->' . "\n";
+		$head.= '	<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
+		if($tiePref['jQueryLoad'] == "Y")
+			$head.= '		<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+		$head.= '	<script src="modules/'.$this->getName().'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
+
+		$script = '	<script type="text/javascript" charset="utf-8">' . "\n";
+		$script.= '		var cBlockMain;' . "\n";
+		$script.= '		var tieContentId = '.$gCms->variables['content_id'].';' . "\n";
+		$script.= '		var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
+		$script.= '		var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
+		$script.= '		var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
+		$script.= '		var tieFullPanel = '.$tiePref['feFullPanel'].';' . "\n";
+		$script.= '	</script>' . "\n";
+		$script.= '	<!-- '.$this->getName().' module -->' . "\n";
+
+		return $head . $script;
 	}
 }
 

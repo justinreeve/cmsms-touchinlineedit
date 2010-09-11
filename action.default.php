@@ -52,9 +52,9 @@ if(isset($gCms->modules['touchInlineEdit'])
 	$config = &$gCms->config;
 
 	//Debug
-	//$smarty->force_compile = true;
+	$smarty->force_compile = true;
 
-	if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+	if($touchInlineEdit->hasInlineEditRights()){
 		if($touchInlineEdit->isAJAXRequest()){
 			switch ($_POST['method']) {
 				case 'updateContent':
@@ -63,17 +63,10 @@ if(isset($gCms->modules['touchInlineEdit'])
 					die($touchInlineEdit->getContent());
 			}
 		}
-		// Assign prefs
+		// Assign vars
 		$smarty->assign('hasInlineEditRights',1);
-		$smarty->assign('tieFeEditButton',$touchInlineEdit->GetPreference("touchInlineEdit.feEditButton"));
-		$smarty->assign('tieFeFullPanel',$touchInlineEdit->GetPreference("touchInlineEdit.feFullPanel"));
-		$smarty->assign('tieFeUpdateAlert',$touchInlineEdit->GetPreference("touchInlineEdit.feUpdateAlert"));
-		$smarty->assign('tieJQueryLoad',$touchInlineEdit->GetPreference("touchInlineEdit.feJQueryLoad"));
-		// Assign lang vars
-		$lang = array();
-		$lang['feInlineEditButton'] = $touchInlineEdit->Lang("feInlineEditButton");
-		$lang['feUpdateAlert'] = $touchInlineEdit->Lang("feUpdateAlert");
-		$smarty->assign('tieLang',$lang);
+		$smarty->assign('tieLang',$touchInlineEdit->GetLangVars());
+		$smarty->assign('tiePref',$touchInlineEdit->GetPrefVars());
 		// Process template from Db
 		$smarty->assign('tieTemplateEditButton',$this->ProcessTemplateFromDatabase("touchInlineEditButton"));
 	}

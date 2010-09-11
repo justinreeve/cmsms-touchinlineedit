@@ -45,5 +45,6 @@
 $this->RemovePreference();
 $this->RemovePermission('Use touchInlineEdit');
 $this->DeleteTemplate();
+$this->RemoveEventHandler( 'Core', 'ContentPostRender' );
 
 ?>
