@@ -272,6 +272,7 @@ class touchInlineEdit extends CMSModule {
 		$preferences['feFullPanel'] = $this->GetPreference("touchInlineEdit.feFullPanel");
 		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
 		$preferences['jQueryLoad'] = $this->GetPreference("touchInlineEdit.feJQueryLoad");
+		$preferences['feContextMenu'] = $this->GetPreference("touchInlineEdit.feContextMenu");
 
 		return $preferences;
 	}
@@ -287,15 +288,18 @@ class touchInlineEdit extends CMSModule {
 		$head.= '<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
 
 		// jQuery
-		if($tiePref['jQueryLoad'] == "Y")
+		if($tiePref['jQueryLoad'] == "Y"){
 			$head.= '<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+		}
 
 		// touchInlineEdit
 		$head.= '<script src="modules/'.$this->getName().'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
 
 		// jQuery context menu
-		$head.= '<script src="modules/'.$this->getName().'/js/jquery.contextMenu.js" type="text/javascript"></script>' . "\n";
-		$head.= '<link href="modules/'.$this->getName().'/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />' . "\n";
+		if((bool)$tiePref['feContextMenu']){
+			$head.= '<script src="modules/'.$this->getName().'/js/jquery.contextMenu.js" type="text/javascript"></script>' . "\n";
+			$head.= '<link href="modules/'.$this->getName().'/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />' . "\n";
+		}
 
 		// Script
 		$script = '<script type="text/javascript" charset="utf-8">' . "\n";
@@ -305,6 +309,7 @@ class touchInlineEdit extends CMSModule {
 		$script.= '	var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
 		$script.= '	var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
 		$script.= '	var tieFullPanel = '.$tiePref['feFullPanel'].';' . "\n";
+		$script.= '	var tieContextMenu = '.$tiePref['feContextMenu'].';' . "\n";
 		$script.= '</script>' . "\n";
 		$script.= '<!-- '.$this->getName().' module -->' . "\n";
 

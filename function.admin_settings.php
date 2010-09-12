@@ -74,6 +74,11 @@ $this->smarty->assign('feJQueryLoad_label',$this->Lang("feJQueryLoad_label"));
 $this->smarty->assign('feJQueryLoad_help',$this->Lang("feJQueryLoad_help"));
 $this->smarty->assign('feJQueryLoad_input',$this->CreateInputRadioGroup($id,"feJQueryLoad",$yn,$this->GetPreference("touchInlineEdit.feJQueryLoad","Y"),"","\n"));
 
+// Enable context menu in frontent
+$this->smarty->assign('feContextMenu_label',$this->Lang("feContextMenu_label"));
+$this->smarty->assign('feContextMenu_help',$this->Lang("feContextMenu_help"));
+$this->smarty->assign('feContextMenu_input',$this->CreateInputRadioGroup($id,"feContextMenu",$bool,$this->GetPreference("touchInlineEdit.feContextMenu","true"),"","\n"));
+
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
 $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));

@@ -16,6 +16,10 @@
 		<p class="pageinput">{$feJQueryLoad_input}<br/>{$feJQueryLoad_help}</p>
 	</div>
 	<div class="pageoverflow">
+		<p class="pagetext">{$feContextMenu_label}</p>
+		<p class="pageinput">{$feContextMenu_input}<br/>{$feContextMenu_help}</p>
+	</div>
+	<div class="pageoverflow">
 		<p class="pagetext">&nbsp;</p>
 		<p class="pageinput">{$submit}{$cancel}</p>
 	</div>

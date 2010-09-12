@@ -94,6 +94,10 @@ function touchInlineEditSave(id,content){
 	);
 }
 
+function functionExists(name){
+	return (typeof name == 'function');
+}
+
 $(document).ready(function(){
 
 	$('.touchInlineEditButton').click(function(){
@@ -105,22 +109,24 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$("body").contextMenu({
-		menu: 'touchInlineEditContextMenu'
-	},
-	function(action, el, pos) {
-		switch (action) {
-			case 'edit':
+	if(tieContextMenu){
+		$("body").contextMenu({
+			menu: 'touchInlineEditContextMenu'
+		},
+		function(action, el, pos) {
+			switch (action) {
+				case 'edit':
+					break;
+				case "copy":
+					break;
+				case "paste":
+					break;
+				case "cut":
+					break;
+				default:
+					alert("Unknown action...");
 				break;
-			case "copy":
-				break;
-			case "paste":
-				break;
-			case "cut":
-				break;
-			default:
-				alert("Unknown action...");
-			break;
-		}
-	});
+			}
+		});
+	}
 });
