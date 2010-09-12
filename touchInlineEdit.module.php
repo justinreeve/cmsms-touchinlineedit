@@ -48,7 +48,7 @@ class touchInlineEdit extends CMSModule {
 	var $defaultTemplate = array(
 		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>',
 		'touchInlineEditContextMenu' => '<ul id="touchInlineEditContextMenu" class="contextMenu">
-			<li class="edit"><a href="#edit">Edit</a></li>
+			<li class="edit"><a href="#edit">Switch to backend</a></li>
 			<li class="delete"><a href="#delete">Delete</a></li>
 			<li class="cut separator"><a href="#cut">Cut</a></li>
 			<li class="copy"><a href="#copy">Copy</a></li>
@@ -63,7 +63,7 @@ class touchInlineEdit extends CMSModule {
 
 		// Debug
 		$this->smarty->force_compile = true;
-
+		
 		if($this->hasInlineEditRights()){
 			// Assign vars
 			$this->smarty->assign('hasInlineEditRights',1);
@@ -174,7 +174,7 @@ class touchInlineEdit extends CMSModule {
 				$contentBefore."{content \\1}".$contentAfter, $params['content']);
 		}
 	}
-
+	
 	function hasInlineEditRights(){
 
 		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
@@ -310,6 +310,8 @@ class touchInlineEdit extends CMSModule {
 		$script.= '	var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
 		$script.= '	var tieFullPanel = '.$tiePref['feFullPanel'].';' . "\n";
 		$script.= '	var tieContextMenu = '.$tiePref['feContextMenu'].';' . "\n";
+		$script.= '	var tieSecureKey = "'.$_SESSION[CMS_USER_KEY].'";' . "\n";
+		$script.= '	var tieSecureKeyName = "'.CMS_SECURE_PARAM_NAME.'";' . "\n";
 		$script.= '</script>' . "\n";
 		$script.= '<!-- '.$this->getName().' module -->' . "\n";
 

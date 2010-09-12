@@ -116,6 +116,8 @@ $(document).ready(function(){
 		function(action, el, pos) {
 			switch (action) {
 				case 'edit':
+					var uri = 'admin/editcontent.php?content_id=' + tieContentId + '&' + tieSecureKeyName + '=' + tieSecureKey;
+					window.location = uri;
 					break;
 				case "copy":
 					break;
@@ -128,5 +130,7 @@ $(document).ready(function(){
 				break;
 			}
 		});
+		$('#touchInlineEditContextMenu').disableContextMenuItems('#delete,#cut,#copy,#paste');
+		$(this).attr('disabled', true);
 	}
 });
