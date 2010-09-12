@@ -48,27 +48,16 @@ if(isset($gCms->modules['touchInlineEdit'])
 	&& is_object($gCms->modules['touchInlineEdit']['object'])){
 
 	$touchInlineEdit = $gCms->modules['touchInlineEdit']['object'];
-	$smarty = &$gCms->smarty;
-	$config = &$gCms->config;
-
-	//Debug
-	$smarty->force_compile = true;
 
 	if($touchInlineEdit->hasInlineEditRights()){
 		if($touchInlineEdit->isAJAXRequest()){
-			switch ($_POST['method']) {
+			switch ($_POST['method']){
 				case 'updateContent':
 					die($touchInlineEdit->updateContent());
 				case 'getContent':
 					die($touchInlineEdit->getContent());
 			}
 		}
-		// Assign vars
-		$smarty->assign('hasInlineEditRights',1);
-		$smarty->assign('tieLang',$touchInlineEdit->GetLangVars());
-		$smarty->assign('tiePref',$touchInlineEdit->GetPrefVars());
-		// Process template from Db
-		$smarty->assign('tieTemplateEditButton',$this->ProcessTemplateFromDatabase("touchInlineEditButton"));
 	}
 }
 

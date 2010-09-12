@@ -7,7 +7,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.5
+ * @version 1.6
  * @copyright Christoph Gruber touchDesign.de 04.08.2010
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -103,5 +103,24 @@ $(document).ready(function(){
 	$('.touchInlineEdit').dblclick(function(){
 		touchInlineEditToggleEditor();
 		return false;
+	});
+
+	$("body").contextMenu({
+		menu: 'touchInlineEditContextMenu'
+	},
+	function(action, el, pos) {
+		switch (action) {
+			case 'edit':
+				break;
+			case "copy":
+				break;
+			case "paste":
+				break;
+			case "cut":
+				break;
+			default:
+				alert("Unknown action...");
+			break;
+		}
 	});
 });
