@@ -50,6 +50,7 @@ $smarty->clear_compiled_tpl();
 $smarty->clear_all_cache();
 
 if(version_compare($oldversion, '1.6', '<')){
+	$this->SetPreference('touchInlineEdit.feContextMenu', 'false');
 	$this->AddEventHandler('Core', 'ContentPostRender', false);
 	$this->AddEventHandler('Core', 'SmartyPreCompile', false);
 	$this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));

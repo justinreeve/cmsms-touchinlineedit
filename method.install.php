@@ -47,6 +47,7 @@ $this->SetPreference('touchInlineEdit.feEditButton', 'Y');
 $this->SetPreference('touchInlineEdit.feFullPanel', 'true');
 $this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
 $this->SetPreference('touchInlineEdit.feJQueryLoad', 'Y');
+$this->SetPreference('touchInlineEdit.feContextMenu', 'false');
 $this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
 $this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
 $this->AddEventHandler('Core', 'ContentPostRender', false);
