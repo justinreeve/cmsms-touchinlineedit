@@ -312,6 +312,7 @@ class touchInlineEdit extends CMSModule {
 		$script.= '	var tieContextMenu = '.$tiePref['feContextMenu'].';' . "\n";
 		$script.= '	var tieSecureKey = "'.$_SESSION[CMS_USER_KEY].'";' . "\n";
 		$script.= '	var tieSecureKeyName = "'.CMS_SECURE_PARAM_NAME.'";' . "\n";
+		$script.= '	var tieAdminDir = "'.$gCms->config['admin_dir'].'";' . "\n";
 		$script.= '</script>' . "\n";
 		$script.= '<!-- '.$this->getName().' module -->' . "\n";
 

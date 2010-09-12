@@ -116,7 +116,7 @@ $(document).ready(function(){
 		function(action, el, pos) {
 			switch (action) {
 				case 'edit':
-					var uri = 'admin/editcontent.php?content_id=' + tieContentId + '&' + tieSecureKeyName + '=' + tieSecureKey;
+					var uri = tieAdminDir + '/editcontent.php?content_id=' + tieContentId + '&' + tieSecureKeyName + '=' + tieSecureKey;
 					window.location = uri;
 					break;
 				case "copy":
