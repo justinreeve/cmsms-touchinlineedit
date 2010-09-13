@@ -272,6 +272,7 @@ class touchInlineEdit extends CMSModule {
 		$preferences = array();
 
 		$preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
+		$preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
 		$preferences['feFullPanel'] = $this->GetPreference("touchInlineEdit.feFullPanel");
 		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
 		$preferences['jQueryLoad'] = $this->GetPreference("touchInlineEdit.feJQueryLoad");
@@ -316,6 +317,7 @@ class touchInlineEdit extends CMSModule {
 		$script.= '	var tieSecureKey = "'.$_SESSION[CMS_USER_KEY].'";' . "\n";
 		$script.= '	var tieSecureKeyName = "'.CMS_SECURE_PARAM_NAME.'";' . "\n";
 		$script.= '	var tieAdminDir = "'.$gCms->config['admin_dir'].'";' . "\n";
+		$script.= '	var tieEditOnDblClick = '.$tiePref['feEditOnDblClick'].';' . "\n";
 		$script.= '</script>' . "\n";
 		$script.= '<!-- '.$this->getName().' module -->' . "\n";
 

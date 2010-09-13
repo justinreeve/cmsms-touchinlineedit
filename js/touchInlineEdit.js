@@ -104,10 +104,13 @@ $(document).ready(function(){
 		touchInlineEditToggleEditor();
 		return false;
 	});
-	$('.touchInlineEdit').dblclick(function(){
-		touchInlineEditToggleEditor();
-		return false;
-	});
+
+	if(tieEditOnDblClick){
+		$('.touchInlineEdit').dblclick(function(){
+			touchInlineEditToggleEditor();
+			return false;
+		});
+	}
 
 	if(tieContextMenu){
 		$("body").contextMenu({

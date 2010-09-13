@@ -59,6 +59,11 @@ $this->smarty->assign('feEditButton_label',$this->Lang("feEditButton_label"));
 $this->smarty->assign('feEditButton_help',$this->Lang("feEditButton_help"));
 $this->smarty->assign('feEditButton_input',$this->CreateInputRadioGroup($id,"feEditButton",$yn,$this->GetPreference("touchInlineEdit.feEditButton","Y"),"","\n"));
 
+// Enable disable inlineEdit on double click
+$this->smarty->assign('feEditOnDblClick_label',$this->Lang("feEditOnDblClick_label"));
+$this->smarty->assign('feEditOnDblClick_help',$this->Lang("feEditOnDblClick_help"));
+$this->smarty->assign('feEditOnDblClick_input',$this->CreateInputRadioGroup($id,"feEditOnDblClick",$bool,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
+
 // Enable full panel in FE
 $this->smarty->assign('feFullPanel_label',$this->Lang("feFullPanel_label"));
 $this->smarty->assign('feFullPanel_help',$this->Lang("feFullPanel_help"));

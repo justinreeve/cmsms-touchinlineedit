@@ -50,6 +50,9 @@ if(!$this->CheckPermission('Modify Site Settings')){
 if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
 	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
 }
+if(isset($params["feEditOnDblClick"]) && !empty($params["feEditOnDblClick"])){
+	$this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
+}
 if(isset($params["feFullPanel"]) && !empty($params["feFullPanel"])){
 	$this->SetPreference("touchInlineEdit.feFullPanel",$params["feFullPanel"]);
 }

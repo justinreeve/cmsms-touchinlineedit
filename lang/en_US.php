@@ -32,6 +32,8 @@ $lang['feJQueryLoad_help'] ='Let InlinEdit load required jQuery libary in header
 $lang['feContextMenu_label'] ='Contextmenu in frontend?';
 $lang['feContextMenu_help'] ='Activate advanced Contextmenu.';
 $lang['touchInlineEditButton_label'] = 'Inline edit button template:';
+$lang['feEditOnDblClick_label'] = 'Activate InlineEdit on double click?';
+$lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content area.';
 
 $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';

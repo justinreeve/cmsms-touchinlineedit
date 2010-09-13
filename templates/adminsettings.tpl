@@ -4,6 +4,10 @@
 		<p class="pageinput">{$feEditButton_input}<br/>{$feEditButton_help}</p>
 	</div>
 	<div class="pageoverflow">
+		<p class="pagetext">{$feEditOnDblClick_label}</p>
+		<p class="pageinput">{$feEditOnDblClick_input}<br/>{$feEditOnDblClick_help}</p>
+	</div>
+	<div class="pageoverflow">
 		<p class="pagetext">{$feFullPanel_label}</p>
 		<p class="pageinput">{$feFullPanel_input}<br/>{$feFullPanel_help}</p>
 	</div>
