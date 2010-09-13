@@ -62,3 +62,4 @@
 #touchInlineEditContextMenu li.paste a { background-image: url(../img/page_white_paste.png); }
 #touchInlineEditContextMenu li.delete a { background-image: url(../img/page_white_delete.png); }
 #touchInlineEditContextMenu li.quit a { background-image: url(../img/door.png); }
+#touchInlineEditContextMenu li.settings a { background-image: url(../img/settings.png); }

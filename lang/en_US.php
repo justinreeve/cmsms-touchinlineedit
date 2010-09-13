@@ -41,6 +41,7 @@ $lang['feCmDelete'] = "Delete";
 $lang['feCmCut'] = "Cut";
 $lang['feCmCopy'] = "Copy";
 $lang['feCmPaste'] = "Paste";
+$lang['feCmModSettings'] = "Module Settings";
 
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';

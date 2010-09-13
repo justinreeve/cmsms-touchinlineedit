@@ -125,6 +125,10 @@ $(document).ready(function(){
 					break;
 				case "cut":
 					break;
+				case 'modsettings':
+					var uri = tieAdminDir + '/moduleinterface.php?module=touchInlineEdit&' + tieSecureKeyName + '=' + tieSecureKey;
+					window.location = uri;
+					break;
 				default:
 					alert("Unknown action...");
 				break;

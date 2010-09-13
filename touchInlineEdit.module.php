@@ -53,6 +53,7 @@ class touchInlineEdit extends CMSModule {
 			<li class="cut separator"><a href="#cut">{$tieLang.feCmCut}</a></li>
 			<li class="copy"><a href="#copy">{$tieLang.feCmCopy}</a></li>
 			<li class="paste"><a href="#paste">{$tieLang.feCmPaste}</a></li>
+			<li class="settings separator"><a href="#modsettings">{$tieLang.feCmModSettings}</a></li>
 		</ul>',
 	);
 
@@ -142,6 +143,7 @@ class touchInlineEdit extends CMSModule {
 		$lang['feCmCut'] = $this->Lang("feCmCut");
 		$lang['feCmCopy'] = $this->Lang("feCmCopy");
 		$lang['feCmPaste'] = $this->Lang("feCmPaste");
+		$lang['feCmModSettings'] = $this->Lang("feCmModSettings");
 
 		return $lang;
 	}
