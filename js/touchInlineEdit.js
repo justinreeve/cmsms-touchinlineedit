@@ -117,7 +117,7 @@ $(document).ready(function(){
 			switch (action) {
 				case 'edit':
 					var uri = tieAdminDir + '/editcontent.php?content_id=' + tieContentId + '&' + tieSecureKeyName + '=' + tieSecureKey;
-					window.location = uri;
+					window.open(uri);
 					break;
 				case "copy":
 					break;
@@ -127,7 +127,7 @@ $(document).ready(function(){
 					break;
 				case 'modsettings':
 					var uri = tieAdminDir + '/moduleinterface.php?module=touchInlineEdit&' + tieSecureKeyName + '=' + tieSecureKey;
-					window.location = uri;
+					window.open(uri);
 					break;
 				default:
 					alert("Unknown action...");
