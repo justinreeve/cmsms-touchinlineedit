@@ -63,7 +63,7 @@ class touchInlineEdit extends CMSModule {
 		$this->smarty = &$gCms->smarty;
 
 		// Debug
-		$this->smarty->force_compile = true;
+		//$this->smarty->force_compile = true;
 
 		if($this->hasInlineEditRights()){
 			// Assign vars
