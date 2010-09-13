@@ -44,8 +44,8 @@
 
 class touchInlineEdit extends CMSModule {
 
-	var $smarty;
-	var $defaultTemplate = array(
+	public $smarty;
+	private $defaultTemplate = array(
 		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>',
 		'touchInlineEditContextMenu' => '<ul id="touchInlineEditContextMenu" class="contextMenu">
 			<li class="edit"><a href="#edit">Switch to backend</a></li>
@@ -175,7 +175,7 @@ class touchInlineEdit extends CMSModule {
 		}
 	}
 	
-	function hasInlineEditRights(){
+	public function hasInlineEditRights(){
 
 		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
 			return true;
@@ -183,7 +183,7 @@ class touchInlineEdit extends CMSModule {
 		return false;
 	}
 
-	function isAJAXRequest(){
+	public function isAJAXRequest(){
 
 		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
@@ -206,7 +206,7 @@ class touchInlineEdit extends CMSModule {
 		return $node->GetContent(true,true);
 	}
 
-	function getContent($block="content_en",$fetch=false){
+	public function getContent($block="content_en",$fetch=false){
 
 		$contentObj = &$this->getContentObj();
 
@@ -224,7 +224,7 @@ class touchInlineEdit extends CMSModule {
 		return $content;
 	}
 
-	function updateContent($block="content_en"){
+	public function updateContent($block="content_en"){
 		global $gCms;
 
 		$contentObj = &$this->getContentObj();
@@ -248,7 +248,7 @@ class touchInlineEdit extends CMSModule {
 		return $this->getContent($block,true);
 	}
 
-	function getDefaultTemplate($template){
+	public function getDefaultTemplate($template){
 
 		if(isset($this->defaultTemplate[$template])){
 			return $this->defaultTemplate[$template];
@@ -256,7 +256,7 @@ class touchInlineEdit extends CMSModule {
 		return false;
 	}
 
-	function getPrefVars(){
+	private function getPrefVars(){
 
 		$preferences = array();
 
@@ -269,7 +269,7 @@ class touchInlineEdit extends CMSModule {
 		return $preferences;
 	}
 
-	function getJavascripts(){
+	private function getJavascripts(){
 		global $gCms;
 
 		$tiePref = $this->GetPrefVars();
