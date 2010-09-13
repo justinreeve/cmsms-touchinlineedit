@@ -48,11 +48,11 @@ class touchInlineEdit extends CMSModule {
 	private $defaultTemplate = array(
 		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>',
 		'touchInlineEditContextMenu' => '<ul id="touchInlineEditContextMenu" class="contextMenu">
-			<li class="edit"><a href="#edit">Switch to backend</a></li>
-			<li class="delete"><a href="#delete">Delete</a></li>
-			<li class="cut separator"><a href="#cut">Cut</a></li>
-			<li class="copy"><a href="#copy">Copy</a></li>
-			<li class="paste"><a href="#paste">Paste</a></li>
+			<li class="edit"><a href="#edit">{$tieLang.feCmSwitchToBackend}</a></li>
+			<li class="delete"><a href="#delete">{$tieLang.feCmDelete}</a></li>
+			<li class="cut separator"><a href="#cut">{$tieLang.feCmCut}</a></li>
+			<li class="copy"><a href="#copy">{$tieLang.feCmCopy}</a></li>
+			<li class="paste"><a href="#paste">{$tieLang.feCmPaste}</a></li>
 		</ul>',
 	);
 
@@ -133,8 +133,15 @@ class touchInlineEdit extends CMSModule {
 	function GetLangVars(){
 
 		$lang = array();
+		
 		$lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
 		$lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
+
+		$lang['feCmSwitchToBackend'] = $this->Lang("feCmSwitchToBackend");
+		$lang['feCmDelete'] = $this->Lang("feCmDelete");
+		$lang['feCmCut'] = $this->Lang("feCmCut");
+		$lang['feCmCopy'] = $this->Lang("feCmCopy");
+		$lang['feCmPaste'] = $this->Lang("feCmPaste");
 
 		return $lang;
 	}

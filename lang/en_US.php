@@ -32,8 +32,16 @@ $lang['feJQueryLoad_help'] ='Let InlinEdit load required jQuery libary in header
 $lang['feContextMenu_label'] ='Contextmenu in frontend?';
 $lang['feContextMenu_help'] ='Activate advanced Contextmenu.';
 $lang['touchInlineEditButton_label'] = 'Inline edit button template:';
+
 $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';
+
+$lang['feCmSwitchToBackend'] = "Switch backend";
+$lang['feCmDelete'] = "Delete";
+$lang['feCmCut'] = "Cut";
+$lang['feCmCopy'] = "Copy";
+$lang['feCmPaste'] = "Paste";
+
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
 $lang['postupgrade'] = 'Upgrade success Version %s...';
