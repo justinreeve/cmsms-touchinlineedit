@@ -190,11 +190,13 @@ class touchInlineEdit extends CMSModule {
 			== 'xmlhttprequest' ? true : false;
 	}
 
-	private function getContentObj(){
+	private function getContentObj($contentId=NULL){
 		global $gCms;
-		
-		$pageInfo = &$gCms->variables['pageinfo'];
-		$contentId = $pageInfo->content_id;
+
+		if($contentId === NULL){
+			$pageInfo = &$gCms->variables['pageinfo'];
+			$contentId = $pageInfo->content_id;
+		}
 
 		$manager = &$gCms->GetHierarchyManager();
 		$node = &$manager->sureGetNodeById($contentId);
