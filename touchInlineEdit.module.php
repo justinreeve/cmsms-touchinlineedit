@@ -63,7 +63,7 @@ class touchInlineEdit extends CMSModule {
 
 		// Debug
 		$this->smarty->force_compile = true;
-		
+
 		if($this->hasInlineEditRights()){
 			// Assign vars
 			$this->smarty->assign('hasInlineEditRights',1);
@@ -190,21 +190,25 @@ class touchInlineEdit extends CMSModule {
 			== 'xmlhttprequest' ? true : false;
 	}
 
-	function getContent($block="content_en",$fetch=false){
+	private function getContentObj(){
 		global $gCms;
-
+		
 		$pageInfo = &$gCms->variables['pageinfo'];
-
 		$contentId = $pageInfo->content_id;
 
-		$manager =& $gCms->GetHierarchyManager();
-		$node =& $manager->sureGetNodeById($contentId);
+		$manager = &$gCms->GetHierarchyManager();
+		$node = &$manager->sureGetNodeById($contentId);
 
 		if(!is_object($node)){
 			return "Invalid ContentId: " . $contentId;
 		}
+		
+		return $node->GetContent(true,true);
+	}
 
-		$contentObj =& $node->GetContent(true,true);
+	function getContent($block="content_en",$fetch=false){
+
+		$contentObj = &$this->getContentObj();
 
 		$content = "Empty...";
 		if($contentObj->HasProperty($block)){
@@ -223,21 +227,9 @@ class touchInlineEdit extends CMSModule {
 	function updateContent($block="content_en"){
 		global $gCms;
 
-		$pageInfo = $gCms->variables['pageinfo'];
+		$contentObj = &$this->getContentObj();
 
-		$contentId = $pageInfo->content_id;
-		$contentValue = $_POST['content'];
-
-		$manager =& $gCms->GetHierarchyManager();
-		$node =& $manager->sureGetNodeById($contentId);
-
-		if(!is_object($node)){
-			return "Invalid contentId: " . $contentId;
-		}
-
-		$contentObj =& $node->GetContent(true,true);
-
-		$params[$block] = $contentValue;
+		$params[$block] = $_POST['content'];
 
 		$contentObj->FillParams($params);
 
