@@ -118,9 +118,13 @@ class touchInlineEdit extends CMSModule {
 	function InstallPostMessage(){
 		return $this->Lang('postinstall');
 	}
-
+	
 	function UninstallPostMessage(){
 		return $this->Lang('postuninstall');
+	}
+	
+	function UninstallPreMessage(){
+		return $this->Lang('preuninstall');
 	}
 
 	function MinimumCMSVersion(){

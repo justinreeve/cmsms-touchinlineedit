@@ -48,5 +48,6 @@ $lang['postinstall'] = 'Modul installation erfolgreich.';
 $lang['postuninstall'] = 'Modul erfolgreich deinstalliert.';
 $lang['postupgrade'] = 'Modul erfolgreich auf Version %s aktualisiert.';
 $lang['postcontentupdate'] = 'Content mit content_id:%s aktualisiert.';
+$lang['preuninstall'] = 'Sind Sie sicher das Sie dieses Modul nebst Einstellungen und Templates entfernen möchten?';
 
 ?>

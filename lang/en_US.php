@@ -49,5 +49,6 @@ $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
 $lang['postupgrade'] = 'Upgrade success Version %s...';
 $lang['postcontentupdate'] = 'Content with content_id:%s updated.';
+$lang['preuninstall'] = 'Are you sure you want to uninstall this module and destroy all settings/templates?';
 
 ?>
