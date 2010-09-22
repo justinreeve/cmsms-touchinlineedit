@@ -138,7 +138,7 @@ class touchInlineEdit extends CMSModule {
 	function HandlesEvents() {
 		return true;
 	}
-	
+
 	function GetLangVars(){
 
 		$lang = array();

@@ -14,10 +14,12 @@ $lang['help'] = '<h3>Usage</h3>
 </ul>';
 $lang['settings'] = 'Einstellungen';
 $lang['templates'] = 'Templates';
+$lang['tablecoltemplate'] = 'Template';
 $lang['yes'] = 'Ja';
 $lang['no'] = 'Nein';
 $lang['save'] = 'Speichern';
 $lang['cancel'] = 'Abrechen';
+$lang['edit'] = 'Bearbeiten';
 $lang['settingssaved'] = 'Einstellungen gespeichert.';
 $lang['templatessaved'] = 'Template gespeichert.';
 $lang['feEditButton_label'] = 'Edit Button im Frontend?';

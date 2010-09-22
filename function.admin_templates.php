@@ -51,19 +51,26 @@ if(!$this->VisibleToAdminUser()){
 	return;
 }
 
-// Form start
-$this->smarty->assign('formstart',$this->CreateFormStart($id,"savetemplates",$returnid));
+$items = array(); $rowclass = 'row1';
+foreach($this->ListTemplates() AS $template){
 
-$this->smarty->assign('touchInlineEditButton_label',$this->Lang("touchInlineEditButton_label"));
-$this->smarty->assign('touchInlineEditButton', $this->CreateTextArea(false,$id, $this->GetTemplate('touchInlineEditButton'),
-	'touchInlineEditButton',"pagesmalltextarea","","","",'40','5'));
+	$row = new StdClass();
 
-// Submit / cancel
-$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
-$this->smarty->assign('reset',$this->CreateInputSubmit($id,"reset",$this->Lang("reset")));
+	$row->rowclass = $rowclass;
+	$row->name = $this->CreateLink($id,'edittemplate',$returnid,
+		$template,array('template' => $template,'mode'=>'edit'));
+	$row->editlink = $this->CreateLink($id, 'edittemplate',$returnid, 
+		$gCms->variables['admintheme']->DisplayImage('icons/system/edit.gif', 
+		$this->Lang('edit'),'','','systemicon'),array('template' => $template,'mode'=>'edit'));
 
-// Form end
-$this->smarty->assign('formend',$this->CreateFormEnd());
+	$rowclass == "row1" ? $rowclass = "row2" : $rowclass = "row1";
+
+	$items[] = $row;
+
+}
+
+$this->smarty->assign('items',$items);
+$this->smarty->assign('table_col_template',$this->Lang("tablecoltemplate"));
 
 echo $this->ProcessTemplate("admintemplates.tpl");
 

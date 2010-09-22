@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: action.savesettings.php 8 2010-08-28 03:56:09Z touchdesign $
+ * $Id$
  *
  * touchInlineEdit Module
  *
@@ -42,17 +42,31 @@
  *
  */
 
-if(!$this->CheckPermission('Modify Templates')){
-	echo $this->lang("nopermission");
+if(!isset($gCms)){
+	exit;
+}
+
+if(!$this->VisibleToAdminUser()){
+	$this->ShowErrors($this->Lang("accessdenied"));
 	return;
 }
 
-if(isset($params['reset'])){
-	$this->SetTemplate($params['template'], $this->getDefaultTemplate($params['template']));
-}elseif(isset($params["template_content"]) && !empty($params["template_content"])){
-	$this->SetTemplate($params['template'], $params['template_content']);
-}
+// Form start
+$this->smarty->assign('formstart',$this->CreateFormStart($id,"savetemplate",$returnid));
 
-$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("templatessaved"),"tab" => "templates"));
+$this->smarty->assign('template',$this->CreateInputHidden($id,"template",$params['template']));
+
+$this->smarty->assign('template_name',$params['template']);
+$this->smarty->assign('template_content',$this->CreateTextArea(false,$id,$this->GetTemplate($params['template']),
+	'template_content',"pagesmalltextarea","","","",'40','5'));
+
+// Submit / cancel
+$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
+$this->smarty->assign('reset',$this->CreateInputSubmit($id,"reset",$this->Lang("reset")));
+
+// Form end
+$this->smarty->assign('formend',$this->CreateFormEnd());
+
+echo $this->ProcessTemplate("adminedittemplate.tpl");
 
 ?>

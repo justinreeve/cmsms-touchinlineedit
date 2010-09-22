@@ -14,9 +14,11 @@ $lang['help'] = '<h3>Usage</h3>
 </ul>';
 $lang['settings'] = 'Settings';
 $lang['templates'] = 'Templates';
+$lang['tablecoltemplate'] = 'Template';
 $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
 $lang['save'] = 'Save';
+$lang['edit'] = 'Edit';
 $lang['cancel'] = 'Cancel';
 $lang['reset'] = 'Reset';
 $lang['settingssaved'] = 'Settings saved.';
