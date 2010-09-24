@@ -56,6 +56,16 @@ if(version_compare($oldversion, '1.6', '<')){
 	$this->AddEventHandler('Core', 'SmartyPreCompile', false);
 	$this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
 }
+if(version_compare($oldversion, '1.7', '<')){
+	$this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
+	if(method_exists($this->editor,'install')){
+		$this->editor->install();
+	}
+	$this->DeleteTemplate('touchInlineEditContextMenu');
+	$this->DeletePreference('touchInlineEdit.feContextMenu');
+	$this->DeletePreference('touchInlineEdit.feFullPanel');
+	$this->DeletePreference('touchInlineEdit.feJQueryLoad');
+}
 
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 
