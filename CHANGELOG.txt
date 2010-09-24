@@ -10,3 +10,53 @@ Remove jQuery contextmenu
 Update Installer
 Update icons path for nicedit
 Add CMSms max version
+
+/// Version 1.6
+
+Add option to enable/disable inlineEdit on dblclick
+Add optional context menu (testing)
+Enable logging in installer and upgrade methods
+Enable logging on content actions
+Move some stuff into event manager
+Clean code 
+
+/// Version 1.5
+
+Add html source code editor
+Add xhtml support (experimental)
+Fix ajax request encoding
+Bugfix
+
+/// Version 1.4
+
+Move javascripts external
+Update fetch tpl contents (plugins,tags,modules) on content update
+Some bugfixes 
+
+/// Version 1.3
+
+Add button template
+Add option to load jquery
+Update language
+Update content update
+Clean code
+
+/// Version 1.2
+
+Add upgrade method
+Add CMS minimum version
+Add css class .touchInlineEditButton {}
+Fix compiled content_id
+
+/// Version 1.1
+
+Add some settings in admin panel
+Update translation
+Add german translation
+Add postinstall message
+Add postuninstall message
+Set Version 1.1 
+
+/// Version 1.0
+
+Initial release
