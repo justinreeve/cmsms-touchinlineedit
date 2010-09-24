@@ -14,6 +14,7 @@ $lang['help'] = '<h3>Usage</h3>
 </ul>';
 $lang['settings'] = 'Settings';
 $lang['templates'] = 'Templates';
+$lang['editor'] = 'Editor';
 $lang['tablecoltemplate'] = 'Template';
 $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
@@ -23,16 +24,16 @@ $lang['cancel'] = 'Cancel';
 $lang['reset'] = 'Reset';
 $lang['settingssaved'] = 'Settings saved.';
 $lang['templatessaved'] = 'Template saved.';
+
+$lang['fePlugin_label'] = 'Which editor you want?';
+$lang['fePlugin_help'] = 'Select an editor.';
 $lang['feEditButton_label'] = 'Edit Button in FE?';
 $lang['feEditButton_help'] = 'Add enable/disable button for inlineEdit in Frontend.';
 $lang['feFullPanel_label'] = 'Advanced Toolbar?';
 $lang['feFullPanel_help'] = 'Enable advanced toolbar for inlineEdit.';
 $lang['feUpdateAlert_label'] = 'Update alert?';
 $lang['feUpdateAlert_help'] = 'Enable update alert in frontend.';
-$lang['feJQueryLoad_label'] ='Load jQuery libary';
-$lang['feJQueryLoad_help'] ='Let InlinEdit load required jQuery libary in header of pages.';
-$lang['feContextMenu_label'] ='Contextmenu in frontend?';
-$lang['feContextMenu_help'] ='Activate advanced Contextmenu.';
+
 $lang['touchInlineEditButton_label'] = 'Inline edit button template:';
 $lang['feEditOnDblClick_label'] = 'Activate InlineEdit on double click?';
 $lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content area.';
@@ -40,17 +41,17 @@ $lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content
 $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';
 
-$lang['feCmSwitchToBackend'] = "Switch backend";
-$lang['feCmDelete'] = "Delete";
-$lang['feCmCut'] = "Cut";
-$lang['feCmCopy'] = "Copy";
-$lang['feCmPaste'] = "Paste";
-$lang['feCmModSettings'] = "Module Settings";
-
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
 $lang['postupgrade'] = 'Upgrade success Version %s...';
 $lang['postcontentupdate'] = 'Content with content_id:%s updated.';
 $lang['preuninstall'] = 'Are you sure you want to uninstall this module and destroy all settings/templates?';
+
+/* ---- Plugins ---- */
+
+$lang['niceditFullPanel_label'] = 'Erweiterte Werkzeugleiste?';
+$lang['niceditFullPanel_help'] = 'Blende erweiterte Werkzeugleiste im Editor ein.';
+$lang['niceditJQueryLoad_label'] ='Load jQuery libary';
+$lang['niceditJQueryLoad_help'] ='Let InlinEdit load required jQuery libary in header of pages.';
 
 ?>

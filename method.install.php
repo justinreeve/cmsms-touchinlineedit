@@ -47,10 +47,11 @@ $this->SetPreference('touchInlineEdit.feEditButton', 'Y');
 $this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
 $this->SetPreference('touchInlineEdit.feFullPanel', 'true');
 $this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
-$this->SetPreference('touchInlineEdit.feJQueryLoad', 'Y');
-$this->SetPreference('touchInlineEdit.feContextMenu', 'false');
+$this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
+if(method_exists($this->editor,'install')){
+	$this->editor->install();
+}
 $this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
-$this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
 $this->AddEventHandler('Core', 'ContentPostRender', false);
 $this->AddEventHandler('Core', 'SmartyPreCompile', false);
 

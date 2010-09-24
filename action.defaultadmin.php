@@ -71,6 +71,7 @@ echo $this->StartTabHeaders();
 
 echo $this->SetTabHeader("settings",$this->Lang("settings"),($activeTab == 'settings' ? true : false));
 echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
+echo $this->SetTabHeader("editor",$this->Lang("editor"),($activeTab == 'editor' ? true : false));
 
 echo $this->EndTabHeaders();
 
@@ -86,6 +87,15 @@ if($this->CheckPermission('Modify Templates')){
 
 	echo $this->StartTab("templates");
 	include(dirname(__FILE__).'/function.admin_templates.php');
+	echo $this->EndTab();
+
+}
+
+// Editor specific settings
+if(method_exists($this->editor,'getAdminConfig')){
+
+	echo $this->StartTab("editor");
+	include(dirname(__FILE__).'/function.admin_editor.php');
 	echo $this->EndTab();
 
 }

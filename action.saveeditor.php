@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id$
+ * $Id: action.savesettings.php 51 2010-09-13 14:06:25Z touchdesign $
  *
  * touchInlineEdit Module
  *
@@ -47,22 +47,8 @@ if(!$this->CheckPermission('Modify Site Settings')){
 	return;
 }
 
-if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
-	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
-}
-if(isset($params["feEditOnDblClick"]) && !empty($params["feEditOnDblClick"])){
-	$this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
-}
-if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])){
-	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
-}
-if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
-	$this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
-	if(method_exists($this->editor,'install')){
-		$this->editor->install();
-	}
-}
+$this->editor->saveAdminConfig($params);
 
-$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
+$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "editor"));
 
 ?>

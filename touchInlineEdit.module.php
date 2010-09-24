@@ -42,131 +42,119 @@
  *
  */
 
+define('TIE_PLUGIN_DIR','plugins/');
+define('TIE_PLUGIN_DEFAULT','nicedit');
+
 class touchInlineEdit extends CMSModule {
 
+	public $editor;
 	public $smarty;
 	private $defaultTemplate = array(
-		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>',
-		'touchInlineEditContextMenu' => '<ul id="touchInlineEditContextMenu" class="contextMenu">
-			<li class="edit"><a href="#edit">{$tieLang.feCmSwitchToBackend}</a></li>
-			<li class="delete"><a href="#delete">{$tieLang.feCmDelete}</a></li>
-			<li class="cut separator"><a href="#cut">{$tieLang.feCmCut}</a></li>
-			<li class="copy"><a href="#copy">{$tieLang.feCmCopy}</a></li>
-			<li class="paste"><a href="#paste">{$tieLang.feCmPaste}</a></li>
-			<li class="settings separator"><a href="#modsettings">{$tieLang.feCmModSettings}</a></li>
-		</ul>',
+		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
 	);
 
-	function __construct(){
+	public function __construct($name=NULL){
 		global $gCms;
 
 		$this->smarty = &$gCms->smarty;
-
-		// Debug
 		//$this->smarty->force_compile = true;
 
-		if($this->hasInlineEditRights()){
-			// Assign vars
-			$this->smarty->assign('hasInlineEditRights',1);
-			$this->smarty->assign('tieLang',$this->GetLangVars());
-			$this->smarty->assign('tiePref',$this->GetPrefVars());
-			// Process template
-			$this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
+		if(!$name){
+			$this->init();
 		}
 	}
 
-	function GetName(){ 
+	private function init(){
+
+		$editor = $this->GetPreference("touchInlineEdit.fePlugin",TIE_PLUGIN_DEFAULT);
+		if($editor){
+			$this->editor = $this->getPluginInstance($editor);
+			// Todo: Remove from cunstructor
+			if($this->hasInlineEditRights()){
+				// Assign vars
+				$this->smarty->assign('hasInlineEditRights',1);
+				$this->smarty->assign('tieLang',$this->GetLangVars());
+				$this->smarty->assign('tiePref',$this->GetPrefVars());
+				// Process template
+				$this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
+			}
+		}
+	}
+
+	public function GetName(){ 
 		return 'touchInlineEdit'; 
 	}
 
-	function GetFriendlyName(){ 
+	public function GetFriendlyName(){ 
 		return 'InlineEdit'; 
 	}
 
-	function GetVersion(){ 
+	public function GetVersion(){ 
 		return '1.6';
 	}
 
-	function GetHelp(){ 
+	public function GetHelp(){ 
 		return $this->Lang('help');
 	}
 
-	function IsPluginModule(){
+	public function IsPluginModule(){
 		return true;
 	}
 	
-	function HasAdmin(){
+	public function HasAdmin(){
 		return true; 
 	}
 
-	function GetAuthor(){
+	public function GetAuthor(){
 		return 'Christoph Gruber <touchDesign.de>';
 	}
 
-	function GetAuthorEmail(){
+	public function GetAuthorEmail(){
 		return 'c.gruber@touchdesign.de';
 	}
 
-	function GetAdminSection(){
+	public function GetAdminSection(){
 		return 'extensions';
 	}
 
-	function SetParameters(){	  
+	public function SetParameters(){	  
 		/* Nothing yet */
 	}
 
-	function InstallPostMessage(){
+	public function InstallPostMessage(){
 		return $this->Lang('postinstall');
 	}
 	
-	function UninstallPostMessage(){
+	public function UninstallPostMessage(){
 		return $this->Lang('postuninstall');
 	}
 	
-	function UninstallPreMessage(){
+	public function UninstallPreMessage(){
 		return $this->Lang('preuninstall');
 	}
 
-	function MinimumCMSVersion(){
+	public function MinimumCMSVersion(){
 		return "1.6.8";
 	}
 
-	function MaximumCMSVersion(){
+	public function MaximumCMSVersion(){
 		return "1.9.9";
 	}
 
-	function HandlesEvents() {
+	public function HandlesEvents() {
 		return true;
 	}
 
-	function GetLangVars(){
+	/* ----- Events ----- */
 
-		$lang = array();
-		
-		$lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
-		$lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
-
-		$lang['feCmSwitchToBackend'] = $this->Lang("feCmSwitchToBackend");
-		$lang['feCmDelete'] = $this->Lang("feCmDelete");
-		$lang['feCmCut'] = $this->Lang("feCmCut");
-		$lang['feCmCopy'] = $this->Lang("feCmCopy");
-		$lang['feCmPaste'] = $this->Lang("feCmPaste");
-		$lang['feCmModSettings'] = $this->Lang("feCmModSettings");
-
-		return $lang;
-	}
-		
-	function DoEvent( $originator, $eventname, &$params ){
+	public function DoEvent( $originator, $eventname, &$params ){
 		global $gCms;
 
 		if ($originator == 'Core' && $eventname == 'ContentPostRender'){
 			if($this->hasInlineEditRights()){
 				// Before close header
-				$params['content'] = str_replace('</head>', $this->GetJavascripts() 
+				$params['content'] = str_replace('</head>', $this->editor->getHeader() 
 					. '</head>', $params['content']);
-				// Before close body
-				$params['content'] = str_replace('</body>', $this->ProcessTemplateFromDatabase('touchInlineEditContextMenu') 
-					. '</body>', $params['content']);
 			}
 		}
 		elseif ($originator == 'Core' && $eventname == 'SmartyPreCompile'){
@@ -191,6 +179,8 @@ class touchInlineEdit extends CMSModule {
 				$contentBefore."{content \\1}".$contentAfter, $params['content']);
 		}
 	}
+
+	/* ----- Functions ----- */
 	
 	public function hasInlineEditRights(){
 
@@ -207,6 +197,38 @@ class touchInlineEdit extends CMSModule {
 			== 'xmlhttprequest' ? true : false;
 	}
 
+	protected function GetLangVars(){
+
+		$lang = array();
+
+		$lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
+		$lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
+
+		return $lang;
+	}
+
+	protected function getDefaultTemplate($template){
+
+		if(isset($this->defaultTemplate[$template])){
+			return $this->defaultTemplate[$template];
+		}
+		return false;
+	}
+
+	protected function getPrefVars(){
+
+		$preferences = array();
+
+		$preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
+		$preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
+		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
+		$preferences['fePlugin'] = $this->GetPreference("touchInlineEdit.fePlugin");
+
+		return $preferences;
+	}
+
+	/* ----- Content operations ----- */
+	
 	private function getContentObj($contentId=NULL){
 		global $gCms;
 
@@ -225,7 +247,7 @@ class touchInlineEdit extends CMSModule {
 		return $node->GetContent(true,true);
 	}
 
-	public function getContent($block="content_en",$fetch=false){
+	protected function getContent($block="content_en",$fetch=false){
 
 		$contentObj = &$this->getContentObj();
 
@@ -243,7 +265,7 @@ class touchInlineEdit extends CMSModule {
 		return $content;
 	}
 
-	public function updateContent($block="content_en"){
+	protected function updateContent($block="content_en"){
 		global $gCms;
 
 		$contentObj = &$this->getContentObj();
@@ -267,69 +289,28 @@ class touchInlineEdit extends CMSModule {
 		return $this->getContent($block,true);
 	}
 
-	public function getDefaultTemplate($template){
+	/* ----- Plugin functions ----- */
 
-		if(isset($this->defaultTemplate[$template])){
-			return $this->defaultTemplate[$template];
-		}
-		return false;
-	}
-
-	private function getPrefVars(){
-
-		$preferences = array();
-
-		$preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
-		$preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
-		$preferences['feFullPanel'] = $this->GetPreference("touchInlineEdit.feFullPanel");
-		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
-		$preferences['jQueryLoad'] = $this->GetPreference("touchInlineEdit.feJQueryLoad");
-		$preferences['feContextMenu'] = $this->GetPreference("touchInlineEdit.feContextMenu");
-
-		return $preferences;
-	}
-
-	private function getJavascripts(){
+	protected function getPlugins(){
 		global $gCms;
 
-		$tiePref = $this->GetPrefVars();
-		$tieLang = $this->GetLangVars();
+		$plugins = array_diff(scandir($gCms->config['root_path'].'/modules/'.$this->getName()
+			.'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
 
-		// nicEdit
-		$head = '<!-- '.$this->getName().' module -->' . "\n";
-		$head.= '<script src="modules/'.$this->getName().'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
+		return array_combine($plugins,$plugins);
+	}
 
-		// jQuery
-		if($tiePref['jQueryLoad'] == "Y"){
-			$head.= '<script src="modules/'.$this->getName().'/js/jquery.js" type="text/javascript"></script>' . "\n";
+	private function getPluginInstance($plugin, $params = NULL){
+		global $gCms;
+
+		if(!is_string($plugin) || !strlen($plugin)){
+			throw new exception('Unable to load plugin: ' . $plugin);
 		}
 
-		// touchInlineEdit
-		$head.= '<script src="modules/'.$this->getName().'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
+		require_once $gCms->config['root_path'] . '/modules/' . get_class() 
+			. '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
 
-		// jQuery context menu
-		if((bool)$tiePref['feContextMenu']){
-			$head.= '<script src="modules/'.$this->getName().'/js/jquery.contextMenu.js" type="text/javascript"></script>' . "\n";
-			$head.= '<link href="modules/'.$this->getName().'/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />' . "\n";
-		}
-
-		// Script
-		$script = '<script type="text/javascript" charset="utf-8">' . "\n";
-		$script.= '	var cBlockMain;' . "\n";
-		$script.= '	var tieContentId = '.$gCms->variables['content_id'].';' . "\n";
-		$script.= '	var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
-		$script.= '	var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
-		$script.= '	var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
-		$script.= '	var tieFullPanel = '.$tiePref['feFullPanel'].';' . "\n";
-		$script.= '	var tieContextMenu = '.$tiePref['feContextMenu'].';' . "\n";
-		$script.= '	var tieSecureKey = "'.$_SESSION[CMS_USER_KEY].'";' . "\n";
-		$script.= '	var tieSecureKeyName = "'.CMS_SECURE_PARAM_NAME.'";' . "\n";
-		$script.= '	var tieAdminDir = "'.$gCms->config['admin_dir'].'";' . "\n";
-		$script.= '	var tieEditOnDblClick = '.$tiePref['feEditOnDblClick'].';' . "\n";
-		$script.= '</script>' . "\n";
-		$script.= '<!-- '.$this->getName().' module -->' . "\n";
-
-		return $head . $script;
+		return new $plugin($params);
 	}
 }
 

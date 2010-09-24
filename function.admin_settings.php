@@ -54,6 +54,11 @@ if(!$this->VisibleToAdminUser()){
 // Form start
 $this->smarty->assign('formstart',$this->CreateFormStart($id,"savesettings",$returnid));
 
+// Select inline editor
+$this->smarty->assign('fePlugin_label',$this->Lang("fePlugin_label"));
+$this->smarty->assign('fePlugin_help',$this->Lang("fePlugin_help"));
+$this->smarty->assign('fePlugin_input',$this->CreateInputDropdown($id,"fePlugin",$this->getPlugins(),"",$this->GetPreference("touchInlineEdit.fePlugin"),"\n"));
+
 // Enable disable inlineEdit button in FE
 $this->smarty->assign('feEditButton_label',$this->Lang("feEditButton_label"));
 $this->smarty->assign('feEditButton_help',$this->Lang("feEditButton_help"));
@@ -64,25 +69,10 @@ $this->smarty->assign('feEditOnDblClick_label',$this->Lang("feEditOnDblClick_lab
 $this->smarty->assign('feEditOnDblClick_help',$this->Lang("feEditOnDblClick_help"));
 $this->smarty->assign('feEditOnDblClick_input',$this->CreateInputRadioGroup($id,"feEditOnDblClick",$bool,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
 
-// Enable full panel in FE
-$this->smarty->assign('feFullPanel_label',$this->Lang("feFullPanel_label"));
-$this->smarty->assign('feFullPanel_help',$this->Lang("feFullPanel_help"));
-$this->smarty->assign('feFullPanel_input',$this->CreateInputRadioGroup($id,"feFullPanel",$bool,$this->GetPreference("touchInlineEdit.feFullPanel","true"),"","\n"));
-
 // Enable alert an content update
 $this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
 $this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
 $this->smarty->assign('feUpdateAlert_input',$this->CreateInputRadioGroup($id,"feUpdateAlert",$bool,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
-
-// Load jquery lib in frontent
-$this->smarty->assign('feJQueryLoad_label',$this->Lang("feJQueryLoad_label"));
-$this->smarty->assign('feJQueryLoad_help',$this->Lang("feJQueryLoad_help"));
-$this->smarty->assign('feJQueryLoad_input',$this->CreateInputRadioGroup($id,"feJQueryLoad",$yn,$this->GetPreference("touchInlineEdit.feJQueryLoad","Y"),"","\n"));
-
-// Enable context menu in frontent
-$this->smarty->assign('feContextMenu_label',$this->Lang("feContextMenu_label"));
-$this->smarty->assign('feContextMenu_help',$this->Lang("feContextMenu_help"));
-$this->smarty->assign('feContextMenu_input',$this->CreateInputRadioGroup($id,"feContextMenu",$bool,$this->GetPreference("touchInlineEdit.feContextMenu","true"),"","\n"));
 
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));

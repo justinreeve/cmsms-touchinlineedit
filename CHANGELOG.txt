@@ -1,0 +1,12 @@
+/// Version 1.7
+
+Add template list in BA
+Add plugin system
+Add new tab editor in BA
+Update translations
+Add plugin nicedit
+Add plugin elrte
+Remove jQuery contextmenu
+Update Installer
+Update icons path for nicedit
+Add CMSms max version
