@@ -55,7 +55,6 @@ Update translation
 Add german translation
 Add postinstall message
 Add postuninstall message
-Set Version 1.1 
 
 /// Version 1.0
 

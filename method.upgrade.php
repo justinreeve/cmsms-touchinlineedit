@@ -62,9 +62,9 @@ if(version_compare($oldversion, '1.7', '<')){
 		$this->editor->install();
 	}
 	$this->DeleteTemplate('touchInlineEditContextMenu');
-	$this->DeletePreference('touchInlineEdit.feContextMenu');
-	$this->DeletePreference('touchInlineEdit.feFullPanel');
-	$this->DeletePreference('touchInlineEdit.feJQueryLoad');
+	$this->RemovePreference('touchInlineEdit.feContextMenu');
+	$this->RemovePreference('touchInlineEdit.feFullPanel');
+	$this->RemovePreference('touchInlineEdit.feJQueryLoad');
 }
 
 // Log upgrade info
