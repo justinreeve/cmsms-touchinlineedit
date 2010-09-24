@@ -8,8 +8,8 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.6
- * @copyright 04.08.2010 touchDesign
+ * @version 1.7
+ * @copyright 2010 touchDesign
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
