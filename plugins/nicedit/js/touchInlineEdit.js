@@ -1,5 +1,5 @@
 /**
- * $Id: touchInlineEdit.js 51 2010-09-13 14:06:25Z touchdesign $
+ * $Id$
  *
  * touchInlineEdit Module
  *
