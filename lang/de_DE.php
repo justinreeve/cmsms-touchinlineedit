@@ -47,6 +47,11 @@ $lang['preuninstall'] = 'Sind Sie sicher das Sie dieses Modul nebst Einstellunge
 $lang['niceditFullPanel_label'] = 'Erweiterte Werkzeugleiste?';
 $lang['niceditFullPanel_help'] = 'Blende erweiterte Werkzeugleiste im Editor ein.';
 $lang['niceditJQueryLoad_label'] ='Lade jQuery Libary';
-$lang['niceditJQueryLoad_help'] ='Lasse InlinEdit die benötigte jQuery Libary laden.';
+$lang['niceditJQueryLoad_help'] ='Lasse InlineEdit die benötigte jQuery Libary laden.';
+
+$lang['elrteToolbar_label'] = 'Art der Werkzeugleiste?';
+$lang['elrteToolbar_help'] = 'Wählen Sie hier Ihre gewünschte Werkzeugleiste.';
+$lang['elrteJQueryLoad_label'] ='Lade jQuery Libary';
+$lang['elrteJQueryLoad_help'] ='Lasse InlineEdit die benötigte jQuery Libary laden.';
 
 ?>

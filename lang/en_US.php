@@ -49,9 +49,14 @@ $lang['preuninstall'] = 'Are you sure you want to uninstall this module and dest
 
 /* ---- Plugins ---- */
 
-$lang['niceditFullPanel_label'] = 'Erweiterte Werkzeugleiste?';
-$lang['niceditFullPanel_help'] = 'Blende erweiterte Werkzeugleiste im Editor ein.';
+$lang['niceditFullPanel_label'] = 'Extended toolbar?';
+$lang['niceditFullPanel_help'] = 'Use extended toolbar.';
 $lang['niceditJQueryLoad_label'] ='Load jQuery libary';
-$lang['niceditJQueryLoad_help'] ='Let InlinEdit load required jQuery libary in header of pages.';
+$lang['niceditJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+
+$lang['elrteToolbar_label'] = 'Which toolbar?';
+$lang['elrteToolbar_help'] = 'Choose any toolbar you like.';
+$lang['elrteJQueryLoad_label'] ='Load jQuery libary';
+$lang['elrteJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
 
 ?>

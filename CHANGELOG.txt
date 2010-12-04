@@ -1,3 +1,9 @@
+/// Version 1.7.1
+
+Update for cmsms 1.9.x compatibility
+Set new min/max cmsms versions: 1.6.4-1.9.1
+Update translation
+
 /// Version 1.7
 
 Add template list in BA
