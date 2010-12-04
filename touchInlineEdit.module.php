@@ -54,11 +54,8 @@ class touchInlineEdit extends CMSModule {
 	);
 
 	public function __construct($name=NULL){
-		global $gCms;
 
-		$this->smarty = &$gCms->smarty;
-		//$this->smarty->force_compile = true;
-
+		$this->smarty = $this->getCMSSmarty();
 		if(!$name){
 			$this->init();
 		}
@@ -124,11 +121,11 @@ class touchInlineEdit extends CMSModule {
 	public function InstallPostMessage(){
 		return $this->Lang('postinstall');
 	}
-	
+
 	public function UninstallPostMessage(){
 		return $this->Lang('postuninstall');
 	}
-	
+
 	public function UninstallPreMessage(){
 		return $this->Lang('preuninstall');
 	}
@@ -148,7 +145,6 @@ class touchInlineEdit extends CMSModule {
 	/* ----- Events ----- */
 
 	public function DoEvent( $originator, $eventname, &$params ){
-		global $gCms;
 
 		if ($originator == 'Core' && $eventname == 'ContentPostRender'){
 			if($this->hasInlineEditRights()){
@@ -166,7 +162,7 @@ class touchInlineEdit extends CMSModule {
 			$contentBefore.= '	{if $tiePref.feEditButton == "Y"}';
 			$contentBefore.= '		{$tieTemplateEditButton}';
 			$contentBefore.= '	{/if}';
-			$contentBefore.= '	<div id="touchInlineEditId{$gCms->variables.content_id}" class="touchInlineEdit">';
+			$contentBefore.= '	<div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
 			$contentBefore.= '{/if}';
 
 			// After content
@@ -181,7 +177,7 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	/* ----- Functions ----- */
-	
+ 
 	public function hasInlineEditRights(){
 
 		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
@@ -227,14 +223,53 @@ class touchInlineEdit extends CMSModule {
 		return $preferences;
 	}
 
+  static public function getCMSModuleInstance($name){
+
+    if(function_exists('cmsms') && method_exists(cmsms(),'GetModuleInstance')){
+      return cmsms()->GetModuleInstance($name);
+    }else{
+      global $gCms;
+      return isset($gCms->modules[$name]) ? $gCms->modules[$name]['object'] : false;
+    }
+  }
+  
+  public function getCMSSmarty(){
+
+    if(function_exists('cmsms') && method_exists(cmsms(),'getSmarty')){
+      return cmsms()->getSmarty();
+    }else{
+      global $gCms;
+      return $gCms->smarty;
+    }
+  }
+
+  public function getCMSConfig(){
+
+    if(function_exists('cmsms') && method_exists(cmsms(),'getConfig')){
+      return cmsms()->getConfig();
+    }else{
+      global $gCms;
+      return $gCms->config;
+    }
+  }
+
 	/* ----- Content operations ----- */
-	
+
+  public function getContentId(){
+
+    if(function_exists('cmsms') && method_exists(cmsms(),'get_variable')){
+      return cmsms()->get_variable('content_id');
+    }else{
+      global $gCms;
+      return $gCms->variables['content_id'];
+    }
+  }
+
 	private function getContentObj($contentId=NULL){
 		global $gCms;
 
 		if($contentId === NULL){
-			$pageInfo = &$gCms->variables['pageinfo'];
-			$contentId = $pageInfo->content_id;
+			$contentId = $this->getContentId();
 		}
 
 		$manager = &$gCms->GetHierarchyManager();
@@ -292,22 +327,24 @@ class touchInlineEdit extends CMSModule {
 	/* ----- Plugin functions ----- */
 
 	protected function getPlugins(){
-		global $gCms;
 
-		$plugins = array_diff(scandir($gCms->config['root_path'].'/modules/'.$this->getName()
+    $config = $this->getCMSConfig();
+
+		$plugins = array_diff(scandir($config['root_path'].'/modules/'.$this->getName()
 			.'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
 
 		return array_combine($plugins,$plugins);
 	}
 
 	private function getPluginInstance($plugin, $params = NULL){
-		global $gCms;
+
+    $config = $this->getCMSConfig();
 
 		if(!is_string($plugin) || !strlen($plugin)){
 			throw new exception('Unable to load plugin: ' . $plugin);
 		}
 
-		require_once $gCms->config['root_path'] . '/modules/' . get_class() 
+		require_once $config['root_path'] . '/modules/' . get_class() 
 			. '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
 
 		return new $plugin($params);

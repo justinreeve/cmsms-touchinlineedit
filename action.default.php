@@ -42,13 +42,9 @@
  *
  */
 
-global $gCms;
+$touchInlineEdit = touchInlineEdit::getCMSModuleInstance('touchInlineEdit');
 
-if(isset($gCms->modules['touchInlineEdit']) 
-	&& is_object($gCms->modules['touchInlineEdit']['object'])){
-
-	$touchInlineEdit = $gCms->modules['touchInlineEdit']['object'];
-
+if($touchInlineEdit){
 	if($touchInlineEdit->hasInlineEditRights()){
 		if($touchInlineEdit->isAJAXRequest()){
 			switch ($_POST['method']){
