@@ -131,11 +131,11 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	public function MinimumCMSVersion(){
-		return "1.6.8";
+		return "1.6.4";
 	}
 
 	public function MaximumCMSVersion(){
-		return "1.9.9";
+		return "1.9.1";
 	}
 
 	public function HandlesEvents() {
