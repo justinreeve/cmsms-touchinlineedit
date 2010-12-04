@@ -114,7 +114,9 @@ class nicedit extends touchInlineEdit {
 	public function getHeader(){
 
 		$tiePref = $this->GetPrefVars();
-		$tieLang = $this->GetLangVars();
+
+    // TODO: Fix Attempt to load admin realm ... in lib/translation.functions.php
+		$tieLang = @$this->GetLangVars();
 
 		$head = '<!-- '.$this->getName().' module -->' . "\n";
 
