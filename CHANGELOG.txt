@@ -5,6 +5,9 @@ Set new min/max cmsms versions: 1.6.4-1.9.1
 Update translation
 Call parent constructor in plugin instance
 Update plugins, use parent methods, remove $gCms
+Fix logger invalid $contentId
+Plugins: Fix Attempt to load admin realm
+Add force_compile for debugging
 
 /// Version 1.7
 
