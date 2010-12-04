@@ -3,6 +3,8 @@
 Update for cmsms 1.9.x compatibility
 Set new min/max cmsms versions: 1.6.4-1.9.1
 Update translation
+Call parent constructor in plugin instance
+Update plugins, use parent methods, remove $gCms
 
 /// Version 1.7
 

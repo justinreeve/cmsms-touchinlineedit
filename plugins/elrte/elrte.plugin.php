@@ -45,16 +45,14 @@
 class elrte extends touchInlineEdit {
 
 	var $name = 'elrte';
-	var $smarty;
 	var $pluginDir;
 
 	function __construct(){
-		global $gCms;
 
 		$this->pluginDir = 'modules/' . $this->getName() . '/' 
 			. TIE_PLUGIN_DIR . $this->name;
 
-		$this->smarty = &$gCms->smarty;
+		parent::__construct($this->name);
 	}
 
 	public function install(){
@@ -63,9 +61,8 @@ class elrte extends touchInlineEdit {
 	}
 
 	private function fetch($template){
-		global $gCms;
 
-		$config = &$gCms->config;
+		$config = $this->getCMSConfig();
 
 		return $this->smarty->fetch($config['root_path'] . '/'
 			. $this->pluginDir
@@ -119,7 +116,6 @@ class elrte extends touchInlineEdit {
 	}
 
 	public function getHeader(){
-		global $gCms;
 
 		$tiePref = $this->GetPrefVars();
 		$tieLang = $this->GetLangVars();
@@ -144,7 +140,7 @@ class elrte extends touchInlineEdit {
 		// Script
 		$script = '<script type="text/javascript" charset="utf-8">' . "\n";
 		$script.= '	var cBlockMain;' . "\n";
-		$script.= '	var tieContentId = '.$gCms->variables['content_id'].';' . "\n";
+		$script.= '	var tieContentId = '.$this->getContentId().';' . "\n";
 		$script.= '	var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
 		$script.= '	var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
 		$script.= '	var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
