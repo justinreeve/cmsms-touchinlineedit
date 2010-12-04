@@ -84,7 +84,7 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	public function GetFriendlyName(){ 
-		return 'InlineEdit'; 
+		return 'TouchInlineEdit'; 
 	}
 
 	public function GetVersion(){ 
