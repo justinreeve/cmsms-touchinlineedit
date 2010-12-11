@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.7.1
+ * @version 1.7.2
  * @copyright 04.08.2010 touchDesign
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -88,7 +88,7 @@ class touchInlineEdit extends CMSModule {
 	}
 
 	public function GetVersion(){ 
-		return '1.7.1';
+		return '1.7.2';
 	}
 
 	public function GetHelp(){ 
@@ -279,7 +279,12 @@ class touchInlineEdit extends CMSModule {
 		if(!is_object($node)){
 			return "Invalid ContentId: " . $contentId;
 		}
-		
+    
+    // Fix bug: http://dev.cmsmadesimple.org/bug/view/5805
+    if($node->doAutoAliasIfEnabled){
+      $node->doAutoAliasIfEnabled = false;
+    }
+    
 		return $node->GetContent(true,true);
 	}
 
