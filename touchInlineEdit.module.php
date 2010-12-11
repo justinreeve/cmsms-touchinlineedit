@@ -281,7 +281,7 @@ class touchInlineEdit extends CMSModule {
 		}
     
     // Fix bug: http://dev.cmsmadesimple.org/bug/view/5805
-    if($node->doAutoAliasIfEnabled){
+    if(isset($node->doAutoAliasIfEnabled)){
       $node->doAutoAliasIfEnabled = false;
     }
     
