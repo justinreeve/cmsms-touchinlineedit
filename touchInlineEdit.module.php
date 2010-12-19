@@ -47,182 +47,182 @@ define('TIE_PLUGIN_DEFAULT','nicedit');
 
 class touchInlineEdit extends CMSModule {
 
-	public $editor;
-	public $smarty;
-	private $defaultTemplate = array(
-		'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
-	);
+  public $editor;
+  public $smarty;
+  private $defaultTemplate = array(
+    'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
+  );
 
-	public function __construct($name=NULL){
+  public function __construct($name=NULL){
 
-		$this->smarty = $this->getCMSSmarty();
+    $this->smarty = $this->getCMSSmarty();
     //$this->smarty->force_compile = true;
-		if(!$name){
-			$this->init();
-		}
-	}
+    if(!$name){
+      $this->init();
+    }
+  }
 
-	private function init(){
+  private function init(){
 
-		$editor = $this->GetPreference("touchInlineEdit.fePlugin",TIE_PLUGIN_DEFAULT);
-		if($editor){
-			$this->editor = $this->getPluginInstance($editor);
-			// Todo: Remove from cunstructor
-			if($this->hasInlineEditRights()){
-				// Assign vars
-				$this->smarty->assign('hasInlineEditRights',1);
-				$this->smarty->assign('tieLang',$this->GetLangVars());
-				$this->smarty->assign('tiePref',$this->GetPrefVars());
-				// Process template
-				$this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
-			}
-		}
-	}
+    $editor = $this->GetPreference("touchInlineEdit.fePlugin",TIE_PLUGIN_DEFAULT);
+    if($editor){
+      $this->editor = $this->getPluginInstance($editor);
+      // Todo: Remove from cunstructor
+      if($this->hasInlineEditRights()){
+        // Assign vars
+        $this->smarty->assign('hasInlineEditRights',1);
+        $this->smarty->assign('tieLang',$this->GetLangVars());
+        $this->smarty->assign('tiePref',$this->GetPrefVars());
+        // Process template
+        $this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
+      }
+    }
+  }
 
-	public function GetName(){ 
-		return 'touchInlineEdit'; 
-	}
+  public function GetName(){ 
+    return 'touchInlineEdit'; 
+  }
 
-	public function GetFriendlyName(){ 
-		return 'TouchInlineEdit'; 
-	}
+  public function GetFriendlyName(){ 
+    return 'TouchInlineEdit'; 
+  }
 
-	public function GetVersion(){ 
-		return '1.7.2';
-	}
+  public function GetVersion(){ 
+    return '1.7.2';
+  }
 
-	public function GetHelp(){ 
-		return $this->Lang('help');
-	}
+  public function GetHelp(){ 
+    return $this->Lang('help');
+  }
 
-	public function IsPluginModule(){
-		return true;
-	}
-	
-	public function HasAdmin(){
-		return true; 
-	}
+  public function IsPluginModule(){
+    return true;
+  }
+  
+  public function HasAdmin(){
+    return true; 
+  }
 
-	public function GetAuthor(){
-		return 'Christoph Gruber <touchDesign.de>';
-	}
+  public function GetAuthor(){
+    return 'Christoph Gruber <touchDesign.de>';
+  }
 
-	public function GetAuthorEmail(){
-		return 'c.gruber@touchdesign.de';
-	}
+  public function GetAuthorEmail(){
+    return 'c.gruber@touchdesign.de';
+  }
 
-	public function GetAdminSection(){
-		return 'extensions';
-	}
+  public function GetAdminSection(){
+    return 'extensions';
+  }
 
-	public function SetParameters(){	  
-		/* Nothing yet */
-	}
+  public function SetParameters(){    
+    /* Nothing yet */
+  }
 
-	public function InstallPostMessage(){
-		return $this->Lang('postinstall');
-	}
+  public function InstallPostMessage(){
+    return $this->Lang('postinstall');
+  }
 
-	public function UninstallPostMessage(){
-		return $this->Lang('postuninstall');
-	}
+  public function UninstallPostMessage(){
+    return $this->Lang('postuninstall');
+  }
 
-	public function UninstallPreMessage(){
-		return $this->Lang('preuninstall');
-	}
+  public function UninstallPreMessage(){
+    return $this->Lang('preuninstall');
+  }
 
-	public function MinimumCMSVersion(){
-		return "1.6.4";
-	}
+  public function MinimumCMSVersion(){
+    return "1.6.4";
+  }
 
-	public function MaximumCMSVersion(){
-		return "1.9.1";
-	}
+  public function MaximumCMSVersion(){
+    return "1.9.1";
+  }
 
-	public function HandlesEvents() {
-		return true;
-	}
+  public function HandlesEvents() {
+    return true;
+  }
 
-	/* ----- Events ----- */
+  /* ----- Events ----- */
 
-	public function DoEvent( $originator, $eventname, &$params ){
+  public function DoEvent( $originator, $eventname, &$params ){
 
-		if ($originator == 'Core' && $eventname == 'ContentPostRender'){
-			if($this->hasInlineEditRights()){
-				// Before close header
-				$params['content'] = str_replace('</head>', $this->editor->getHeader() 
-					. '</head>', $params['content']);
-			}
-		}
-		elseif ($originator == 'Core' && $eventname == 'SmartyPreCompile'){
-			// TODO: Grep blocks, content underscore blockname -> default is content_en
-			//preg_match_all("/\{content.*?block=[\"|']([^\"|']+)[\"|'].*?\}/", $content, $matches);
+    if ($originator == 'Core' && $eventname == 'ContentPostRender'){
+      if($this->hasInlineEditRights()){
+        // Before close header
+        $params['content'] = str_replace('</head>', $this->editor->getHeader() 
+          . '</head>', $params['content']);
+      }
+    }
+    elseif ($originator == 'Core' && $eventname == 'SmartyPreCompile'){
+      // TODO: Grep blocks, content underscore blockname -> default is content_en
+      //preg_match_all("/\{content.*?block=[\"|']([^\"|']+)[\"|'].*?\}/", $content, $matches);
 
-			// Before content
-			$contentBefore = '{if $hasInlineEditRights}';
-			$contentBefore.= '	{if $tiePref.feEditButton == "Y"}';
-			$contentBefore.= '		{$tieTemplateEditButton}';
-			$contentBefore.= '	{/if}';
-			$contentBefore.= '	<div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
-			$contentBefore.= '{/if}';
+      // Before content
+      $contentBefore = '{if $hasInlineEditRights}';
+      $contentBefore.= '  {if $tiePref.feEditButton == "Y"}';
+      $contentBefore.= '    {$tieTemplateEditButton}';
+      $contentBefore.= '  {/if}';
+      $contentBefore.= '  <div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
+      $contentBefore.= '{/if}';
 
-			// After content
-			$contentAfter = '{if $hasInlineEditRights}';
-			$contentAfter.= '	</div>';
-			$contentAfter.= '{/if}';
+      // After content
+      $contentAfter = '{if $hasInlineEditRights}';
+      $contentAfter.= '  </div>';
+      $contentAfter.= '{/if}';
 
-			// Main content
-			$params['content'] = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", 
-				$contentBefore."{content \\1}".$contentAfter, $params['content']);
-		}
-	}
+      // Main content
+      $params['content'] = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", 
+        $contentBefore."{content \\1}".$contentAfter, $params['content']);
+    }
+  }
 
-	/* ----- Functions ----- */
+  /* ----- Functions ----- */
  
-	public function hasInlineEditRights(){
+  public function hasInlineEditRights(){
 
-		if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
-			return true;
-		}
-		return false;
-	}
+    if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+      return true;
+    }
+    return false;
+  }
 
-	public function isAJAXRequest(){
+  public function isAJAXRequest(){
 
-		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
-			== 'xmlhttprequest' ? true : false;
-	}
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
+      && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
+      == 'xmlhttprequest' ? true : false;
+  }
 
-	protected function GetLangVars(){
+  protected function GetLangVars(){
 
-		$lang = array();
+    $lang = array();
 
-		$lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
-		$lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
+    $lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
+    $lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
 
-		return $lang;
-	}
+    return $lang;
+  }
 
-	protected function getDefaultTemplate($template){
+  protected function getDefaultTemplate($template){
 
-		if(isset($this->defaultTemplate[$template])){
-			return $this->defaultTemplate[$template];
-		}
-		return false;
-	}
+    if(isset($this->defaultTemplate[$template])){
+      return $this->defaultTemplate[$template];
+    }
+    return false;
+  }
 
-	protected function getPrefVars(){
+  protected function getPrefVars(){
 
-		$preferences = array();
+    $preferences = array();
 
-		$preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
-		$preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
-		$preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
-		$preferences['fePlugin'] = $this->GetPreference("touchInlineEdit.fePlugin");
+    $preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
+    $preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
+    $preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
+    $preferences['fePlugin'] = $this->GetPreference("touchInlineEdit.fePlugin");
 
-		return $preferences;
-	}
+    return $preferences;
+  }
 
   static public function getCMSModuleInstance($name){
 
@@ -254,7 +254,7 @@ class touchInlineEdit extends CMSModule {
     }
   }
 
-	/* ----- Content operations ----- */
+  /* ----- Content operations ----- */
 
   public function getContentId(){
 
@@ -266,98 +266,98 @@ class touchInlineEdit extends CMSModule {
     }
   }
 
-	private function getContentObj($contentId=NULL){
-		global $gCms;
+  private function getContentObj($contentId=NULL){
+    global $gCms;
 
-		if($contentId === NULL){
-			$contentId = $this->getContentId();
-		}
+    if($contentId === NULL){
+      $contentId = $this->getContentId();
+    }
 
-		$manager = &$gCms->GetHierarchyManager();
-		$node = &$manager->sureGetNodeById($contentId);
+    $manager = &$gCms->GetHierarchyManager();
+    $node = &$manager->sureGetNodeById($contentId);
 
-		if(!is_object($node)){
-			return "Invalid ContentId: " . $contentId;
-		}
+    if(!is_object($node)){
+      return "Invalid ContentId: " . $contentId;
+    }
     
     // Fix bug autoAlias if already used, ref: http://dev.cmsmadesimple.org/bug/view/5805
     if(isset($node->doAutoAliasIfEnabled)){
       $node->doAutoAliasIfEnabled = false;
     }
     
-		return $node->GetContent(true,true);
-	}
+    return $node->GetContent(true,true);
+  }
 
-	protected function getContent($block="content_en",$fetch=false){
+  protected function getContent($block="content_en",$fetch=false){
 
-		$contentObj = &$this->getContentObj();
+    $contentObj = &$this->getContentObj();
 
-		$content = "Empty...";
-		if($contentObj->HasProperty($block)){
-			$content = $contentObj->GetPropertyValue($block);
-			if($fetch){
-				// TODO: clear modified template clear_compiled_tpl('content: ...')
-				$this->smarty->clear_compiled_tpl();
-				// Fetch content...
-				$content = $this->smarty->fetch('content:' . $block, '', $contentId);
-			}
-		}
+    $content = "Empty...";
+    if($contentObj->HasProperty($block)){
+      $content = $contentObj->GetPropertyValue($block);
+      if($fetch){
+        // TODO: clear modified template clear_compiled_tpl('content: ...')
+        $this->smarty->clear_compiled_tpl();
+        // Fetch content...
+        $content = $this->smarty->fetch('content:' . $block, '', $contentId);
+      }
+    }
 
-		return $content;
-	}
+    return $content;
+  }
 
-	protected function updateContent($block="content_en"){
-		global $gCms;
+  protected function updateContent($block="content_en"){
+    global $gCms;
 
-		$contentObj = &$this->getContentObj();
+    $contentObj = &$this->getContentObj();
 
-		$params[$block] = $_POST['content'];
+    $params[$block] = $_POST['content'];
 
     // Fix: Attempt to load admin realm from non admin action notice if alias already used
     // Ref: http://dev.cmsmadesimple.org/bug/view/5805
-		@$contentObj->FillParams($params);
+    @$contentObj->FillParams($params);
 
-		$errors = $contentObj->ValidateData();
-		if($errors !== false){
-			// TODO: throw errors
-			return "Invalid content";
-		}
+    $errors = $contentObj->ValidateData();
+    if($errors !== false){
+      // TODO: throw errors
+      return "Invalid content";
+    }
 
-		$contentObj->Update();
+    $contentObj->Update();
 
-		// Log update info
-		$this->Audit(0, $this->GetFriendlyName(), 
-			$this->Lang('postcontentupdate', 
+    // Log update info
+    $this->Audit(0, $this->GetFriendlyName(), 
+      $this->Lang('postcontentupdate', 
       $this->getContentId()."{".$block."}"));
 
-		return $this->getContent($block,true);
-	}
+    return $this->getContent($block,true);
+  }
 
-	/* ----- Plugin functions ----- */
+  /* ----- Plugin functions ----- */
 
-	protected function getPlugins(){
-
-    $config = $this->getCMSConfig();
-
-		$plugins = array_diff(scandir($config['root_path'].'/modules/'.$this->getName()
-			.'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
-
-		return array_combine($plugins,$plugins);
-	}
-
-	private function getPluginInstance($plugin, $params = NULL){
+  protected function getPlugins(){
 
     $config = $this->getCMSConfig();
 
-		if(!is_string($plugin) || !strlen($plugin)){
-			throw new exception('Unable to load plugin: ' . $plugin);
-		}
+    $plugins = array_diff(scandir($config['root_path'].'/modules/'.$this->getName()
+      .'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
 
-		require_once $config['root_path'] . '/modules/' . get_class() 
-			. '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
+    return array_combine($plugins,$plugins);
+  }
 
-		return new $plugin($params);
-	}
+  private function getPluginInstance($plugin, $params = NULL){
+
+    $config = $this->getCMSConfig();
+
+    if(!is_string($plugin) || !strlen($plugin)){
+      throw new exception('Unable to load plugin: ' . $plugin);
+    }
+
+    require_once $config['root_path'] . '/modules/' . get_class() 
+      . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
+
+    return new $plugin($params);
+  }
 }
 
 ?>

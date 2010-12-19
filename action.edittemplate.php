@@ -43,12 +43,12 @@
  */
 
 if(!isset($gCms)){
-	exit;
+  exit;
 }
 
 if(!$this->VisibleToAdminUser()){
-	$this->ShowErrors($this->Lang("accessdenied"));
-	return;
+  $this->ShowErrors($this->Lang("accessdenied"));
+  return;
 }
 
 // Form start
@@ -58,7 +58,7 @@ $this->smarty->assign('template',$this->CreateInputHidden($id,"template",$params
 
 $this->smarty->assign('template_name',$params['template']);
 $this->smarty->assign('template_content',$this->CreateTextArea(false,$id,$this->GetTemplate($params['template']),
-	'template_content',"pagesmalltextarea","","","",'40','5'));
+  'template_content',"pagesmalltextarea","","","",'40','5'));
 
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));

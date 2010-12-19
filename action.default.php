@@ -45,16 +45,16 @@
 $touchInlineEdit = touchInlineEdit::getCMSModuleInstance('touchInlineEdit');
 
 if($touchInlineEdit){
-	if($touchInlineEdit->hasInlineEditRights()){
-		if($touchInlineEdit->isAJAXRequest()){
-			switch ($_POST['method']){
-				case 'updateContent':
-					die($touchInlineEdit->updateContent());
-				case 'getContent':
-					die($touchInlineEdit->getContent());
-			}
-		}
-	}
+  if($touchInlineEdit->hasInlineEditRights()){
+    if($touchInlineEdit->isAJAXRequest()){
+      switch ($_POST['method']){
+        case 'updateContent':
+          die($touchInlineEdit->updateContent());
+        case 'getContent':
+          die($touchInlineEdit->getContent());
+      }
+    }
+  }
 }
 
 ?>

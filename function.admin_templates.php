@@ -43,29 +43,29 @@
  */
 
 if(!isset($gCms)){
-	exit;
+  exit;
 }
 
 if(!$this->VisibleToAdminUser()){
-	$this->ShowErrors($this->Lang("accessdenied"));
-	return;
+  $this->ShowErrors($this->Lang("accessdenied"));
+  return;
 }
 
 $items = array(); $rowclass = 'row1';
 foreach($this->ListTemplates() AS $template){
 
-	$row = new StdClass();
+  $row = new StdClass();
 
-	$row->rowclass = $rowclass;
-	$row->name = $this->CreateLink($id,'edittemplate',$returnid,
-		$template,array('template' => $template,'mode'=>'edit'));
-	$row->editlink = $this->CreateLink($id, 'edittemplate',$returnid, 
-		$gCms->variables['admintheme']->DisplayImage('icons/system/edit.gif', 
-		$this->Lang('edit'),'','','systemicon'),array('template' => $template,'mode'=>'edit'));
+  $row->rowclass = $rowclass;
+  $row->name = $this->CreateLink($id,'edittemplate',$returnid,
+    $template,array('template' => $template,'mode'=>'edit'));
+  $row->editlink = $this->CreateLink($id, 'edittemplate',$returnid, 
+    $gCms->variables['admintheme']->DisplayImage('icons/system/edit.gif', 
+    $this->Lang('edit'),'','','systemicon'),array('template' => $template,'mode'=>'edit'));
 
-	$rowclass == "row1" ? $rowclass = "row2" : $rowclass = "row1";
+  $rowclass == "row1" ? $rowclass = "row2" : $rowclass = "row1";
 
-	$items[] = $row;
+  $items[] = $row;
 
 }
 

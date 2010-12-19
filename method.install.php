@@ -49,7 +49,7 @@ $this->SetPreference('touchInlineEdit.feFullPanel', 'true');
 $this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
 $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
 if(method_exists($this->editor,'install')){
-	$this->editor->install();
+  $this->editor->install();
 }
 $this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
 $this->AddEventHandler('Core', 'ContentPostRender', false);

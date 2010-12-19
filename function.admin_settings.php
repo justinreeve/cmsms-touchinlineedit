@@ -43,12 +43,12 @@
  */
 
 if(!isset($gCms)){ 
-	exit;
+  exit;
 }
 
 if(!$this->VisibleToAdminUser()){
-	$this->ShowErrors($this->Lang("accessdenied"));
-	return;
+  $this->ShowErrors($this->Lang("accessdenied"));
+  return;
 }
 
 // Form start

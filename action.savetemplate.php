@@ -43,14 +43,14 @@
  */
 
 if(!$this->CheckPermission('Modify Templates')){
-	echo $this->lang("nopermission");
-	return;
+  echo $this->lang("nopermission");
+  return;
 }
 
 if(isset($params['reset'])){
-	$this->SetTemplate($params['template'], $this->getDefaultTemplate($params['template']));
+  $this->SetTemplate($params['template'], $this->getDefaultTemplate($params['template']));
 }elseif(isset($params["template_content"]) && !empty($params["template_content"])){
-	$this->SetTemplate($params['template'], $params['template_content']);
+  $this->SetTemplate($params['template'], $params['template_content']);
 }
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("templatessaved"),"tab" => "templates"));

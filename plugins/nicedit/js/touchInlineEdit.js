@@ -43,72 +43,72 @@
 
 function touchInlineEditInitEditor(){
 
-	cBlockMain = new nicEditor({
-		fullPanel: tieFullPanel,
-		iconsPath: tieIconsPath,
-		onSave: function(content,id,instance){touchInlineEditSave(id,content)}
-	}).panelInstance(
-		'touchInlineEditId' + tieContentId,
-		{hasPanel : true}
-	);
+  cBlockMain = new nicEditor({
+    fullPanel: tieFullPanel,
+    iconsPath: tieIconsPath,
+    onSave: function(content,id,instance){touchInlineEditSave(id,content)}
+  }).panelInstance(
+    'touchInlineEditId' + tieContentId,
+    {hasPanel : true}
+  );
 }
 
 function touchInlineEditRemoveEditor(){
 
-	cBlockMain.removeInstance('touchInlineEditId' + tieContentId);
-	cBlockMain = null;
+  cBlockMain.removeInstance('touchInlineEditId' + tieContentId);
+  cBlockMain = null;
 }
 
 function touchInlineEditToggleEditor(){
 
-	if(!cBlockMain){
-		touchInlineEditInitContent();
-		touchInlineEditInitEditor();
-	}else{
-		touchInlineEditRemoveEditor();
-	}
+  if(!cBlockMain){
+    touchInlineEditInitContent();
+    touchInlineEditInitEditor();
+  }else{
+    touchInlineEditRemoveEditor();
+  }
 }
 
 function touchInlineEditInitContent(){
 
-	$.ajax({async:false,
-		type: 'POST',
-		url: tieRequestUri,
-		data: 'method=getContent&id=' + tieContentId,
-		success: function(data){
-			$('#touchInlineEditId' + tieContentId).html(data);
-		}
-	});
+  $.ajax({async:false,
+    type: 'POST',
+    url: tieRequestUri,
+    data: 'method=getContent&id=' + tieContentId,
+    success: function(data){
+      $('#touchInlineEditId' + tieContentId).html(data);
+    }
+  });
 }
 
 function touchInlineEditSave(id,content){
 
-	$.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
-		function(data){
-			if(tieUpdateAlert){
-				alert(tieUpdateAlertMessage);
-			}
-			touchInlineEditToggleEditor();
-			$('#touchInlineEditId' + tieContentId).html(data);
-		}
-	);
+  $.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
+    function(data){
+      if(tieUpdateAlert){
+        alert(tieUpdateAlertMessage);
+      }
+      touchInlineEditToggleEditor();
+      $('#touchInlineEditId' + tieContentId).html(data);
+    }
+  );
 }
 
 function functionExists(name){
-	return (typeof name == 'function');
+  return (typeof name == 'function');
 }
 
 $(document).ready(function(){
 
-	$('.touchInlineEditButton').click(function(){
-		touchInlineEditToggleEditor();
-		return false;
-	});
+  $('.touchInlineEditButton').click(function(){
+    touchInlineEditToggleEditor();
+    return false;
+  });
 
-	if(tieEditOnDblClick){
-		$('.touchInlineEdit').dblclick(function(){
-			touchInlineEditToggleEditor();
-			return false;
-		});
-	}
+  if(tieEditOnDblClick){
+    $('.touchInlineEdit').dblclick(function(){
+      touchInlineEditToggleEditor();
+      return false;
+    });
+  }
 });

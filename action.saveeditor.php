@@ -43,8 +43,8 @@
  */
 
 if(!$this->CheckPermission('Modify Site Settings')){
-	echo $this->lang("nopermission");
-	return;
+  echo $this->lang("nopermission");
+  return;
 }
 
 $this->editor->saveAdminConfig($params);

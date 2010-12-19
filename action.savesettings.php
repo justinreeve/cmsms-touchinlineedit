@@ -43,24 +43,24 @@
  */
 
 if(!$this->CheckPermission('Modify Site Settings')){
-	echo $this->lang("nopermission");
-	return;
+  echo $this->lang("nopermission");
+  return;
 }
 
 if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
-	$this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
+  $this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
 }
 if(isset($params["feEditOnDblClick"]) && !empty($params["feEditOnDblClick"])){
-	$this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
+  $this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
 }
 if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])){
-	$this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
+  $this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
 }
 if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
-	$this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
-	if(method_exists($this->editor,'install')){
-		$this->editor->install();
-	}
+  $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
+  if(method_exists($this->editor,'install')){
+    $this->editor->install();
+  }
 }
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));

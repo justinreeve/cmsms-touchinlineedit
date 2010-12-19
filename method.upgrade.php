@@ -50,25 +50,25 @@ $smarty->clear_compiled_tpl();
 $smarty->clear_all_cache();
 
 if(version_compare($oldversion, '1.6', '<')){
-	$this->SetPreference('touchInlineEdit.feContextMenu', 'false');
-	$this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
-	$this->AddEventHandler('Core', 'ContentPostRender', false);
-	$this->AddEventHandler('Core', 'SmartyPreCompile', false);
-	$this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
+  $this->SetPreference('touchInlineEdit.feContextMenu', 'false');
+  $this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
+  $this->AddEventHandler('Core', 'ContentPostRender', false);
+  $this->AddEventHandler('Core', 'SmartyPreCompile', false);
+  $this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
 }
 if(version_compare($oldversion, '1.7', '<')){
-	$this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
-	if(method_exists($this->editor,'install')){
-		$this->editor->install();
-	}
-	$this->DeleteTemplate('touchInlineEditContextMenu');
-	$this->RemovePreference('touchInlineEdit.feContextMenu');
-	$this->RemovePreference('touchInlineEdit.feFullPanel');
-	$this->RemovePreference('touchInlineEdit.feJQueryLoad');
+  $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
+  if(method_exists($this->editor,'install')){
+    $this->editor->install();
+  }
+  $this->DeleteTemplate('touchInlineEditContextMenu');
+  $this->RemovePreference('touchInlineEdit.feContextMenu');
+  $this->RemovePreference('touchInlineEdit.feFullPanel');
+  $this->RemovePreference('touchInlineEdit.feJQueryLoad');
 }
 
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 
-	$this->Lang('postupgrade', $this->GetVersion()));
+  $this->Lang('postupgrade', $this->GetVersion()));
 
 ?>

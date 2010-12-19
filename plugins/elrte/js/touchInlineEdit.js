@@ -43,80 +43,80 @@
 
 function touchInlineEditInitEditor(){
 
-	var opts = {
-		cssClass : 'el-rte',
-		// lang     : 'ru',
-		height   : 'auto',
-		toolbar  : tieToolbar,
-		cssfiles : ['css/elrte-inner.css']
-	}
-	//$('#touchInlineEditId' + tieContentId).elrte(opts);
-	cBlockMain = new elRTE(document.getElementById('touchInlineEditId' + tieContentId), opts);
+  var opts = {
+    cssClass : 'el-rte',
+    // lang     : 'ru',
+    height   : 'auto',
+    toolbar  : tieToolbar,
+    cssfiles : ['css/elrte-inner.css']
+  }
+  //$('#touchInlineEditId' + tieContentId).elrte(opts);
+  cBlockMain = new elRTE(document.getElementById('touchInlineEditId' + tieContentId), opts);
 }
 
 function touchInlineEditRemoveEditor(){
 
-	cBlockMain.editor.hide(); // Remove editor
-	cBlockMain.editor.prev().show(); // Display tie div
-	cBlockMain = null; // Destroy editor
+  cBlockMain.editor.hide(); // Remove editor
+  cBlockMain.editor.prev().show(); // Display tie div
+  cBlockMain = null; // Destroy editor
 }
 
 function touchInlineEditToggleEditor(){
 
-	if(!cBlockMain){
-		touchInlineEditInitContent();
-		touchInlineEditInitEditor();
-	}else{
-		touchInlineEditRemoveEditor();
-	}
+  if(!cBlockMain){
+    touchInlineEditInitContent();
+    touchInlineEditInitEditor();
+  }else{
+    touchInlineEditRemoveEditor();
+  }
 }
 
 function touchInlineEditInitContent(){
 
-	$.ajax({async:false,
-		type: 'POST',
-		url: tieRequestUri,
-		data: 'method=getContent&id=' + tieContentId,
-		success: function(data){
-			$('#touchInlineEditId' + tieContentId).html(data);
-		}
-	});
+  $.ajax({async:false,
+    type: 'POST',
+    url: tieRequestUri,
+    data: 'method=getContent&id=' + tieContentId,
+    success: function(data){
+      $('#touchInlineEditId' + tieContentId).html(data);
+    }
+  });
 }
 
 function touchInlineEditSave(id,content){
 
-	$.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
-		function(data){
-			if(tieUpdateAlert){
-				alert(tieUpdateAlertMessage);
-			}
-			touchInlineEditToggleEditor();
-			$('#touchInlineEditId' + tieContentId).html(data);
-		}
-	);
+  $.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
+    function(data){
+      if(tieUpdateAlert){
+        alert(tieUpdateAlertMessage);
+      }
+      touchInlineEditToggleEditor();
+      $('#touchInlineEditId' + tieContentId).html(data);
+    }
+  );
 }
 
 // Add save handler
 elRTE.prototype.save = function () {
 
-	touchInlineEditSave(tieContentId,this.filter.source($(this.doc.body).html()));
+  touchInlineEditSave(tieContentId,this.filter.source($(this.doc.body).html()));
 };
 
 function functionExists(name){
-	return (typeof name == 'function');
+  return (typeof name == 'function');
 }
 
 $(document).ready(function(){
 
-	$('.touchInlineEditButton').click(function(){
-		touchInlineEditToggleEditor();
-		return false;
-	});
+  $('.touchInlineEditButton').click(function(){
+    touchInlineEditToggleEditor();
+    return false;
+  });
 
-	if(tieEditOnDblClick){
-		$('.touchInlineEdit').dblclick(function(){
-			touchInlineEditToggleEditor();
-			return false;
-		});
-	}
+  if(tieEditOnDblClick){
+    $('.touchInlineEdit').dblclick(function(){
+      touchInlineEditToggleEditor();
+      return false;
+    });
+  }
 });

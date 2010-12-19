@@ -43,28 +43,28 @@
  */
 
 if(!isset($gCms)){
-	exit;
+  exit;
 }
 
 if(!$this->CheckPermission('Use touchInlineEdit')){
-	echo $this->lang("nopermission");
-	return;
+  echo $this->lang("nopermission");
+  return;
 }
 
 // Active tab
 $activeTab = "";
 if(!empty($params["tab"])){
-	$activeTab = $params["tab"];
+  $activeTab = $params["tab"];
 }
 
 $yn = array(
-	$this->Lang("yes") => 'Y',
-	$this->Lang("no") => 'N'
+  $this->Lang("yes") => 'Y',
+  $this->Lang("no") => 'N'
 );
 
 $bool = array(
-	$this->Lang("yes") => 'true',
-	$this->Lang("no") => 'false'
+  $this->Lang("yes") => 'true',
+  $this->Lang("no") => 'false'
 );
 
 echo $this->StartTabHeaders();
@@ -85,18 +85,18 @@ echo $this->EndTab();
 // Tab templates
 if($this->CheckPermission('Modify Templates')){
 
-	echo $this->StartTab("templates");
-	include(dirname(__FILE__).'/function.admin_templates.php');
-	echo $this->EndTab();
+  echo $this->StartTab("templates");
+  include(dirname(__FILE__).'/function.admin_templates.php');
+  echo $this->EndTab();
 
 }
 
 // Editor specific settings
 if(method_exists($this->editor,'getAdminConfig')){
 
-	echo $this->StartTab("editor");
-	include(dirname(__FILE__).'/function.admin_editor.php');
-	echo $this->EndTab();
+  echo $this->StartTab("editor");
+  include(dirname(__FILE__).'/function.admin_editor.php');
+  echo $this->EndTab();
 
 }
 
