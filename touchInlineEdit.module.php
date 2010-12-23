@@ -279,12 +279,7 @@ class touchInlineEdit extends CMSModule {
     if(!is_object($node)){
       return "Invalid ContentId: " . $contentId;
     }
-    
-    // Fix bug autoAlias if already used, ref: http://dev.cmsmadesimple.org/bug/view/5805
-    if(isset($node->doAutoAliasIfEnabled)){
-      $node->doAutoAliasIfEnabled = false;
-    }
-    
+
     return $node->GetContent(true,true);
   }
 
@@ -311,6 +306,8 @@ class touchInlineEdit extends CMSModule {
 
     $contentObj = &$this->getContentObj();
 
+    $contentObj->DoReadyForEdit();
+
     $params[$block] = $_POST['content'];
 
     // Fix: Attempt to load admin realm from non admin action notice if alias already used
@@ -322,6 +319,10 @@ class touchInlineEdit extends CMSModule {
       // TODO: throw errors
       return "Invalid content";
     }
+
+    // Fix: Alias rename
+    // Ref: http://dev.cmsmadesimple.org/bug/view/5805
+    $contentObj->mAlias = $contentObj->mOldAlias;
 
     $contentObj->Update();
 
