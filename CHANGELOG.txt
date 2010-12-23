@@ -1,3 +1,13 @@
+/// Version 1.7.3
+
+Set max cmsms version 1.9.2
+Fix alias renaming #5805
+
+/// Version 1.7.2
+
+Fix notice attempt to load admin realm...
+Fix aliasAutoRename
+
 /// Version 1.7.1
 
 Update for cmsms 1.9.x compatibility
