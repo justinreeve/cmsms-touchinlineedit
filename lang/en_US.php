@@ -2,19 +2,22 @@
 
 $lang['help'] = '<h3>Usage</h3>
 <ul>
-	<li>Load module - {cms_module module="touchInlineEdit"}</li>
-	<li>Mark editable contents - {content iseditable=\'true\'}</li>
+  <li>Load module - {cms_module module="touchInlineEdit"}</li>
+  <li>Mark editable contents - {content iseditable=\'true\'}</li>
 </ul>
 <h3>About</h3>
 <ul>
-	<li>Copyright by <a href="http://www.touchdesign.de/">touchDesign</a></li>
-	<li>Author Christoph Gruber</li>
-	<li>Support via <a href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
-	<li>License GPL 2.0</li>
+  <li>Copyright by <a href="http://www.touchdesign.de/">touchDesign</a></li>
+  <li>Author Christoph Gruber</li>
+  <li>Support via <a href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
+  <li>License GPL 2.0</li>
 </ul>';
+
 $lang['settings'] = 'Settings';
+$lang['permissions'] = 'Permissions';
 $lang['templates'] = 'Templates';
 $lang['editor'] = 'Editor';
+
 $lang['tablecoltemplate'] = 'Template';
 $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
@@ -40,6 +43,12 @@ $lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content
 
 $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';
+
+$lang['feFEUallow_label'] = 'Allow FEU?';
+$lang['feFEUallow_help'] = 'Allow frontend users to use InlineEdit.';
+
+$lang['feFEUgroups_label'] = 'Set FEU group(s)?';
+$lang['feFEUgroups_help'] = 'Set FEU group restrictions.';
 
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
