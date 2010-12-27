@@ -66,7 +66,11 @@ if(version_compare($oldversion, '1.7', '<')){
   $this->RemovePreference('touchInlineEdit.feFullPanel');
   $this->RemovePreference('touchInlineEdit.feJQueryLoad');
 }
-
+if(version_compare($oldversion, '1.7.4', '<')){
+  $this->SetPreference('touchInlineEdit.feFEUallow', 0);
+  $this->SetPreference('touchInlineEdit.feFEUgroups', '');
+  $this->SetPreference('touchInlineEdit.feAdminAllow', 1);
+}
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 
   $this->Lang('postupgrade', $this->GetVersion()));

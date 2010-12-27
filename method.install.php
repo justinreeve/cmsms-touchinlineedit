@@ -48,6 +48,9 @@ $this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
 $this->SetPreference('touchInlineEdit.feFullPanel', 'true');
 $this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
 $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
+$this->SetPreference('touchInlineEdit.feFEUallow', 0);
+$this->SetPreference('touchInlineEdit.feFEUgroups', '');
+$this->SetPreference('touchInlineEdit.feAdminAllow', 1);
 if(method_exists($this->editor,'install')){
   $this->editor->install();
 }
