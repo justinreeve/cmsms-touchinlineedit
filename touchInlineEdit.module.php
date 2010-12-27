@@ -8,7 +8,7 @@
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.7.3
+ * @version 1.7.4
  * @copyright 04.08.2010 touchDesign
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
@@ -89,7 +89,7 @@ class touchInlineEdit extends CMSModule {
   }
 
   public function GetVersion(){ 
-    return '1.7.3';
+    return '1.7.4';
   }
 
   public function GetHelp(){ 

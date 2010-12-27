@@ -1,3 +1,7 @@
+/// Version 1.7.4
+
+Add optional support for FrontendUsers (FEU) module with group restrictions
+
 /// Version 1.7.3
 
 Set max cmsms version 1.9.2
