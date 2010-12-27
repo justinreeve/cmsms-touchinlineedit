@@ -56,8 +56,8 @@ class nicedit extends touchInlineEdit {
   }
 
   public function install(){
-    $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel","true");
-    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad","true");
+    $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel",1);
+    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1);
   }
 
   private function fetch($template){
@@ -71,9 +71,9 @@ class nicedit extends touchInlineEdit {
 
   public function getAdminConfig($id,$returnid){
 
-    $bool = array(
-      $this->Lang("yes") => 'true',
-      $this->Lang("no") => 'false'
+    $yn = array(
+      $this->Lang("no") => 0,
+      $this->Lang("yes") => 1
     );
 
     // Form start
@@ -82,14 +82,14 @@ class nicedit extends touchInlineEdit {
     // Enable full panel in FE
     $this->smarty->assign($this->name.'FullPanel_label',$this->Lang($this->name."FullPanel_label"));
     $this->smarty->assign($this->name.'FullPanel_help',$this->Lang($this->name."FullPanel_help"));
-    $this->smarty->assign($this->name.'FullPanel_input',$this->CreateInputRadioGroup($id,$this->name."FullPanel",
-      $bool,$this->GetPreference("touchInlineEdit.".$this->name.".FullPanel","true"),"","\n"));
+    $this->smarty->assign($this->name.'FullPanel_input',$this->CreateInputDropdown($id,$this->name."FullPanel",
+      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".FullPanel",1),"","\n"));
 
     // jquery lib
     $this->smarty->assign($this->name.'JQueryLoad_label',$this->Lang($this->name."JQueryLoad_label"));
     $this->smarty->assign($this->name.'JQueryLoad_help',$this->Lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputRadioGroup($id,$this->name."JQueryLoad",
-      $bool,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad","true"),"","\n"));
+    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputDropdown($id,$this->name."JQueryLoad",
+      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1),"","\n"));
 
     // Submit / cancel
     $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
@@ -103,11 +103,11 @@ class nicedit extends touchInlineEdit {
 
   public function saveAdminConfig($params){
 
-    if(isset($params[$this->name."FullPanel"]) && !empty($params[$this->name."FullPanel"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel",$params[$this->name."FullPanel"]);
+    if(isset($params[$this->name."FullPanel"])){
+      $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel",intval($params[$this->name."FullPanel"]));
     }
-    if(isset($params[$this->name."JQueryLoad"]) && !empty($params[$this->name."JQueryLoad"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",$params[$this->name."JQueryLoad"]);
+    if(isset($params[$this->name."JQueryLoad"])){
+      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",intval($params[$this->name."JQueryLoad"]));
     }
   }
 
@@ -123,7 +123,7 @@ class nicedit extends touchInlineEdit {
     $head.= '<script src="'.$this->pluginDir.'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
 
     // jQuery
-    if((bool)$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
+    if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
       $head.= '<script src="'.$this->pluginDir.'/js/jquery.js" type="text/javascript"></script>' . "\n";
     }
 

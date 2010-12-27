@@ -56,8 +56,8 @@ class elrte extends touchInlineEdit {
   }
 
   public function install(){
-    $this->SetPreference("touchInlineEdit.".$this->name.".Toolbar","complete");
-    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad","true");
+    $this->SetPreference("touchInlineEdit.".$this->name.".Toolbar","compact");
+    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1);
   }
 
   private function fetch($template){
@@ -71,9 +71,9 @@ class elrte extends touchInlineEdit {
 
   public function getAdminConfig($id,$returnid){
 
-    $bool = array(
-      $this->Lang("yes") => 'true',
-      $this->Lang("no") => 'false'
+    $yn = array(
+      $this->Lang("no") => 0,
+      $this->Lang("yes") => 1
     );
     
     // Form start
@@ -87,13 +87,13 @@ class elrte extends touchInlineEdit {
     $this->smarty->assign($this->name.'Toolbar_label',$this->Lang($this->name."Toolbar_label"));
     $this->smarty->assign($this->name.'Toolbar_help',$this->Lang($this->name."Toolbar_help"));
     $this->smarty->assign($this->name.'Toolbar_input',$this->CreateInputDropdown($id,$this->name."Toolbar",
-      array_combine($toolbars,$toolbars),"",$this->GetPreference("touchInlineEdit.".$this->name.".Toolbar","true"),"\n"));
+      array_combine($toolbars,$toolbars),"",$this->GetPreference("touchInlineEdit.".$this->name.".Toolbar","compact"),"\n"));
 
     // jquery lib
     $this->smarty->assign($this->name.'JQueryLoad_label',$this->Lang($this->name."JQueryLoad_label"));
     $this->smarty->assign($this->name.'JQueryLoad_help',$this->Lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputRadioGroup($id,$this->name."JQueryLoad",
-      $bool,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad","true"),"","\n"));
+    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputDropdown($id,$this->name."JQueryLoad",
+      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1),"","\n"));
 
     // Submit / cancel
     $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
@@ -107,11 +107,11 @@ class elrte extends touchInlineEdit {
 
   public function saveAdminConfig($params){
 
-    if(isset($params[$this->name."Toolbar"]) && !empty($params[$this->name."Toolbar"])){
+    if(isset($params[$this->name."Toolbar"])){
       $this->SetPreference("touchInlineEdit.".$this->name.".Toolbar",$params[$this->name."Toolbar"]);
     }
-    if(isset($params[$this->name."JQueryLoad"]) && !empty($params[$this->name."JQueryLoad"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",$params[$this->name."JQueryLoad"]);
+    if(isset($params[$this->name."JQueryLoad"])){
+      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",intval($params[$this->name."JQueryLoad"]));
     }
   }
 
@@ -124,7 +124,7 @@ class elrte extends touchInlineEdit {
     $head = '<!-- '.$this->getName().' module -->' . "\n";
 
     // jQuery
-    if((bool)$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
+    if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
       $head.= '<script src="'.$this->pluginDir.'/js/jquery-1.4.2.min.js" type="text/javascript"></script>' . "\n";
       $head.= '<script src="'.$this->pluginDir.'/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>' . "\n";
       $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8">';
