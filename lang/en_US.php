@@ -30,9 +30,9 @@ $lang['templatessaved'] = 'Template saved.';
 
 $lang['fePlugin_label'] = 'Which editor you want?';
 $lang['fePlugin_help'] = 'Select an editor.';
-$lang['feEditButton_label'] = 'Edit Button in FE?';
-$lang['feEditButton_help'] = 'Add enable/disable button for inline edit in Frontend.';
-$lang['feFullPanel_label'] = 'Advanced Toolbar?';
+$lang['feEditButton_label'] = 'Edit button in FE?';
+$lang['feEditButton_help'] = 'Add enable/disable button for inline edit in frontend.';
+$lang['feFullPanel_label'] = 'Advanced toolbar?';
 $lang['feFullPanel_help'] = 'Enable advanced toolbar for inline edit.';
 $lang['feUpdateAlert_label'] = 'Update alert?';
 $lang['feUpdateAlert_help'] = 'Enable update alert in frontend.';
@@ -50,12 +50,12 @@ $lang['feFEUallow_help'] = 'Allow frontend users to use inline edit.';
 $lang['feFEUgroups_label'] = 'Set FEU group(s)?';
 $lang['feFEUgroups_help'] = 'Set FEU group restrictions.';
 
-$lang['feAdminAllow_label'] = 'Allow Admins?';
+$lang['feAdminAllow_label'] = 'Allow admins?';
 $lang['feAdminAllow_help'] = 'Allow admin users (with "Use touchInlineEdit" permissions) to use inline edit.';
 
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
-$lang['postupgrade'] = 'Upgrade success Version %s...';
+$lang['postupgrade'] = 'Upgrade success version %s...';
 $lang['postcontentupdate'] = 'Content with content_id:%s updated.';
 $lang['preuninstall'] = 'Are you sure you want to uninstall this module and destroy all settings/templates?';
 
