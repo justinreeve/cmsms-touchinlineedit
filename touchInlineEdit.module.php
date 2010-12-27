@@ -334,8 +334,6 @@ class touchInlineEdit extends CMSModule {
 
     $contentObj = &$this->getContentObj();
 
-    $contentObj->DoReadyForEdit();
-
     $params[$block] = $_POST['content'];
 
     // Fix: Attempt to load admin realm from non admin action notice if alias already used
