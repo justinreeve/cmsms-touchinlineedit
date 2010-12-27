@@ -47,22 +47,16 @@ if(!$this->CheckPermission('Modify Site Settings')){
   return;
 }
 
-if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
-  $this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
-}
-if(isset($params["feEditOnDblClick"]) && !empty($params["feEditOnDblClick"])){
-  $this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
-}
-if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])){
-  $this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
-}
-if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
-  $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
-  if(method_exists($this->editor,'install')){
-    $this->editor->install();
-  }
+if(isset($params["feFEUallow"])){
+  $this->SetPreference("touchInlineEdit.feFEUallow",$params["feFEUallow"]);
 }
 
-$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
+if(isset($params["feFEUgroups"])){
+  $this->SetPreference("touchInlineEdit.feFEUgroups",implode(',',$params["feFEUgroups"]));
+}else{
+  $this->SetPreference("touchInlineEdit.feFEUgroups",'');
+}
+
+$this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "permissions"));
 
 ?>

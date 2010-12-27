@@ -76,6 +76,7 @@ $yesno = array(
 echo $this->StartTabHeaders();
 
 echo $this->SetTabHeader("settings",$this->Lang("settings"),($activeTab == 'settings' ? true : false));
+echo $this->SetTabHeader("permissions",$this->Lang("permissions"),($activeTab == 'permissions' ? true : false));
 echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
 echo $this->SetTabHeader("editor",$this->Lang("editor"),($activeTab == 'editor' ? true : false));
 
@@ -86,6 +87,11 @@ echo $this->StartTabContent();
 // Tab settings
 echo $this->StartTab("settings");
 include(dirname(__FILE__).'/function.admin_settings.php');
+echo $this->EndTab();
+
+// Tab permissions
+echo $this->StartTab("permissions");
+include(dirname(__FILE__).'/function.admin_permissions.php');
 echo $this->EndTab();
 
 // Tab templates
