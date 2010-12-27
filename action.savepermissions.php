@@ -57,6 +57,10 @@ if(isset($params["feFEUgroups"])){
   $this->SetPreference("touchInlineEdit.feFEUgroups",'');
 }
 
+if(isset($params["feAdminAllow"])){
+  $this->SetPreference("touchInlineEdit.feAdminAllow",$params["feAdminAllow"]);
+}
+
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "permissions"));
 
 ?>

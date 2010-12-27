@@ -54,6 +54,12 @@ if(!$this->VisibleToAdminUser()){
 // Form start
 $this->smarty->assign('formstart',$this->CreateFormStart($id,"savepermissions",$returnid));
 
+// Grant admins
+$this->smarty->assign('feAdminAllow_label',$this->Lang("feAdminAllow_label"));
+$this->smarty->assign('feAdminAllow_help',$this->Lang("feAdminAllow_help"));
+$this->smarty->assign('feAdminAllow_input',$this->CreateInputRadioGroup($id,"feAdminAllow",
+  $yesno,$this->GetPreference("touchInlineEdit.feAdminAllow",1),"","\n"));
+
 // FEU support
 if($this->getModuleInstance('FrontEndUsers')){
   // FEU allow

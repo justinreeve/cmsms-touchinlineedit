@@ -8,6 +8,10 @@
     <p class="pageinput">{$feFEUgroups_input}<br/>{$feFEUgroups_help}</p>
   </div>
   <div class="pageoverflow">
+    <p class="pagetext">{$feAdminAllow_label}</p>
+    <p class="pageinput">{$feAdminAllow_input}<br/>{$feAdminAllow_help}</p>
+  </div>
+  <div class="pageoverflow">
     <p class="pagetext">&nbsp;</p>
     <p class="pageinput">{$submit}{$cancel}</p>
   </div>

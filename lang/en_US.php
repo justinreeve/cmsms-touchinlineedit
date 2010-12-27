@@ -31,24 +31,27 @@ $lang['templatessaved'] = 'Template saved.';
 $lang['fePlugin_label'] = 'Which editor you want?';
 $lang['fePlugin_help'] = 'Select an editor.';
 $lang['feEditButton_label'] = 'Edit Button in FE?';
-$lang['feEditButton_help'] = 'Add enable/disable button for inlineEdit in Frontend.';
+$lang['feEditButton_help'] = 'Add enable/disable button for inline edit in Frontend.';
 $lang['feFullPanel_label'] = 'Advanced Toolbar?';
-$lang['feFullPanel_help'] = 'Enable advanced toolbar for inlineEdit.';
+$lang['feFullPanel_help'] = 'Enable advanced toolbar for inline edit.';
 $lang['feUpdateAlert_label'] = 'Update alert?';
 $lang['feUpdateAlert_help'] = 'Enable update alert in frontend.';
 
 $lang['touchInlineEditButton_label'] = 'Inline edit button template:';
-$lang['feEditOnDblClick_label'] = 'Activate InlineEdit on double click?';
-$lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content area.';
+$lang['feEditOnDblClick_label'] = 'Activate inline edit on double click?';
+$lang['feEditOnDblClick_help'] = 'Activate inline edit on double click in content area.';
 
 $lang['feInlineEditButton'] = 'Edit';
 $lang['feUpdateAlert'] = 'Content has been saved...';
 
 $lang['feFEUallow_label'] = 'Allow FEU?';
-$lang['feFEUallow_help'] = 'Allow frontend users to use InlineEdit.';
+$lang['feFEUallow_help'] = 'Allow frontend users to use inline edit.';
 
 $lang['feFEUgroups_label'] = 'Set FEU group(s)?';
 $lang['feFEUgroups_help'] = 'Set FEU group restrictions.';
+
+$lang['feAdminAllow_label'] = 'Allow Admins?';
+$lang['feAdminAllow_help'] = 'Allow admin users (with "Use touchInlineEdit" permissions) to use inline edit.';
 
 $lang['postinstall'] = 'Install success...';
 $lang['postuninstall'] = 'Uninstall success...';
@@ -61,11 +64,11 @@ $lang['preuninstall'] = 'Are you sure you want to uninstall this module and dest
 $lang['niceditFullPanel_label'] = 'Extended toolbar?';
 $lang['niceditFullPanel_help'] = 'Use extended toolbar.';
 $lang['niceditJQueryLoad_label'] ='Load jQuery libary';
-$lang['niceditJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+$lang['niceditJQueryLoad_help'] ='Let inline edit load required jQuery libary in header of pages.';
 
 $lang['elrteToolbar_label'] = 'Which toolbar?';
 $lang['elrteToolbar_help'] = 'Choose any toolbar you like.';
 $lang['elrteJQueryLoad_label'] ='Load jQuery libary';
-$lang['elrteJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+$lang['elrteJQueryLoad_help'] ='Let inline edit load required jQuery libary in header of pages.';
 
 ?>

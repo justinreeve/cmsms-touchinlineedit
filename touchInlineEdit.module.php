@@ -207,7 +207,8 @@ class touchInlineEdit extends CMSModule {
     }
 
     // Grant admin users
-    if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+    if($this->GetPreference('touchInlineEdit.feAdminAllow') && check_login(true) 
+      && $this->CheckPermission('Use touchInlineEdit')){
       $this->hasInlineEditRights = true;
     }
 
