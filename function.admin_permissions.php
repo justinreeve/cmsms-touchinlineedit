@@ -57,16 +57,16 @@ $this->smarty->assign('formstart',$this->CreateFormStart($id,"savepermissions",$
 // Grant admins
 $this->smarty->assign('feAdminAllow_label',$this->Lang("feAdminAllow_label"));
 $this->smarty->assign('feAdminAllow_help',$this->Lang("feAdminAllow_help"));
-$this->smarty->assign('feAdminAllow_input',$this->CreateInputRadioGroup($id,"feAdminAllow",
-  $yesno,$this->GetPreference("touchInlineEdit.feAdminAllow",1),"","\n"));
+$this->smarty->assign('feAdminAllow_input',$this->CreateInputDropdown($id,"feAdminAllow",
+  $yn,$this->GetPreference("touchInlineEdit.feAdminAllow",1),"","\n"));
 
 // FEU support
 if($this->getModuleInstance('FrontEndUsers')){
   // FEU allow
   $this->smarty->assign('feFEUallow_label',$this->Lang("feFEUallow_label"));
   $this->smarty->assign('feFEUallow_help',$this->Lang("feFEUallow_help"));
-  $this->smarty->assign('feFEUallow_input',$this->CreateInputRadioGroup($id,"feFEUallow",
-    $yesno,$this->GetPreference("touchInlineEdit.feFEUallow","false"),"","\n"));
+  $this->smarty->assign('feFEUallow_input',$this->CreateInputDropdown($id,"feFEUallow",
+    $yn,$this->GetPreference("touchInlineEdit.feFEUallow",0),"","\n"));
 
   // FEU groups
   $this->smarty->assign('feFEUgroups_label',$this->Lang("feFEUgroups_label"));

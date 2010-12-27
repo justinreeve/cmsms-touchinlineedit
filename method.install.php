@@ -43,10 +43,9 @@
  */
 
 $this->CreatePermission('Use touchInlineEdit', 'Use touchInlineEdit');
-$this->SetPreference('touchInlineEdit.feEditButton', 'Y');
-$this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
-$this->SetPreference('touchInlineEdit.feFullPanel', 'true');
-$this->SetPreference('touchInlineEdit.feUpdateAlert', 'true');
+$this->SetPreference('touchInlineEdit.feEditButton', 1);
+$this->SetPreference('touchInlineEdit.feEditOnDblClick', 1);
+$this->SetPreference('touchInlineEdit.feUpdateAlert', 1);
 $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
 $this->SetPreference('touchInlineEdit.feFEUallow', 0);
 $this->SetPreference('touchInlineEdit.feFEUgroups', '');

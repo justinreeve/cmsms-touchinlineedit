@@ -47,14 +47,14 @@ if(!$this->CheckPermission('Modify Site Settings')){
   return;
 }
 
-if(isset($params["feEditButton"]) && !empty($params["feEditButton"])){
-  $this->SetPreference("touchInlineEdit.feEditButton",$params["feEditButton"]);
+if(isset($params["feEditButton"])){
+  $this->SetPreference("touchInlineEdit.feEditButton",intval($params["feEditButton"]));
 }
-if(isset($params["feEditOnDblClick"]) && !empty($params["feEditOnDblClick"])){
-  $this->SetPreference("touchInlineEdit.feEditOnDblClick",$params["feEditOnDblClick"]);
+if(isset($params["feEditOnDblClick"])){
+  $this->SetPreference("touchInlineEdit.feEditOnDblClick",intval($params["feEditOnDblClick"]));
 }
-if(isset($params["feUpdateAlert"]) && !empty($params["feUpdateAlert"])){
-  $this->SetPreference("touchInlineEdit.feUpdateAlert",$params["feUpdateAlert"]);
+if(isset($params["feUpdateAlert"])){
+  $this->SetPreference("touchInlineEdit.feUpdateAlert",intval($params["feUpdateAlert"]));
 }
 if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
   $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);

@@ -70,6 +70,17 @@ if(version_compare($oldversion, '1.7.4', '<')){
   $this->SetPreference('touchInlineEdit.feFEUallow', 0);
   $this->SetPreference('touchInlineEdit.feFEUgroups', '');
   $this->SetPreference('touchInlineEdit.feAdminAllow', 1);
+  
+  $this->SetPreference('touchInlineEdit.feEditButton', 
+    $this->GetPreference('touchInlineEdit.feEditButton') == 'true' ? 1 : 0);
+  $this->SetPreference('touchInlineEdit.feEditOnDblClick',
+    $this->GetPreference('touchInlineEdit.feEditOnDblClick') == 'true' ? 1 : 0);
+  $this->SetPreference('touchInlineEdit.feUpdateAlert',
+    $this->GetPreference('touchInlineEdit.feUpdateAlert') == 'true' ? 1 : 0);
+  
+  if(method_exists($this->editor,'install')){
+    $this->editor->install();
+  }
 }
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 

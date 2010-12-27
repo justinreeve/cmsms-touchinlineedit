@@ -48,7 +48,7 @@ if(!$this->CheckPermission('Modify Site Settings')){
 }
 
 if(isset($params["feFEUallow"])){
-  $this->SetPreference("touchInlineEdit.feFEUallow",$params["feFEUallow"]);
+  $this->SetPreference("touchInlineEdit.feFEUallow",intval($params["feFEUallow"]));
 }
 
 if(isset($params["feFEUgroups"])){
@@ -58,7 +58,7 @@ if(isset($params["feFEUgroups"])){
 }
 
 if(isset($params["feAdminAllow"])){
-  $this->SetPreference("touchInlineEdit.feAdminAllow",$params["feAdminAllow"]);
+  $this->SetPreference("touchInlineEdit.feAdminAllow",intval($params["feAdminAllow"]));
 }
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "permissions"));

@@ -57,22 +57,26 @@ $this->smarty->assign('formstart',$this->CreateFormStart($id,"savesettings",$ret
 // Select inline editor
 $this->smarty->assign('fePlugin_label',$this->Lang("fePlugin_label"));
 $this->smarty->assign('fePlugin_help',$this->Lang("fePlugin_help"));
-$this->smarty->assign('fePlugin_input',$this->CreateInputDropdown($id,"fePlugin",$this->getPlugins(),"",$this->GetPreference("touchInlineEdit.fePlugin"),"\n"));
+$this->smarty->assign('fePlugin_input',$this->CreateInputDropdown($id,"fePlugin",$this->getPlugins(),
+  "",$this->GetPreference("touchInlineEdit.fePlugin"),"\n"));
 
 // Enable disable inlineEdit button in FE
 $this->smarty->assign('feEditButton_label',$this->Lang("feEditButton_label"));
 $this->smarty->assign('feEditButton_help',$this->Lang("feEditButton_help"));
-$this->smarty->assign('feEditButton_input',$this->CreateInputRadioGroup($id,"feEditButton",$yn,$this->GetPreference("touchInlineEdit.feEditButton","Y"),"","\n"));
+$this->smarty->assign('feEditButton_input',$this->CreateInputDropdown($id,"feEditButton",
+  $yn,$this->GetPreference("touchInlineEdit.feEditButton","Y"),"","\n"));
 
 // Enable disable inlineEdit on double click
 $this->smarty->assign('feEditOnDblClick_label',$this->Lang("feEditOnDblClick_label"));
 $this->smarty->assign('feEditOnDblClick_help',$this->Lang("feEditOnDblClick_help"));
-$this->smarty->assign('feEditOnDblClick_input',$this->CreateInputRadioGroup($id,"feEditOnDblClick",$bool,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
+$this->smarty->assign('feEditOnDblClick_input',$this->CreateInputDropdown($id,"feEditOnDblClick",
+  $yn,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
 
 // Enable alert an content update
 $this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
 $this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
-$this->smarty->assign('feUpdateAlert_input',$this->CreateInputRadioGroup($id,"feUpdateAlert",$bool,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
+$this->smarty->assign('feUpdateAlert_input',$this->CreateInputDropdown($id,"feUpdateAlert",
+  $yn,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
 
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));

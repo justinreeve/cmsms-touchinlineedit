@@ -57,7 +57,7 @@ class touchInlineEdit extends CMSModule {
   public function __construct($name=NULL){
 
     $this->smarty = $this->getCMSSmarty();
-    //$this->smarty->force_compile = true;
+    $this->smarty->force_compile = true;
     if(!$name){
       $this->init();
     }
@@ -161,7 +161,7 @@ class touchInlineEdit extends CMSModule {
 
       // Before content
       $contentBefore = '{if $hasInlineEditRights}';
-      $contentBefore.= '  {if $tiePref.feEditButton == "Y"}';
+      $contentBefore.= '  {if $tiePref.feEditButton}';
       $contentBefore.= '    {$tieTemplateEditButton}';
       $contentBefore.= '  {/if}';
       $contentBefore.= '  <div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';

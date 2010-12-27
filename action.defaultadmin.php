@@ -68,9 +68,9 @@ $bool = array(
   $this->Lang("no") => 'false'
 );
 
-$yesno = array(
-  $this->Lang("yes") => 1,
-  $this->Lang("no") => 0
+$yn = array(
+  $this->Lang("no") => 0,
+  $this->Lang("yes") => 1
 );
 
 echo $this->StartTabHeaders();
