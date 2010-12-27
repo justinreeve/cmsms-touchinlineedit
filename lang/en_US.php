@@ -50,6 +50,9 @@ $lang['feFEUallow_help'] = 'Allow frontend users to use inline edit.';
 $lang['feFEUgroups_label'] = 'Set FEU group(s)?';
 $lang['feFEUgroups_help'] = 'Set FEU group restrictions.';
 
+$lang['feFEUdisabled_label'] = 'FrontEndUser (FEU) Support is diabled.';
+$lang['feFEUdisabled_help'] = 'To use inline edit with frontend user support you have to install the frontend users (FEU) module.';
+
 $lang['feAdminAllow_label'] = 'Allow admins?';
 $lang['feAdminAllow_help'] = 'Allow admin users (with "Use touchInlineEdit" permissions) to use inline edit.';
 

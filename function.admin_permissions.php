@@ -73,6 +73,10 @@ if($this->getModuleInstance('FrontEndUsers')){
   $this->smarty->assign('feFEUgroups_help',$this->Lang("feFEUgroups_help"));
   $this->smarty->assign('feFEUgroups_input',$this->CreateInputSelectList($id,'feFEUgroups[]',
     $this->getModuleInstance('FrontEndUsers')->GetGrouplist(),explode(',',$this->GetPreference("touchInlineEdit.feFEUgroups",""))));
+}else{
+  // FEU disabled
+  $this->smarty->assign('feFEUdisabled_label',$this->Lang("feFEUdisabled_label"));
+  $this->smarty->assign('feFEUdisabled_help',$this->Lang("feFEUdisabled_help"));
 }
 
 // Submit / cancel
