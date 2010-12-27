@@ -3,6 +3,8 @@
 Add optional support for FrontendUsers (FEU) module with group restrictions
 Add new tab permissions
 Add Grant/Revoke admin inline edit permissions
+Replace radio buttons with dropdowns
+Update true false (0,1) values
 
 /// Version 1.7.3
 
