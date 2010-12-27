@@ -52,6 +52,7 @@ class touchInlineEdit extends CMSModule {
   private $defaultTemplate = array(
     'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
   );
+  private $hasInlineEditRights = null;
 
   public function __construct($name=NULL){
 
@@ -181,10 +182,36 @@ class touchInlineEdit extends CMSModule {
  
   public function hasInlineEditRights(){
 
-    if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
-      return true;
+    if(isset($this->hasInlineEditRights)){
+      return $this->hasInlineEditRights;
     }
-    return false;
+
+    $this->hasInlineEditRights = false;
+
+    // Support for frontend users
+    if($this->GetPreference('touchInlineEdit.feFEUallow')){
+      $feu = $this->getModuleInstance('FrontEndUsers');
+      if($feu && $feu->LoggedInId()){
+        if($this->GetPreference('touchInlineEdit.feFEUgroups')){
+          $allowedGroups = explode(',',$this->GetPreference('touchInlineEdit.feFEUgroups'));
+          $memberGroups = $feu->GetMemberGroupsArray($feu->LoggedInId());
+          foreach($memberGroups as $memberGroup){
+            if(in_array($memberGroup['groupid'],$allowedGroups)){
+              $this->hasInlineEditRights = true;
+            }
+          }
+        }else{
+          $this->hasInlineEditRights = true;
+        }
+      }
+    }
+
+    // Grant admin users
+    if(check_login(true) && $this->CheckPermission('Use touchInlineEdit')){
+      $this->hasInlineEditRights = true;
+    }
+
+    return $this->hasInlineEditRights;
   }
 
   public function isAJAXRequest(){

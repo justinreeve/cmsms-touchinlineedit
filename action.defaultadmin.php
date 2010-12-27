@@ -57,14 +57,20 @@ if(!empty($params["tab"])){
   $activeTab = $params["tab"];
 }
 
+// TODO: remove, replace
 $yn = array(
   $this->Lang("yes") => 'Y',
   $this->Lang("no") => 'N'
 );
-
+// TODO: remove, replace
 $bool = array(
   $this->Lang("yes") => 'true',
   $this->Lang("no") => 'false'
+);
+
+$yesno = array(
+  $this->Lang("yes") => 1,
+  $this->Lang("no") => 0
 );
 
 echo $this->StartTabHeaders();

@@ -74,6 +74,21 @@ $this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
 $this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
 $this->smarty->assign('feUpdateAlert_input',$this->CreateInputRadioGroup($id,"feUpdateAlert",$bool,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
 
+// FEU support
+if($this->getModuleInstance('FrontEndUsers')){
+  // FEU allow
+  $this->smarty->assign('feFEUallow_label',$this->Lang("feFEUallow_label"));
+  $this->smarty->assign('feFEUallow_help',$this->Lang("feFEUallow_help"));
+  $this->smarty->assign('feFEUallow_input',$this->CreateInputRadioGroup($id,"feFEUallow",
+    $yesno,$this->GetPreference("touchInlineEdit.feFEUallow","false"),"","\n"));
+
+  // FEU groups
+  $this->smarty->assign('feFEUgroups_label',$this->Lang("feFEUgroups_label"));
+  $this->smarty->assign('feFEUgroups_help',$this->Lang("feFEUgroups_help"));
+  $this->smarty->assign('feFEUgroups_input',$this->CreateInputSelectList($id,'feFEUgroups[]',
+    $this->getModuleInstance('FrontEndUsers')->GetGrouplist(),explode(',',$this->GetPreference("touchInlineEdit.feFEUgroups",""))));
+}
+
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
 $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));

@@ -62,6 +62,15 @@ if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
     $this->editor->install();
   }
 }
+if(isset($params["feFEUallow"])){
+  $this->SetPreference("touchInlineEdit.feFEUallow",$params["feFEUallow"]);
+}
+
+if(isset($params["feFEUgroups"])){
+  $this->SetPreference("touchInlineEdit.feFEUgroups",implode(',',$params["feFEUgroups"]));
+}else{
+  $this->SetPreference("touchInlineEdit.feFEUgroups",'');
+}
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));
 
