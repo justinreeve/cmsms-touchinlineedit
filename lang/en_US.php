@@ -3,7 +3,6 @@
 $lang['help'] = '<h3>Usage</h3>
 <ul>
   <li>Load module - {cms_module module="touchInlineEdit"}</li>
-  <li>Mark editable contents - {content iseditable=\'true\'}</li>
 </ul>
 <h3>About</h3>
 <ul>
@@ -50,7 +49,7 @@ $lang['feFEUallow_help'] = 'Allow frontend users to use inline edit.';
 $lang['feFEUgroups_label'] = 'Set FEU group(s)?';
 $lang['feFEUgroups_help'] = 'Set FEU group restrictions.';
 
-$lang['feFEUdisabled_label'] = 'FrontEndUser (FEU) Support is disabled.';
+$lang['feFEUdisabled_label'] = 'FrontEndUser (FEU) support is disabled.';
 $lang['feFEUdisabled_help'] = 'To use inline edit with frontend user support you have to install the frontend users (FEU) module.';
 
 $lang['feAdminAllow_label'] = 'Allow admins?';
