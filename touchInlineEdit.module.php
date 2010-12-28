@@ -57,7 +57,7 @@ class touchInlineEdit extends CMSModule {
   public function __construct($name=null){
 
     $this->smarty = $this->getCMSSmarty();
-    $this->smarty->force_compile = true;
+    //$this->smarty->force_compile = true;
     if(!$name){
       $this->init();
     }

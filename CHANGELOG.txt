@@ -8,7 +8,8 @@ Update true false (0,1) values
 Remove event methods
 Transplant touchinlineedit injector
 Goodbye iseditable='true' flag
- 
+Fix call install method on change editor plugin
+
 /// Version 1.7.3
 
 Set max cmsms version 1.9.2
