@@ -396,7 +396,7 @@ class touchInlineEdit extends CMSModule {
     return array_combine($plugins,$plugins);
   }
 
-  private function getPluginInstance($plugin, $params = null){
+  protected function getPluginInstance($plugin, $params = null){
 
     $config = $this->getCMSConfig();
 

@@ -58,8 +58,9 @@ if(isset($params["feUpdateAlert"])){
 }
 if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
   $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
-  if(method_exists($this->editor,'install')){
-    $this->editor->install();
+  $editor = $this->getPluginInstance($params["fePlugin"]);
+  if(method_exists($editor,'install')){
+    $editor->install();
   }
 }
 
