@@ -45,8 +45,6 @@
 $this->RemovePreference();
 $this->RemovePermission('Use touchInlineEdit');
 $this->DeleteTemplate();
-$this->RemoveEventHandler('Core', 'ContentPostRender');
-$this->RemoveEventHandler('Core', 'SmartyPreCompile');
 
 // Log uninstall info
 $this->Audit(0, $this->GetFriendlyName(), $this->Lang('postuninstall'));

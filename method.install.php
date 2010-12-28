@@ -54,8 +54,6 @@ if(method_exists($this->editor,'install')){
   $this->editor->install();
 }
 $this->SetTemplate('touchInlineEditButton', $this->getDefaultTemplate('touchInlineEditButton'));
-$this->AddEventHandler('Core', 'ContentPostRender', false);
-$this->AddEventHandler('Core', 'SmartyPreCompile', false);
 
 // Log install info
 $this->Audit(0, $this->GetFriendlyName(), $this->Lang('postinstall'));

@@ -81,6 +81,9 @@ if(version_compare($oldversion, '1.7.4', '<')){
   if(method_exists($this->editor,'install')){
     $this->editor->install();
   }
+
+  $this->RemoveEventHandler('Core', 'ContentPostRender');
+  $this->RemoveEventHandler('Core', 'SmartyPreCompile');
 }
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 

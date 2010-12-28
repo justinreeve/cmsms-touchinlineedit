@@ -5,7 +5,10 @@ Add new tab permissions
 Add Grant/Revoke admin inline edit permissions
 Replace radio buttons with dropdowns
 Update true false (0,1) values
-
+Remove event methods
+Transplant touchinlineedit injector
+Goodbye iseditable='true' flag
+ 
 /// Version 1.7.3
 
 Set max cmsms version 1.9.2

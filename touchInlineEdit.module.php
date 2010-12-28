@@ -76,6 +76,9 @@ class touchInlineEdit extends CMSModule {
         $this->smarty->assign('tiePref',$this->GetPrefVars());
         // Process template
         $this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
+        // Register filters
+        $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
+        $this->smarty->register_outputfilter(array($this,'smartyOutputFilter'));
       }
     }
   }
@@ -146,18 +149,21 @@ class touchInlineEdit extends CMSModule {
 
   /* ----- Events ----- */
 
-  public function DoEvent( $originator, $eventname, &$params ){
+  function smartyPreCompile($templateSource, &$smarty=null){
 
-    if ($originator == 'Core' && $eventname == 'ContentPostRender'){
-      if($this->hasInlineEditRights()){
-        // Before close header
-        $params['content'] = str_replace('</head>', $this->editor->getHeader() 
-          . '</head>', $params['content']);
-      }
+    if($smarty === null){
+      return $templateSource;
     }
-    elseif ($originator == 'Core' && $eventname == 'SmartyPreCompile'){
-      // TODO: Grep blocks, content underscore blockname -> default is content_en
-      //preg_match_all("/\{content.*?block=[\"|']([^\"|']+)[\"|'].*?\}/", $content, $matches);
+    
+    $result = explode(':', $smarty->_current_file);
+
+    // Only type:content,block:content_en yet
+    // TODO: Support for multiple blocks and editors
+    if($result[0] == 'content' && $result[1] == 'content_en'){
+
+      if($this->isAjaxRequest()){
+        return $templateSource;
+      }
 
       // Before content
       $contentBefore = '{if $hasInlineEditRights}';
@@ -172,10 +178,28 @@ class touchInlineEdit extends CMSModule {
       $contentAfter.= '  </div>';
       $contentAfter.= '{/if}';
 
-      // Main content
-      $params['content'] = preg_replace("/\{content(.*) iseditable=[\"|']true[\"|']\}/", 
-        $contentBefore."{content \\1}".$contentAfter, $params['content']);
+      return $contentBefore . $templateSource . $contentAfter;
+
     }
+
+    return $templateSource;
+    
+  }
+
+  function smartyOutputFilter($output, &$smarty){
+
+      if($this->hasInlineEditRights()){
+        // Before close header
+        $output = str_replace('</head>', $this->editor->getHeader() 
+          . '</head>', $output);
+      }
+
+    return $output;
+    
+  }
+
+  public function DoEvent( $originator, $eventname, &$params ){
+    /* Nothing yet */
   }
 
   /* ----- Functions ----- */
