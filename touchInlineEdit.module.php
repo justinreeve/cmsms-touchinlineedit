@@ -54,7 +54,7 @@ class touchInlineEdit extends CMSModule {
   );
   private $hasInlineEditRights = null;
 
-  public function __construct($name=NULL){
+  public function __construct($name=null){
 
     $this->smarty = $this->getCMSSmarty();
     $this->smarty->force_compile = true;
@@ -318,10 +318,10 @@ class touchInlineEdit extends CMSModule {
     }
   }
 
-  private function getContentObj($contentId=NULL){
+  private function getContentObj($contentId=null){
     global $gCms;
 
-    if($contentId === NULL){
+    if($contentId === null){
       $contentId = $this->getContentId();
     }
 
@@ -396,7 +396,7 @@ class touchInlineEdit extends CMSModule {
     return array_combine($plugins,$plugins);
   }
 
-  private function getPluginInstance($plugin, $params = NULL){
+  private function getPluginInstance($plugin, $params = null){
 
     $config = $this->getCMSConfig();
 
