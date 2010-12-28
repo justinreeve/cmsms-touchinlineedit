@@ -22,7 +22,7 @@
  *
  * {cms_module module="touchInlineEdit"}
  *
- * {content iseditable='true'}
+ *
  *
  * --
  *
