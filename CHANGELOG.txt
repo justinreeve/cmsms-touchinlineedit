@@ -6,7 +6,9 @@ Add Grant/Revoke admin inline edit permissions
 Replace radio buttons with dropdowns
 Update true false (0,1) values
 Remove event methods
-Transplant touchinlineedit injector
+Transplant touchinlineedit injector for more flexibility and better performance
+Support for alternative ContentTypes (such as AdvancedContent)
+Content assigns now allowed, for example {content assign="my_content"}
 Goodbye iseditable='true' flag
 Fix call install method on change editor plugin
 
