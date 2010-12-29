@@ -1,0 +1,56 @@
+README
+======
+
+What is TouchInlineEdit?
+-----------------
+
+TouchInlineEdit is a frontend inline editor module for the popular Content management 
+system CMSmadesimple. It allows admins and frontend users to edit content directly 
+without visit (or login into) the admin backend.
+
+Features
+----------------
+
+* Flexible inline editors nicEdit, elRTE
+* Optional FrontendUsers support
+* Group and permission management
+* Quick/fast edit of contents
+* Plugin system
+* and much more...
+
+Translations
+------------
+
+English: Christoph Gruber, touchdesign.de
+German: Madlen Reinke, touchdesign.de
+
+Requirements
+------------
+
+A modern webbrowser and minimum CMSms 1.6.4 or better 1.9.x.
+
+Author & Copyright
+------------------
+
+Copyright by: touchDesign
+Chief developer: Christoph Gruber
+
+Licenses
+--------
+
+TouchInlineEdit is released under GNU General Public License GPL 2.0
+CMSmadesimple is released under GNU General Public License GPL 2.0
+TouchInlineEdit uses and comes with jQuery and jQuery-UI witch are issued under MIT and GPL licenses.
+TouchInlineEdit uses elRTE is issued under a 3-clauses BSD license.
+TouchInlineEdit uses NicEdit it is distributed under the terms of the MIT license.
+
+Documentation
+-------------
+
+Place the load module tag {cms_module module="touchInlineEdit"} into the head of your template. 
+Configure the group permissions for admin users (set permission: Use touchInlineEdit) or optionally 
+setup the frontend user support and take a look at the cmsms frontend.
+
+[1]: http://dev.cmsmadesimple.org/projects/touchinlineedit
+[2]: http://www.homepage-community.de/index.php?topic=1680.0
+[3]: http://www.touchdesign.de/loesungen/cms-made-simple/module.htm
