@@ -95,8 +95,26 @@ class touchInlineEdit extends CMSModule {
     return '1.7.4';
   }
 
-  public function GetHelp(){ 
-    return $this->Lang('help');
+  public function GetHelp(){
+
+    $config = $this->getConfig();
+
+    // Get help string
+    $html = $this->Lang('help');
+    // Append included README
+    $html.= '<h3>README</h3>';
+    $html.= '<pre>';
+    $html.= file_get_contents($config['root_path'] 
+      . '/modules/' . $this->getName() . '/README');
+    $html.= '</pre>';
+    // Append included CHANGELOG
+    $html.= '<h3>CHANGELOG</h3>';
+    $html.= '<pre>';
+    $html.= file_get_contents($config['root_path'] 
+      . '/modules/' . $this->getName() . '/CHANGELOG');
+    $html.= '</pre>';
+
+    return $html;
   }
 
   public function IsPluginModule(){
