@@ -417,13 +417,18 @@ class touchInlineEdit extends CMSModule {
   protected function getPluginInstance($plugin, $params = null){
 
     $config = $this->getCMSConfig();
-
-    if(!is_string($plugin) || !strlen($plugin)){
-      throw new exception('Unable to load plugin: ' . $plugin);
-    }
-
-    require_once $config['root_path'] . '/modules/' . get_class() 
+    $pluginPath = $config['root_path'] . '/modules/' . get_class() 
       . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
+    
+    if(!is_string($plugin) || !strlen($plugin) || !file_exists($pluginPath)){
+      trigger_error('Invalid plugin: ' . $plugin, E_USER_WARNING);
+      // Re define
+      $plugin = TIE_PLUGIN_DEFAULT;
+      $pluginPath = $config['root_path'] . '/modules/' . get_class() 
+        . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
+    }
+    
+    include_once $pluginPath;
 
     return new $plugin($params);
   }
