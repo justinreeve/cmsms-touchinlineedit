@@ -127,13 +127,13 @@ class elrte extends touchInlineEdit {
     if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
       $head.= '<script src="'.$this->pluginDir.'/js/jquery-1.4.2.min.js" type="text/javascript"></script>' . "\n";
       $head.= '<script src="'.$this->pluginDir.'/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>' . "\n";
-      $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8">';
+      $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />';
     }
 
     // elrte
     $head.= '<script src="'.$this->pluginDir.'/js/elrte.min.js" type="text/javascript"></script>' . "\n";
     $head.= '<script src="'.$this->pluginDir.'/js/i18n/elrte.ru.js" type="text/javascript"></script>' . "\n";
-    $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/css/elrte.full.css" type="text/css" media="screen" charset="utf-8">';
+    $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/css/elrte.full.css" type="text/css" media="screen" charset="utf-8" />';
 
     // touchInlineEdit
     $head.= '<script src="'.$this->pluginDir.'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
