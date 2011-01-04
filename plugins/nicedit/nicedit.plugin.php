@@ -44,7 +44,39 @@
 
 class nicedit extends touchInlineEdit {
 
+  /**
+   * Plugin name.
+   * @var string
+   * @access public
+   */
   var $name = 'nicedit';
+
+  /**
+   * Plugin display name.
+   * @var string
+   * @access public
+   */
+  var $displayName = 'NicEdit';
+
+  /**
+   * Name of the plugin author.
+   * @var string
+   * @access public
+   */
+  var $author;
+
+  /**
+   * Plugin description.
+   * @var string
+   * @access public
+   */
+  var $description;
+
+  /**
+   * Plugin dir.
+   * @var string
+   * @access public
+   */  
   var $pluginDir;
 
   function __construct(){

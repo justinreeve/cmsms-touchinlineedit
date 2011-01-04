@@ -44,7 +44,39 @@
 
 class tiny_mce extends touchInlineEdit {
 
+  /**
+   * Plugin name.
+   * @var string
+   * @access public
+   */
   var $name = 'tiny_mce';
+
+  /**
+   * Plugin display name.
+   * @var string
+   * @access public
+   */
+  var $displayName = 'tinyMCE';
+
+  /**
+   * Name of the plugin author.
+   * @var string
+   * @access public
+   */
+  var $author;
+
+  /**
+   * Plugin description.
+   * @var string
+   * @access public
+   */
+  var $description;
+
+  /**
+   * Plugin dir.
+   * @var string
+   * @access public
+   */  
   var $pluginDir;
 
   function __construct(){
