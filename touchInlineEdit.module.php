@@ -406,10 +406,17 @@ class touchInlineEdit extends CMSModule {
 
     $config = $this->getCMSConfig();
 
-    $plugins = array_diff(scandir($config['root_path'].'/modules/'.$this->getName()
+    $availablePlugins = array_diff(scandir($config['root_path'] 
+      . '/modules/' . $this->getName()
       .'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
 
-    return array_combine($plugins,$plugins);
+    $plugins = array();
+    foreach($availablePlugins as $plugin){
+      $plugin = $this->getPluginInstance($plugin);
+      $plugins[$plugin->name] = $plugin->displayName;
+    }
+
+    return array_flip($plugins);
   }
 
   protected function getPluginInstance($plugin, $params = null){
