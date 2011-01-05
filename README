@@ -21,8 +21,10 @@ Features
 Translations
 ------------
 
-English: Christoph Gruber, touchdesign.de
-German: Madlen Reinke, touchdesign.de
+English: Module default
+German: CMSms community TC
+Dutch: CMSms community TC
+Russian: CMSms community TC
 
 Requirements
 ------------
@@ -38,18 +40,20 @@ Chief developer: Christoph Gruber
 Licenses
 --------
 
-TouchInlineEdit is released under GNU General Public License GPL 2.0
-CMSmadesimple is released under GNU General Public License GPL 2.0
+TouchInlineEdit is released under GNU General Public License GPL 2.0.
+CMSmadesimple is released under GNU General Public License GPL 2.0.
 TouchInlineEdit uses and comes with jQuery and jQuery-UI witch are issued under MIT and GPL licenses.
 TouchInlineEdit uses elRTE is issued under a 3-clauses BSD license.
 TouchInlineEdit uses NicEdit it is distributed under the terms of the MIT license.
+TouchInlineEdit uses tinyMCE it is distributed under the terms of the LGPL.
 
 Documentation
 -------------
 
-Place the load module tag {cms_module module="touchInlineEdit"} into the head of your template. 
-Configure the group permissions for admin users (set permission: Use touchInlineEdit) or optionally 
-setup the frontend user support and take a look at the cmsms frontend.
+Put the load module tag {cms_module module="touchInlineEdit"} into the head of each template you want to 
+use the module directly after the {process_pagedata} tag. Configure the group permissions for admin 
+users (set permission: Use touchInlineEdit) or optional setup the front end user support (FEU) and take a look 
+at the cmsms front end.
 
 [1]: http://dev.cmsmadesimple.org/projects/touchinlineedit
 [2]: http://www.homepage-community.de/index.php?topic=1680.0

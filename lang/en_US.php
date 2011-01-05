@@ -2,7 +2,10 @@
 
 $lang['help'] = '<h3>Usage</h3>
 <ul>
-  <li>Load module - {cms_module module="touchInlineEdit"}</li>
+  <li>
+    1) <span style="color:orange">Important!</span> Put the load module tag {cms_module module="touchInlineEdit"} into the head of each template you want to use the module directly after the {process_pagedata} tag.<br />
+    2) Configure the group permissions for admin users (set permission: Use touchInlineEdit) or optional setup the front end user support (FEU) and take a look at the cmsms front end.
+  </li>
 </ul>
 <h3>About</h3>
 <ul>
