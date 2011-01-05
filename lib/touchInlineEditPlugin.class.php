@@ -127,12 +127,19 @@ class touchInlineEditPlugin extends touchInlineEdit {
    * Plugin install method.
    */
   public function install(){
-    if(!$this->installed){
+    //if(!$this->installed){
       $this->update($this->settings);
       foreach($this->templates as $name => $content){
         $this->setTemplate('touchInlineEdit.'.$this->name.'.'.$name, $content);
       }
-    }
+    //}
+  }
+  
+  /**
+   * Plugin uninstall method.
+   */
+  public function uninstall(){
+    /* not implemented */
   }
   
   /**
