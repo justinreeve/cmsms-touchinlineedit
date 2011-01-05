@@ -8,12 +8,20 @@
     <p class="pageinput">{$feEditButton_input}<br/>{$feEditButton_help}</p>
   </div>
   <div class="pageoverflow">
+    <p class="pagetext">{$feEditButtonText_label}</p>
+    <p class="pageinput">{$feEditButtonText_input}<br/>{$feEditButtonText_help}</p>
+  </div>
+  <div class="pageoverflow">
     <p class="pagetext">{$feEditOnDblClick_label}</p>
     <p class="pageinput">{$feEditOnDblClick_input}<br/>{$feEditOnDblClick_help}</p>
   </div>
   <div class="pageoverflow">
     <p class="pagetext">{$feUpdateAlert_label}</p>
     <p class="pageinput">{$feUpdateAlert_input}<br/>{$feUpdateAlert_help}</p>
+  </div>
+  <div class="pageoverflow">
+    <p class="pagetext">{$feUpdateAlertMessage_label}</p>
+    <p class="pageinput">{$feUpdateAlertMessage_input}<br/>{$feUpdateAlertMessage_help}</p>
   </div>
   <div class="pageoverflow">
     <p class="pagetext">&nbsp;</p>

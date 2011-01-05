@@ -56,6 +56,12 @@ if(isset($params["feEditOnDblClick"])){
 if(isset($params["feUpdateAlert"])){
   $this->SetPreference("touchInlineEdit.feUpdateAlert",intval($params["feUpdateAlert"]));
 }
+if(isset($params["feUpdateAlertMessage"])){
+  $this->SetPreference("touchInlineEdit.feUpdateAlertMessage",$params["feUpdateAlertMessage"]);
+}
+if(isset($params["feEditButtonText"])){
+  $this->SetPreference("touchInlineEdit.feEditButtonText",$params["feEditButtonText"]);
+}
 if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
   $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
   $editor = $this->getPluginInstance($params["fePlugin"]);
