@@ -42,133 +42,77 @@
  *
  */
 
-class tiny_mce extends touchInlineEdit {
+global $gCms;
+require_once cms_join_path($gCms->config['root_path'],'modules',
+  'touchInlineEdit','lib','touchInlineEditPlugin.class.php');
 
-  /**
-   * Plugin name.
-   * @var string
-   * @access public
-   */
-  var $name = 'tiny_mce';
+class tiny_mce extends touchInlineEditPlugin {
 
-  /**
-   * Plugin display name.
-   * @var string
-   * @access public
-   */
-  var $displayName = 'tinyMCE';
-
-  /**
-   * Name of the plugin author.
-   * @var string
-   * @access public
-   */
-  var $author;
-
-  /**
-   * Plugin description.
-   * @var string
-   * @access public
-   */
-  var $description;
-
-  /**
-   * Plugin dir.
-   * @var string
-   * @access public
-   */  
-  var $pluginDir;
+  var $templates = array(
+    'header' => 
+'<!-- {$tie->getName()} :: {$tie->editor->displayName} module -->
+<script src="{$tie->editor->pluginDir}/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+{if $tie->editor->get(\'JQueryLoad\')}
+  <script src="{$tie->editor->pluginDir}/js/jquery.js" type="text/javascript"></script>
+{/if}
+<script src="{$tie->editor->pluginDir}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+  var cBlockMain;
+  var tieContentId = {$tie->getContentId()};
+  var tieRequestUri = "{$tie->getRequestUri()}";
+  var tieUpdateAlert = 1;
+  var tieUpdateAlertMessage = "success...";
+  var tieEditOnDblClick = 1;
+  var tieParams = new Array();
+</script>
+<!-- {$tie->getName()} :: {$tie->editor->displayName} module -->');
 
   function __construct(){
-
-    $this->pluginDir = 'modules/' . $this->getName() . '/' 
-      . TIE_PLUGIN_DIR . $this->name;
-
+    $this->name = 'tiny_mce';
+    $this->displayName = 'tinyMCE';
+    $this->settings = array(
+      'JQueryLoad' => 1,
+    );
     parent::__construct($this->name);
   }
 
   public function install(){
-    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1);
-  }
-
-  private function fetch($template){
-
-    $config = $this->getCMSConfig();
-
-    return $this->smarty->fetch($config['root_path'] . '/'
-      . $this->pluginDir
-      . '/templates/' . $template);
+    parent::install($this->settings);
   }
 
   public function getAdminConfig($id,$returnid){
 
     $yn = array(
-      $this->Lang("no") => 0,
-      $this->Lang("yes") => 1
+      $this->lang("no") => 0,
+      $this->lang("yes") => 1
     );
 
     // Form start
-    $this->smarty->assign('formstart',$this->CreateFormStart($id,"saveeditor",$returnid));
+    $this->smarty->assign('formstart',$this->createFormStart($id,"saveeditor",$returnid));
 
     // jquery lib
-    $this->smarty->assign($this->name.'JQueryLoad_label',$this->Lang($this->name."JQueryLoad_label"));
-    $this->smarty->assign($this->name.'JQueryLoad_help',$this->Lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputDropdown($id,$this->name."JQueryLoad",
-      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1),"","\n"));
+    $this->smarty->assign($this->name.'JQueryLoad_label',$this->lang($this->name."JQueryLoad_label"));
+    $this->smarty->assign($this->name.'JQueryLoad_help',$this->lang($this->name."JQueryLoad_help"));
+    $this->smarty->assign($this->name.'JQueryLoad_input',$this->createInputDropdown($id,'JQueryLoad',
+      $yn,$this->get('JQueryLoad',1),"","\n"));
 
     // Submit / cancel
-    $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
-    $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
+    $this->smarty->assign('submit',$this->createInputSubmit($id,"submit",$this->lang("save")));
+    $this->smarty->assign('cancel',$this->createInputSubmit($id,"cancel",$this->lang("cancel")));
 
     // Form end
-    $this->smarty->assign('formend',$this->CreateFormEnd());
+    $this->smarty->assign('formend',$this->createFormEnd());
 
-    echo $this->fetch("admineditor.tpl");
+    return $this->fetch("admineditor.tpl");
   }
-
-  public function saveAdminConfig($params){
-
-    if(isset($params[$this->name."JQueryLoad"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",intval($params[$this->name."JQueryLoad"]));
-    }
-  }
-
+  
+  // TODO: Rename
   public function getHeader(){
 
-    $tiePref = $this->GetPrefVars();
-
-    $tieLang = $this->GetLangVars();
-
-    $head = '<!-- '.$this->getName().' module -->' . "\n";
-
-    // tinyMCE
-    $head.= '<script src="'.$this->pluginDir.'/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>' . "\n";
-
-    // jQuery
-    if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
-      $head.= '<script src="'.$this->pluginDir.'/js/jquery.js" type="text/javascript"></script>' . "\n";
-    }
-
-    // touchInlineEdit
-    $head.= '<script src="'.$this->pluginDir.'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
-
-    // Script
-    $script = '<script type="text/javascript" charset="utf-8">' . "\n";
-    $script.= '  var cBlockMain;' . "\n";
-    $script.= '  var tieContentId = '.$this->getContentId().';' . "\n";
-    $script.= '  var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
-    $script.= '  var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
-    $script.= '  var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
-    $script.= '  var tieEditOnDblClick = '.$tiePref['feEditOnDblClick'].';' . "\n";
-    // Plugin params
-    $script.= '  var tieParams = new Array();'. "\n";
+    $tiePref = $this->getPrefVars();
+    $tieLang = $this->getLangVars();
     
-    //...
-    
-    $script.= '</script>' . "\n";
-    $script.= '<!-- '.$this->getName().' module -->' . "\n";
-
-    return $head . $script;
+    return $this->fetch('header',true);
   }
 }
 

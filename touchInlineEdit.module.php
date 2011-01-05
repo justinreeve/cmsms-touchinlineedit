@@ -70,6 +70,7 @@ class touchInlineEdit extends CMSModule {
       $this->editor = $this->getPluginInstance($editor);
       // Todo: Remove from cunstructor
       if($this->hasInlineEditRights()){
+        $this->smarty->assign('tie',$this);
         // Assign vars
         $this->smarty->assign('hasInlineEditRights',1);
         $this->smarty->assign('tieLang',$this->GetLangVars());
@@ -78,7 +79,6 @@ class touchInlineEdit extends CMSModule {
         $this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
         // Register filters
         $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
-        $this->smarty->register_outputfilter(array($this,'smartyOutputFilter'));
       }
     }
   }
@@ -204,20 +204,14 @@ class touchInlineEdit extends CMSModule {
     
   }
 
-  function smartyOutputFilter($output, &$smarty){
-
+  public function DoEvent( $originator, $eventname, &$params ){
+    if($originator == 'Core' && $eventname == 'ContentPostRender'){
       if($this->hasInlineEditRights()){
         // Before close header
-        $output = str_replace('</head>', $this->editor->getHeader() 
-          . '</head>', $output);
+        $params['content'] = str_replace('</head>', $this->editor->getHeader() 
+          . '</head>', $params['content']);
       }
-
-    return $output;
-    
-  }
-
-  public function DoEvent( $originator, $eventname, &$params ){
-    /* Nothing yet */
+    }
   }
 
   /* ----- Functions ----- */
@@ -401,7 +395,11 @@ class touchInlineEdit extends CMSModule {
 
     return $this->getContent($block,true);
   }
-
+  
+  public function getRequestUri(){
+    return $_SERVER["REQUEST_URI"];
+  }
+  
   /* ----- Plugin functions ----- */
 
   protected function getPlugins(){

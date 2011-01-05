@@ -47,7 +47,7 @@ if(!$this->CheckPermission('Modify Site Settings')){
   return;
 }
 
-$this->editor->saveAdminConfig($params);
+$this->editor->update($params);
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "editor"));
 

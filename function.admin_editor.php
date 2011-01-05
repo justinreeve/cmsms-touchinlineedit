@@ -51,6 +51,6 @@ if(!$this->VisibleToAdminUser()){
   return;
 }
 
-$this->editor->getAdminConfig($id,$returnid);
+echo $this->editor->getAdminConfig($id,$returnid);
 
 ?>
