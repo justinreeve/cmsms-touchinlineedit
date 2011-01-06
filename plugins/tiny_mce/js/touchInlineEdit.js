@@ -41,90 +41,171 @@
  *
  */
  
-function touchInlineEditInitEditor(){
+function touchInlineEdit(id,request,message,onClick){
 
-  tinyMCE.init({
-    mode: 'none',
-    theme: 'advanced',
-    // Save
-    plugins: 'save',
-    save_enablewhendirty: false,
-    save_onsavecallback: 'touchInlineEditSaveMCE',
-    // Buttons
-    theme_advanced_buttons3_add: 'save',
-    theme_advanced_toolbar_location : "top",
-    theme_advanced_toolbar_align : "left",
-    theme_advanced_statusbar_location : "bottom",
-    theme_advanced_resizing : true,
-    // Skin
-    skin : "o2k7",
-    skin_variant : "silver"
-  });
+  /**
+   * Self instance.
+   * @var object
+   * @access public
+   */ 
+  var self = this;
+  
+  /**
+   * Editor instance.
+   * @var object
+   * @access public
+   */
+  this.editor;
+  
+  /**
+   * Content id for current block.
+   * @var integer
+   * @access public
+   */
+  this.contentId = id;
+  
+  /**
+   * Request uri.
+   * @var string
+   * @access public
+   */
+  this.requestUri = request;
+  
+  /**
+   * Alert message on save success.
+   * @var string
+   * @access public
+   */
+  this.message = message;
+  
+  /**
+   * Init on dbl click.
+   * @var integer
+   * @access public
+   */
+  this.onClick = onClick;
+  
+  /**
+   * Optional params.
+   * @var object
+   * @access public
+   */  
+  this.params = new Object();
+  
+  /**
+   * Add editor instance.
+   */
+  this.add = function(){
+    tinyMCE.init({
+      mode: 'none',
+      theme: self.getParam('theme'),
+      // Save
+      plugins: 'save',
+      save_enablewhendirty: false,
+      save_onsavecallback: 'touchInlineEditSaveMCE',
+      // Buttons
+      theme_advanced_buttons3_add: 'save',
+      theme_advanced_toolbar_location : "top",
+      theme_advanced_toolbar_align : "left",
+      theme_advanced_statusbar_location : "bottom",
+      theme_advanced_resizing : true,
+      // Skin
+      skin : "o2k7",
+      skin_variant : "silver"
+    });
+    self.editor = tinyMCE.execCommand('mceAddControl', true, 'touchInlineEditId' + self.contentId);
+  }
 
-  cBlockMain = tinyMCE.execCommand('mceAddControl', true, 'touchInlineEditId' + tieContentId);
-}
-
-function touchInlineEditRemoveEditor(){
-
-  tinyMCE.execCommand('mceFocus', false, 'touchInlineEditId' + tieContentId);  
-  tinyMCE.execCommand('mceRemoveControl', true, 'touchInlineEditId' + tieContentId);
-  cBlockMain = null;
-}
-
-function touchInlineEditToggleEditor(){
-
-  if(!cBlockMain){
-    touchInlineEditInitContent();
-    touchInlineEditInitEditor();
-  }else{
-    touchInlineEditRemoveEditor();
+  /**
+   * Remove editor instance.
+   */
+  this.remove = function(){
+    tinyMCE.execCommand('mceFocus', false, 'touchInlineEditId' + self.contentId);  
+    tinyMCE.execCommand('mceRemoveControl', true, 'touchInlineEditId' + self.contentId);
+    self.editor = null;
+  }
+  
+  /**
+   * Toggle editor instance.
+   */
+  this.toggle = function(){
+    if(!self.editor){
+      self.fetch();
+      self.add();
+    }else{
+      self.remove();
+    }
+  }
+  
+  /**
+   * Ajax fetch content.
+   */
+  this.fetch = function(){
+    //console.debug('Read self.contentId:' + self.contentId);
+    $.ajax({async:false,
+      type: 'POST',
+      url: self.requestUri,
+      data: 'method=getContent&id=' + self.contentId,
+      success: function(data){
+        $('#touchInlineEditId' + self.contentId).html(data);
+      }
+    });
+  }
+  
+  /**
+   * Ajax save content.
+   */
+  this.save = function(id,content){
+    //console.debug('Save self.contentId:' + self.contentId + ', content:' + content);
+    $.post(self.requestUri, { method: "updateContent", id: self.contentId, content: content },
+      function(data){
+        if(self.message){
+          alert(self.message);
+        }
+        self.toggle();
+        $('#touchInlineEditId' + self.contentId).html(data);
+      }
+    );
+  }
+  
+  /**
+   * Param setter.
+   */
+  this.setParam = function(name,value){
+    //console.debug('Add param ' + name + '=' + value);
+    if(name){
+      self.params[name] = value;
+    }
+  }
+  
+  /**
+   * Param getter.
+   */
+  this.getParam = function(name){
+    if(self.params[name]){
+      return self.params[name];
+    }
   }
 }
 
-function touchInlineEditInitContent(){
-  //console.debug('Read tieContentId:' + tieContentId);
-  $.ajax({async:false,
-    type: 'POST',
-    url: tieRequestUri,
-    data: 'method=getContent&id=' + tieContentId,
-    success: function(data){
-      $('#touchInlineEditId' + tieContentId).html(data);
-    }
-  });
-}
-
-function touchInlineEditSave(id,content){
-  //console.debug('Save tieContentId:' + tieContentId + ', content:' + content);
-  $.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
-    function(data){
-      if(tieUpdateAlert){
-        alert(tieUpdateAlertMessage);
-      }
-      touchInlineEditToggleEditor();
-      $('#touchInlineEditId' + tieContentId).html(data);
-    }
-  );
-}
-// Wrapper for tinyMCE
+// TODO: find a better w...
 function touchInlineEditSaveMCE(){
-  touchInlineEditSave(tieContentId,tinyMCE.get('touchInlineEditId' + tieContentId).getContent());
-}
-
-function functionExists(name){
-  return (typeof name == 'function');
+  touchInlineEdit.save(touchInlineEdit.contentId,tinyMCE.get('touchInlineEditId' 
+    + touchInlineEdit.contentId).getContent());
 }
 
 $(document).ready(function(){
-
+  
   $('.touchInlineEditButton').click(function(){
-    touchInlineEditToggleEditor();
+    touchInlineEdit.toggle();
     return false;
   });
-
-  if(tieEditOnDblClick){
+  
+  if(touchInlineEdit.onClick){
     $('.touchInlineEdit').dblclick(function(){
-      touchInlineEditToggleEditor();
+      touchInlineEdit.toggle();
       return false;
     });
   }
+  
 });

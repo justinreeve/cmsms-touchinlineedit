@@ -57,13 +57,13 @@ class tiny_mce extends touchInlineEditPlugin {
 {/if}
 <script src="{$tie->editor->pluginDir}/js/touchInlineEdit.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
-  var cBlockMain;
-  var tieContentId = {$tie->getContentId()};
-  var tieRequestUri = "{$tie->getRequestUri()}";
-  var tieUpdateAlert = 1;
-  var tieUpdateAlertMessage = "success...";
-  var tieEditOnDblClick = 1;
-  var tieParams = new Array();
+  var touchInlineEdit = new touchInlineEdit(
+    {$tie->getContentId()},
+    "{$tie->getRequestUri()}",
+    "{$tie->touch->get(\'feUpdateAlertMessage\',\'Content saved...\')}",
+    {$tie->touch->get(\'feEditOnDblClick\')}
+  );
+  touchInlineEdit.setParam(\'theme\',\'advanced\');
 </script>
 <!-- {$tie->getName()} :: {$tie->editor->displayName} module -->');
 
@@ -105,13 +105,9 @@ class tiny_mce extends touchInlineEditPlugin {
 
     return $this->fetch("admineditor.tpl");
   }
-  
+
   // TODO: Rename
   public function getHeader(){
-
-    $tiePref = $this->getPrefVars();
-    $tieLang = $this->getLangVars();
-    
     return $this->fetch('header',true);
   }
 }
