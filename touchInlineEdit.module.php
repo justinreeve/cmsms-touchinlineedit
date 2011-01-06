@@ -45,38 +45,40 @@
 define('TIE_PLUGIN_DIR','plugins/');
 define('TIE_PLUGIN_DEFAULT','nicedit');
 
+global $gCms;
+require_once cms_join_path($gCms->config['root_path'],'modules',
+  'touchInlineEdit','lib','touchModule.class.php');
+  
 class touchInlineEdit extends CMSModule {
 
   public $editor;
   public $smarty;
+  public $touch;
   private $defaultTemplate = array(
-    'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tieLang.feInlineEditButton}</button>'
+    'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
   );
   private $hasInlineEditRights = null;
 
   public function __construct($name=null){
 
     $this->smarty = $this->getCMSSmarty();
-    //$this->smarty->force_compile = true;
+    $this->smarty->force_compile = true;
+    $this->touch = new touchModule($this);
     if(!$name){
       $this->init();
     }
+    parent::__construct();
   }
 
   private function init(){
 
-    $editor = $this->GetPreference("touchInlineEdit.fePlugin",TIE_PLUGIN_DEFAULT);
+    $editor = $this->touch->get('fePlugin',TIE_PLUGIN_DEFAULT);
     if($editor){
       $this->editor = $this->getPluginInstance($editor);
       // Todo: Remove from cunstructor
       if($this->hasInlineEditRights()){
+        // Assign me to smarty
         $this->smarty->assign('tie',$this);
-        // Assign vars
-        $this->smarty->assign('hasInlineEditRights',1);
-        $this->smarty->assign('tieLang',$this->GetLangVars());
-        $this->smarty->assign('tiePref',$this->GetPrefVars());
-        // Process template
-        $this->smarty->assign('tieTemplateEditButton', $this->ProcessTemplateFromDatabase('touchInlineEditButton'));
         // Register filters
         $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
       }
@@ -179,20 +181,20 @@ class touchInlineEdit extends CMSModule {
     // TODO: Support for multiple blocks and editors
     if($result[0] == 'content' && $result[1] == 'content_en'){
 
-      if($this->isAjaxRequest()){
+      if($this->touch->isAjaxRequest()){
         return $templateSource;
       }
 
       // Before content
-      $contentBefore = '{if $hasInlineEditRights}';
-      $contentBefore.= '  {if $tiePref.feEditButton}';
-      $contentBefore.= '    {$tieTemplateEditButton}';
+      $contentBefore = '{if $tie->hasInlineEditRights()}';
+      $contentBefore.= '  {if $tie->touch->get(\'feEditButton\')}';
+      $contentBefore.= '    {$tie->ProcessTemplateFromDatabase(\'touchInlineEditButton\')}';
       $contentBefore.= '  {/if}';
       $contentBefore.= '  <div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
       $contentBefore.= '{/if}';
 
       // After content
-      $contentAfter = '{if $hasInlineEditRights}';
+      $contentAfter = '{if $tie->hasInlineEditRights()}';
       $contentAfter.= '  </div>';
       $contentAfter.= '{/if}';
 
@@ -225,12 +227,12 @@ class touchInlineEdit extends CMSModule {
     $this->hasInlineEditRights = false;
 
     // Support for frontend users
-    if($this->GetPreference('touchInlineEdit.feFEUallow')){
+    if($this->touch->get('feFEUallow')){
       $feu = $this->getModuleInstance('FrontEndUsers');
-      if($feu && $feu->LoggedInId()){
-        if($this->GetPreference('touchInlineEdit.feFEUgroups')){
-          $allowedGroups = explode(',',$this->GetPreference('touchInlineEdit.feFEUgroups'));
-          $memberGroups = $feu->GetMemberGroupsArray($feu->LoggedInId());
+      if($feu && $feu->loggedInId()){
+        if($this->touch->get('feFEUgroups')){
+          $allowedGroups = explode(',',$this->touch->get('feFEUgroups'));
+          $memberGroups = $feu->getMemberGroupsArray($feu->loggedInId());
           foreach($memberGroups as $memberGroup){
             if(in_array($memberGroup['groupid'],$allowedGroups)){
               $this->hasInlineEditRights = true;
@@ -243,29 +245,12 @@ class touchInlineEdit extends CMSModule {
     }
 
     // Grant admin users
-    if($this->GetPreference('touchInlineEdit.feAdminAllow') && check_login(true) 
-      && $this->CheckPermission('Use touchInlineEdit')){
+    if($this->touch->get('feAdminAllow') && check_login(true) 
+      && $this->checkPermission('Use touchInlineEdit')){
       $this->hasInlineEditRights = true;
     }
 
     return $this->hasInlineEditRights;
-  }
-
-  public function isAJAXRequest(){
-
-    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
-      && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
-      == 'xmlhttprequest' ? true : false;
-  }
-
-  protected function GetLangVars(){
-
-    $lang = array();
-
-    $lang['feInlineEditButton'] = $this->Lang("feInlineEditButton");
-    $lang['feUpdateAlert'] = $this->Lang("feUpdateAlert");
-
-    return $lang;
   }
 
   protected function getDefaultTemplate($template){
@@ -274,18 +259,6 @@ class touchInlineEdit extends CMSModule {
       return $this->defaultTemplate[$template];
     }
     return false;
-  }
-
-  protected function getPrefVars(){
-
-    $preferences = array();
-
-    $preferences['feEditButton'] = $this->GetPreference("touchInlineEdit.feEditButton");
-    $preferences['feEditOnDblClick'] = $this->GetPreference("touchInlineEdit.feEditOnDblClick");
-    $preferences['feUpdateAlert'] = $this->GetPreference("touchInlineEdit.feUpdateAlert");
-    $preferences['fePlugin'] = $this->GetPreference("touchInlineEdit.fePlugin");
-
-    return $preferences;
   }
 
   static public function getCMSModuleInstance($name){
