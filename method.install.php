@@ -39,8 +39,9 @@ $smarty->clear_all_cache();
 
 $this->CreatePermission('Use touchInlineEdit', 'Use touchInlineEdit');
 $this->SetPreference('touchInlineEdit.feEditButton', 1);
+$this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
 $this->SetPreference('touchInlineEdit.feEditOnDblClick', 1);
-$this->SetPreference('touchInlineEdit.feUpdateAlert', 1);
+$this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));
 $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
 $this->SetPreference('touchInlineEdit.feFEUallow', 0);
 $this->SetPreference('touchInlineEdit.feFEUgroups', '');

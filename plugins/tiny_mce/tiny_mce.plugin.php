@@ -52,7 +52,7 @@ class tiny_mce extends touchInlineEditPlugin {
   var touchInlineEdit = new touchInlineEdit(
     {$tie->getContentId()},
     "{$tie->getRequestUri()}",
-    "{$tie->touch->get(\'feUpdateAlertMessage\',\'Content saved...\')}",
+    "{$tie->touch->get(\'feUpdateAlertMessage\')}",
     {$tie->touch->get(\'feEditOnDblClick\')}
   );
   touchInlineEdit.setParam(\'theme\',\'advanced\');

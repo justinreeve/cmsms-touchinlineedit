@@ -70,12 +70,6 @@ $this->smarty->assign('feEditOnDblClick_help',$this->Lang("feEditOnDblClick_help
 $this->smarty->assign('feEditOnDblClick_input',$this->CreateInputDropdown($id,"feEditOnDblClick",
   $yn,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
 
-// Enable alert on content update
-$this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
-$this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
-$this->smarty->assign('feUpdateAlert_input',$this->CreateInputDropdown($id,"feUpdateAlert",
-  $yn,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
-
 // Set update alert message content update
 $this->smarty->assign('feUpdateAlertMessage_label',$this->Lang("feUpdateAlertMessage_label"));
 $this->smarty->assign('feUpdateAlertMessage_help',$this->Lang("feUpdateAlertMessage_help"));

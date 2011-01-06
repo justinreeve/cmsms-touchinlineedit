@@ -35,10 +35,17 @@ $lang['templatessaved'] = 'Template saved.';
 
 $lang['fePlugin_label'] = 'Which editor you want?';
 $lang['fePlugin_help'] = 'Select an editor.';
+
 $lang['feEditButton_label'] = 'Edit button in FE?';
 $lang['feEditButton_help'] = 'Add enable/disable button for InlineEdit in frontend.';
-$lang['feUpdateAlert_label'] = 'Update alert?';
-$lang['feUpdateAlert_help'] = 'Enable update alert in frontend.';
+
+$lang['feEditButtonText_label'] = 'Edit button text';
+$lang['feEditButtonText_help'] = 'Edit button text.';
+$lang['feEditButtonText_default'] = 'TouchInlineEdit';
+
+$lang['feUpdateAlertMessage_label'] = 'Update message?';
+$lang['feUpdateAlertMessage_help'] = 'Update message on successfully content update. (Leave it empty for disabling)';
+$lang['feUpdateAlertMessage_default'] = 'Update Success...';
 
 $lang['touchInlineEditButton_label'] = 'InlineEdit button template:';
 $lang['feEditOnDblClick_label'] = 'Activate InlineEdit on double click?';

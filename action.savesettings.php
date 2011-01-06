@@ -45,9 +45,6 @@ if(isset($params["feEditButton"])){
 if(isset($params["feEditOnDblClick"])){
   $this->SetPreference("touchInlineEdit.feEditOnDblClick",intval($params["feEditOnDblClick"]));
 }
-if(isset($params["feUpdateAlert"])){
-  $this->SetPreference("touchInlineEdit.feUpdateAlert",intval($params["feUpdateAlert"]));
-}
 if(isset($params["feUpdateAlertMessage"])){
   $this->SetPreference("touchInlineEdit.feUpdateAlertMessage",$params["feUpdateAlertMessage"]);
 }

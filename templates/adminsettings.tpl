@@ -16,10 +16,6 @@
     <p class="pageinput">{$feEditOnDblClick_input}<br/>{$feEditOnDblClick_help}</p>
   </div>
   <div class="pageoverflow">
-    <p class="pagetext">{$feUpdateAlert_label}</p>
-    <p class="pageinput">{$feUpdateAlert_input}<br/>{$feUpdateAlert_help}</p>
-  </div>
-  <div class="pageoverflow">
     <p class="pagetext">{$feUpdateAlertMessage_label}</p>
     <p class="pageinput">{$feUpdateAlertMessage_input}<br/>{$feUpdateAlertMessage_help}</p>
   </div>

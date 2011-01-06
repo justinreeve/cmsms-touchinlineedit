@@ -77,6 +77,12 @@ if(version_compare($oldversion, '1.7.4', '<')){
   $this->RemoveEventHandler('Core', 'ContentPostRender');
   $this->RemoveEventHandler('Core', 'SmartyPreCompile');
 }
+if(version_compare($oldversion, '1.8.0', '<')){
+  $this->RemovePreference('touchInlineEdit.feUpdateAlert');
+  $this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
+  $this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));
+}
+
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 
   $this->Lang('postupgrade', $this->GetVersion()));
