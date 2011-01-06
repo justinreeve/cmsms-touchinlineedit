@@ -66,18 +66,30 @@ $this->smarty->assign('feEditButton_help',$this->Lang("feEditButton_help"));
 $this->smarty->assign('feEditButton_input',$this->CreateInputDropdown($id,"feEditButton",
   $yn,$this->GetPreference("touchInlineEdit.feEditButton","Y"),"","\n"));
 
+// Set edit button text
+$this->smarty->assign('feEditButtonText_label',$this->Lang("feEditButtonText_label"));
+$this->smarty->assign('feEditButtonText_help',$this->Lang("feEditButtonText_help"));
+$this->smarty->assign('feEditButtonText_input',$this->CreateInputText($id,"feEditButtonText",
+  $this->GetPreference("touchInlineEdit.feEditButtonText","EditMe"),"","\n"));
+  
 // Enable disable inlineEdit on double click
 $this->smarty->assign('feEditOnDblClick_label',$this->Lang("feEditOnDblClick_label"));
 $this->smarty->assign('feEditOnDblClick_help',$this->Lang("feEditOnDblClick_help"));
 $this->smarty->assign('feEditOnDblClick_input',$this->CreateInputDropdown($id,"feEditOnDblClick",
   $yn,$this->GetPreference("touchInlineEdit.feEditOnDblClick","true"),"","\n"));
 
-// Enable alert an content update
+// Enable alert on content update
 $this->smarty->assign('feUpdateAlert_label',$this->Lang("feUpdateAlert_label"));
 $this->smarty->assign('feUpdateAlert_help',$this->Lang("feUpdateAlert_help"));
 $this->smarty->assign('feUpdateAlert_input',$this->CreateInputDropdown($id,"feUpdateAlert",
   $yn,$this->GetPreference("touchInlineEdit.feUpdateAlert","true"),"","\n"));
 
+// Set update alert message content update
+$this->smarty->assign('feUpdateAlertMessage_label',$this->Lang("feUpdateAlertMessage_label"));
+$this->smarty->assign('feUpdateAlertMessage_help',$this->Lang("feUpdateAlertMessage_help"));
+$this->smarty->assign('feUpdateAlertMessage_input',$this->CreateInputText($id,"feUpdateAlertMessage",
+  $this->GetPreference("touchInlineEdit.feUpdateAlertMessage","Success..."),"","\n"));
+  
 // Submit / cancel
 $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
 $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
