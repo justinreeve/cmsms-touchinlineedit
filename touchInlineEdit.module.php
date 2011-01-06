@@ -98,22 +98,16 @@ class touchInlineEdit extends CMSModule {
   }
 
   public function GetHelp(){
-
     $config = $this->getConfig();
-
+    
     // Get help string
     $html = $this->Lang('help');
+    
     // Append included README
     $html.= '<h3>README</h3>';
     $html.= '<pre>';
     $html.= file_get_contents($config['root_path'] 
       . '/modules/' . $this->getName() . '/README');
-    $html.= '</pre>';
-    // Append included CHANGELOG
-    $html.= '<h3>CHANGELOG</h3>';
-    $html.= '<pre>';
-    $html.= file_get_contents($config['root_path'] 
-      . '/modules/' . $this->getName() . '/CHANGELOG');
     $html.= '</pre>';
 
     return $html;
@@ -121,6 +115,17 @@ class touchInlineEdit extends CMSModule {
   
   function GetAdminDescription(){
     return $this->Lang('admdescription');
+  }
+  
+  function GetChangeLog(){
+    $config = $this->getConfig();
+    
+    $html = '<pre>';
+    $html.= file_get_contents($config['root_path'] 
+      . '/modules/' . $this->getName() . '/CHANGELOG');
+    $html.= '</pre>';
+    
+    return $html;
   }
   
   public function IsPluginModule(){
