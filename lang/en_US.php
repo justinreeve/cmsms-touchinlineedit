@@ -1,5 +1,7 @@
 <?php
 
+$lang['admdescription'] = 'A powerfully frontend inline editor module.';
+
 $lang['help'] = '<h3>Usage</h3>
 <ul>
   <li>
@@ -41,9 +43,6 @@ $lang['feUpdateAlert_help'] = 'Enable update alert in frontend.';
 $lang['touchInlineEditButton_label'] = 'InlineEdit button template:';
 $lang['feEditOnDblClick_label'] = 'Activate InlineEdit on double click?';
 $lang['feEditOnDblClick_help'] = 'Activate InlineEdit on double click in content area.';
-
-$lang['feInlineEditButton'] = 'Edit';
-$lang['feUpdateAlert'] = 'Content has been saved...';
 
 $lang['feFEUallow_label'] = 'Allow FEU?';
 $lang['feFEUallow_help'] = 'Allow frontend users to use InlineEdit.';

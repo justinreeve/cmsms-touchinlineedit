@@ -14,7 +14,7 @@
  * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
- * @todo add content_block handling
+ *
  * 
  * --
  *

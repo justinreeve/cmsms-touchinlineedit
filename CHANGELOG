@@ -4,6 +4,12 @@ Fix plugin elRTE xhtml link element close tag /> #5918
 Fix/Update de_DE translation
 Add tinyMCE plugin (preview)
 Add trigger_error in getPluginInstance
+Add/Rewrite touchInlineEditPlugin base class
+Improve plugins to store more infos about plugins: name,description,author...
+Add touchModule base class
+Rewrite plugins tinyMCE
+Update/Rewrite touchinlineedit.js as clean javascript class
+Add admin description for module manager
 
 /// Version 1.7.4
 
