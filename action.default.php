@@ -46,7 +46,7 @@ $touchInlineEdit = touchInlineEdit::getCMSModuleInstance('touchInlineEdit');
 
 if($touchInlineEdit){
   if($touchInlineEdit->hasInlineEditRights()){
-    if($touchInlineEdit->isAJAXRequest()){
+    if($touchInlineEdit->touch->isAJAXRequest()){
       switch ($_POST['method']){
         case 'updateContent':
           die($touchInlineEdit->updateContent());
