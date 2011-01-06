@@ -118,7 +118,11 @@ class touchInlineEdit extends CMSModule {
 
     return $html;
   }
-
+  
+  function GetAdminDescription(){
+    return $this->Lang('admdescription');
+  }
+  
   public function IsPluginModule(){
     return true;
   }
