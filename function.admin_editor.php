@@ -43,6 +43,6 @@ if(!$this->VisibleToAdminUser()){
   return;
 }
 
-echo $this->editor->getAdminConfig($id,$returnid);
+echo $this->getPlugin()->getAdminConfig($id,$returnid);
 
 ?>

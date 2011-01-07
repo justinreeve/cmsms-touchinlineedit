@@ -35,7 +35,7 @@
  */
 
 define('TIE_PLUGIN_DIR','plugins/');
-define('TIE_PLUGIN_DEFAULT','nicedit');
+define('TIE_PLUGIN_DEFAULT','tiny_mce');
 
 global $gCms;
 require_once cms_join_path($gCms->config['root_path'],'modules',
@@ -43,38 +43,66 @@ require_once cms_join_path($gCms->config['root_path'],'modules',
   
 class touchInlineEdit extends CMSModule {
 
+  /**
+   * Plugin instance only for template calls (smarty).
+   * @var object
+   * @access public
+   */
   public $editor;
+  
+  /**
+   * Smarty reference.
+   * @var object
+   * @access public
+   */
   public $smarty;
+  
+  /**
+   * TouchModule object.
+   * @var object
+   * @access public
+   */
   public $touch;
-  private $defaultTemplate = array(
-    'touchInlineEditButton' => '<button class="touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
+  
+  /**
+   * Templates for this module.
+   * @var array
+   * @access public
+   */
+  private $templates = array(
+    'button' => '<button class="touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
   );
-  private $hasInlineEditRights = null;
+  
+  /**
+   * Constant has inline edit rights.
+   * @var true,false,null
+   * @access public
+   */
+  const ENABLED = null;
+  
+  public function __construct(){
 
-  public function __construct($name=null){
-
-    $this->smarty = $this->getCMSSmarty();
-    $this->smarty->force_compile = true;
-    $this->touch = new touchModule($this);
-    if(!$name){
-      $this->init();
-    }
     parent::__construct();
+        
+    $this->touch = new touchModule($this);
+    $this->smarty = $this->touch->cmsms('smarty');
+    $this->smarty->force_compile = true;
+    
+    // TODO: Check if this the right place?
+    $this->init();
+
   }
 
-  private function init(){
-
-    $editor = $this->touch->get('fePlugin',TIE_PLUGIN_DEFAULT);
-    if($editor){
-      $this->editor = $this->getPluginInstance($editor);
-      // Todo: Remove from cunstructor
-      if($this->hasInlineEditRights()){
-        // Assign me to smarty
-        $this->smarty->assign('tie',$this);
-        // Register filters
-        $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
-      }
+  public function init(){
+    
+    // TODO: Init only on frontent
+    if($this->isEnabled()){
+      // Self assign to smarty
+      $this->smarty->assign('tie',&$this);
+      // Register filters
+      $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
     }
+   
   }
 
   public function GetName(){ 
@@ -90,7 +118,7 @@ class touchInlineEdit extends CMSModule {
   }
 
   public function GetHelp(){
-    $config = $this->getConfig();
+    $config = $this->touch->cmsms('config');
     
     // Get help string
     $html = $this->Lang('help');
@@ -187,15 +215,15 @@ class touchInlineEdit extends CMSModule {
       }
 
       // Before content
-      $contentBefore = '{if $tie->hasInlineEditRights()}';
+      $contentBefore = '{if $tie->isEnabled()}';
       $contentBefore.= '  {if $tie->touch->get(\'feEditButton\')}';
-      $contentBefore.= '    {$tie->ProcessTemplateFromDatabase(\'touchInlineEditButton\')}';
+      $contentBefore.= '    {$tie->touch->fetch(\'button\',true)}';
       $contentBefore.= '  {/if}';
       $contentBefore.= '  <div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
       $contentBefore.= '{/if}';
 
       // After content
-      $contentAfter = '{if $tie->hasInlineEditRights()}';
+      $contentAfter = '{if $tie->isEnabled()}';
       $contentAfter.= '  </div>';
       $contentAfter.= '{/if}';
 
@@ -209,9 +237,9 @@ class touchInlineEdit extends CMSModule {
 
   public function DoEvent( $originator, $eventname, &$params ){
     if($originator == 'Core' && $eventname == 'ContentPostRender'){
-      if($this->hasInlineEditRights()){
+      if($this->isEnabled()){
         // Before close header
-        $params['content'] = str_replace('</head>', $this->editor->getHeader() 
+        $params['content'] = str_replace('</head>', $this->getPlugin()->getHeader() 
           . '</head>', $params['content']);
       }
     }
@@ -219,13 +247,13 @@ class touchInlineEdit extends CMSModule {
 
   /* ----- Functions ----- */
  
-  public function hasInlineEditRights(){
+  public function isEnabled(){
 
-    if(isset($this->hasInlineEditRights)){
-      return $this->hasInlineEditRights;
+    if(isset($this->ENABLED)){
+      return $this->ENABLED;
     }
-
-    $this->hasInlineEditRights = false;
+    
+    $this->ENABLED = false;
 
     // Support for frontend users
     if($this->touch->get('feFEUallow')){
@@ -236,11 +264,11 @@ class touchInlineEdit extends CMSModule {
           $memberGroups = $feu->getMemberGroupsArray($feu->loggedInId());
           foreach($memberGroups as $memberGroup){
             if(in_array($memberGroup['groupid'],$allowedGroups)){
-              $this->hasInlineEditRights = true;
+              $this->ENABLED = true;
             }
           }
         }else{
-          $this->hasInlineEditRights = true;
+          $this->ENABLED = true;
         }
       }
     }
@@ -248,16 +276,16 @@ class touchInlineEdit extends CMSModule {
     // Grant admin users
     if($this->touch->get('feAdminAllow') && check_login(true) 
       && $this->checkPermission('Use touchInlineEdit')){
-      $this->hasInlineEditRights = true;
+      $this->ENABLED = true;
     }
 
-    return $this->hasInlineEditRights;
+    return $this->ENABLED;
   }
 
   protected function getDefaultTemplate($template){
 
-    if(isset($this->defaultTemplate[$template])){
-      return $this->defaultTemplate[$template];
+    if(isset($this->templates[$template])){
+      return $this->templates[$template];
     }
     return false;
   }
@@ -269,26 +297,6 @@ class touchInlineEdit extends CMSModule {
     }else{
       global $gCms;
       return isset($gCms->modules[$name]) ? $gCms->modules[$name]['object'] : false;
-    }
-  }
-  
-  public function getCMSSmarty(){
-
-    if(function_exists('cmsms') && method_exists(cmsms(),'getSmarty')){
-      return cmsms()->getSmarty();
-    }else{
-      global $gCms;
-      return $gCms->smarty;
-    }
-  }
-
-  public function getCMSConfig(){
-
-    if(function_exists('cmsms') && method_exists(cmsms(),'getConfig')){
-      return cmsms()->getConfig();
-    }else{
-      global $gCms;
-      return $gCms->config;
     }
   }
 
@@ -340,7 +348,6 @@ class touchInlineEdit extends CMSModule {
   }
 
   protected function updateContent($block="content_en"){
-    global $gCms;
 
     $contentObj = &$this->getContentObj();
 
@@ -378,7 +385,7 @@ class touchInlineEdit extends CMSModule {
 
   protected function getPlugins(){
 
-    $config = $this->getCMSConfig();
+    $config = $this->touch->cmsms('config');
 
     $availablePlugins = array_diff(scandir($config['root_path'] 
       . '/modules/' . $this->getName()
@@ -386,21 +393,32 @@ class touchInlineEdit extends CMSModule {
 
     $plugins = array();
     foreach($availablePlugins as $plugin){
-      $plugin = $this->getPluginInstance($plugin);
+      $plugin = $this->getPlugin($plugin);
       $plugins[$plugin->name] = $plugin->displayName;
     }
 
     return array_flip($plugins);
   }
 
-  protected function getPluginInstance($plugin, $params = null){
+  // TODO: Singelton?
+  // TODO: rename getPlugin?
+  protected function getPlugin($plugin=null, $params=null){
 
-    $config = $this->getCMSConfig();
+    $config = $this->touch->cmsms('config');
+    
+    if($this->editor){
+      $this->editor;
+    }
+    
     $pluginPath = $config['root_path'] . '/modules/' . get_class() 
       . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
     
     if(!is_string($plugin) || !strlen($plugin) || !file_exists($pluginPath)){
-      trigger_error('Invalid plugin: ' . $plugin, E_USER_WARNING);
+      
+      if($plugin !== null){
+        trigger_error('Invalid plugin: ' . $plugin, E_USER_WARNING);
+      }
+      
       // Re define
       $plugin = TIE_PLUGIN_DEFAULT;
       $pluginPath = $config['root_path'] . '/modules/' . get_class() 
@@ -408,9 +426,12 @@ class touchInlineEdit extends CMSModule {
     }
     
     include_once $pluginPath;
-
-    return new $plugin($params);
+    
+    $this->editor = new $plugin($this);
+    
+    return $this->editor;
   }
+  
 }
 
 ?>

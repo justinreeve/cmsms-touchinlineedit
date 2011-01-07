@@ -44,33 +44,64 @@
   
 class touchModule {
 
-  var $parent;
+  /**
+   * CMSms module instance.
+   * @var object
+   * @access public
+   */
+  var $module;
+
+  /**
+   * Module name.
+   * @var string
+   * @access public
+   */
   var $name;
   
-  function __construct(&$parent){
-    $this->parent = $parent;
-    $this->name = $parent->getName();
+  /**
+   * Module path.
+   * @var string
+   * @access public
+   */
+  var $path;
+  
+  /**
+   * Constructor.
+   */
+  function __construct(&$module){
+    $this->module = $module;
+    $this->name = $module->getName();
+    $this->path = 'modules/' . $module->getName();
   }
   
   /**
    * Set plugin config.
    */
   public function set($name,$value){
-    return $this->parent->setPreference($this->name.'.'.$name,$value);
+    return $this->module->setPreference($this->name.'.'.$name,$value);
   }
   
   /**
-   * Get plugin config.
+   * Get module config.
    */
   public function get($name,$default=null){
-    return $this->parent->getPreference($this->name.'.'.$name,$default);
+    return $this->module->getPreference($this->name.'.'.$name,$default);
   }
   
   /**
-   * Fetches smarty template.
+   * Fetch smarty template relative to module.
    */
   public function fetch($template,$database=false){
-
+    
+    $config = $this->cmsms('config');
+    $smarty = $this->cmsms('smarty');
+    
+    if($database){
+      return $this->module->processTemplateFromDatabase($this->name.'.'.$template);
+    }
+    
+    return $smarty->fetch($config['root_path'] . '/'
+      . $this->path . '/templates/' . $template);
   }
 
   /**
@@ -92,6 +123,38 @@ class touchModule {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
       && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
       == 'xmlhttprequest' ? true : false;
+  }
+
+  /**
+   * Get magic cmsms objects.
+   */
+  public function cmsms($case=null){
+    
+    if(function_exists('cmsms')){
+      $cmsms = cmsms();
+    }else{
+      global $gCms;
+      $cmsms =& $gCms;
+    }
+    
+    switch($case){
+      case 'smarty':
+        if(method_exists($cmsms,'getSmarty')){
+          return $cmsms->getSmarty();
+        }
+        global $gCms;
+        return $gCms->smarty;
+      case 'config':
+        if(method_exists($cmsms,'getConfig')){
+          return $cmsms->getConfig();
+        }else{
+          global $gCms;
+          return $gCms->config;
+        }
+      default:
+        return $cmsms;
+    }
+
   }
 }
 

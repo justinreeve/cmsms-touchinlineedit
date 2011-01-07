@@ -42,7 +42,14 @@
  *
  */
 
-class touchInlineEditPlugin extends touchInlineEdit {
+class touchInlineEditPlugin {
+
+  /**
+   * Module parent instance.
+   * @var object
+   * @access public
+   */
+  var $module;
 
   /**
    * Plugin name.
@@ -56,7 +63,7 @@ class touchInlineEditPlugin extends touchInlineEdit {
    * @var string
    * @access public
    */
-  var $displayName;
+  public static $displayName;
 
   /**
    * Name of the plugin author.
@@ -84,7 +91,7 @@ class touchInlineEditPlugin extends touchInlineEdit {
    * @var string
    * @access public
    */  
-  var $pluginDir;
+  var $path;
 
   /**
    * Is this editor plugin the current installed plugin?
@@ -110,17 +117,14 @@ class touchInlineEditPlugin extends touchInlineEdit {
   /**
    * Construct a new editor plugin.
    */
-  function __construct(){
-
-    $this->pluginDir = 'modules/' . $this->getName() . '/' 
+  function __construct(&$module){
+  
+    $this->module = $module;
+    $this->path = 'modules/' . $this->module->getName() . '/' 
       . TIE_PLUGIN_DIR . $this->name;
-    
-    // TODO: Call future parent get method
-    $this->installed = $this->getPreference('touchInlineEdit.fePlugin') 
+    $this->installed = $this->module->touch->get('fePlugin') 
       == $this->name ? true : false;
-    
-    // TODO: Replace/Remove this
-    parent::__construct($this->name);
+
   }
 
   /**
@@ -130,7 +134,7 @@ class touchInlineEditPlugin extends touchInlineEdit {
     //if(!$this->installed){
       $this->update($this->settings);
       foreach($this->templates as $name => $content){
-        $this->setTemplate('touchInlineEdit.'.$this->name.'.'.$name, $content);
+        $this->module->setTemplate('touchInlineEdit.'.$this->name.'.'.$name, $content);
       }
     //}
   }
@@ -139,35 +143,37 @@ class touchInlineEditPlugin extends touchInlineEdit {
    * Plugin uninstall method.
    */
   public function uninstall(){
-    /* not implemented */
+    foreach($this->templates as $name => $content){
+      $this->module->deleteTemplate('touchInlineEdit.'.$this->name.'.'.$name);
+    }
   }
   
   /**
    * Set plugin config
    */
   public function set($name,$value){
-    return $this->setPreference('touchInlineEdit.'.$this->name.'.'.$name,$value);
+    return $this->module->touch->set($this->name.'.'.$name,$value);
   }
   
   /**
    * Get plugin config
    */
   public function get($name,$default=null){
-    return $this->getPreference('touchInlineEdit.'.$this->name.'.'.$name,$default);
+    return $this->module->touch->get($this->name.'.'.$name,$default);
   }
   
   /**
-   * Fetches smarty template relative to $pluginDir.
+   * Fetch smarty template relative to $path.
    */
   public function fetch($template,$database=false){
-    $config = $this->getCMSConfig();
-    
     if($database){
-      return $this->processTemplateFromDatabase('touchInlineEdit.'.$this->name.'.'.$template);
+      return $this->module->touch->fetch($this->name.'.'.$template,$database);
     }
+    $config = $this->module->touch->cmsms('config');
+    $smarty = $this->module->touch->cmsms('smarty');
     
-    return $this->smarty->fetch($config['root_path'] . '/'
-      . $this->pluginDir . '/templates/' . $template);
+    return $smarty->fetch($config['root_path'] . '/'
+      . $this->path . '/templates/' . $template);
   }
 
   /**

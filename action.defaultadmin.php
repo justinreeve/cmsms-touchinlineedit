@@ -96,7 +96,7 @@ if($this->CheckPermission('Modify Templates')){
 }
 
 // Editor specific settings
-if(method_exists($this->editor,'getAdminConfig')){
+if(method_exists($this->getPlugin(),'getAdminConfig')){
 
   echo $this->StartTab("editor");
   include(dirname(__FILE__).'/function.admin_editor.php');

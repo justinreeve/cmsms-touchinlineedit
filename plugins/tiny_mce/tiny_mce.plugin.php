@@ -43,11 +43,11 @@ class tiny_mce extends touchInlineEditPlugin {
   var $templates = array(
     'header' => 
 '<!-- {$tie->getName()} :: {$tie->editor->displayName} module -->
-<script src="{$tie->editor->pluginDir}/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="{$tie->editor->path}/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
 {if $tie->editor->get(\'JQueryLoad\')}
-  <script src="{$tie->editor->pluginDir}/js/jquery.js" type="text/javascript"></script>
+  <script src="{$tie->editor->path}/js/jquery.js" type="text/javascript"></script>
 {/if}
-<script src="{$tie->editor->pluginDir}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->editor->path}/js/touchInlineEdit.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
   var touchInlineEdit = new touchInlineEdit(
     {$tie->getContentId()},
@@ -59,41 +59,37 @@ class tiny_mce extends touchInlineEditPlugin {
 </script>
 <!-- {$tie->getName()} :: {$tie->editor->displayName} module -->');
 
-  function __construct(){
+  function __construct(&$module){
     $this->name = 'tiny_mce';
     $this->displayName = 'tinyMCE';
     $this->settings = array(
       'JQueryLoad' => 1,
     );
-    parent::__construct($this->name);
-  }
-
-  public function install(){
-    parent::install($this->settings);
+    parent::__construct($module);
   }
 
   public function getAdminConfig($id,$returnid){
 
     $yn = array(
-      $this->lang("no") => 0,
-      $this->lang("yes") => 1
+      $this->module->lang("no") => 0,
+      $this->module->lang("yes") => 1
     );
 
     // Form start
-    $this->smarty->assign('formstart',$this->createFormStart($id,"saveeditor",$returnid));
+    $this->module->smarty->assign('formstart',$this->module->createFormStart($id,"saveeditor",$returnid));
 
     // jquery lib
-    $this->smarty->assign($this->name.'JQueryLoad_label',$this->lang($this->name."JQueryLoad_label"));
-    $this->smarty->assign($this->name.'JQueryLoad_help',$this->lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->createInputDropdown($id,'JQueryLoad',
+    $this->module->smarty->assign($this->name.'JQueryLoad_label',$this->module->lang($this->name."JQueryLoad_label"));
+    $this->module->smarty->assign($this->name.'JQueryLoad_help',$this->module->lang($this->name."JQueryLoad_help"));
+    $this->module->smarty->assign($this->name.'JQueryLoad_input',$this->module->createInputDropdown($id,'JQueryLoad',
       $yn,$this->get('JQueryLoad',1),"","\n"));
 
     // Submit / cancel
-    $this->smarty->assign('submit',$this->createInputSubmit($id,"submit",$this->lang("save")));
-    $this->smarty->assign('cancel',$this->createInputSubmit($id,"cancel",$this->lang("cancel")));
+    $this->module->smarty->assign('submit',$this->module->createInputSubmit($id,"submit",$this->module->lang("save")));
+    $this->module->smarty->assign('cancel',$this->module->createInputSubmit($id,"cancel",$this->module->lang("cancel")));
 
     // Form end
-    $this->smarty->assign('formend',$this->createFormEnd());
+    $this->module->smarty->assign('formend',$this->module->createFormEnd());
 
     return $this->fetch("admineditor.tpl");
   }
