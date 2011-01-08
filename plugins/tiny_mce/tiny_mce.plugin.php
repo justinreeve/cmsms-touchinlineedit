@@ -34,10 +34,6 @@
  *
  */
 
-global $gCms;
-require_once cms_join_path($gCms->config['root_path'],'modules',
-  'touchInlineEdit','lib','touchInlineEditPlugin.class.php');
-
 class tiny_mce extends touchInlineEditPlugin {
 
   var $templates = array(

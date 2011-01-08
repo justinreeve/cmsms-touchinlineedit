@@ -39,8 +39,8 @@ define('TIE_PLUGIN_DEFAULT','tiny_mce');
 
 global $gCms;
 require_once cms_join_path($gCms->config['root_path'],'modules',
-  'touchInlineEdit','lib','touchModule.class.php');
-  
+  'touchInlineEdit','lib','class.touchModule.php');
+
 class touchInlineEdit extends CMSModule {
 
   /**
@@ -83,7 +83,7 @@ class touchInlineEdit extends CMSModule {
   public function __construct(){
 
     parent::__construct();
-        
+    
     $this->touch = new touchModule($this);
     $this->smarty = $this->touch->cmsms('smarty');
     $this->smarty->force_compile = true;
@@ -94,12 +94,9 @@ class touchInlineEdit extends CMSModule {
   }
 
   public function init(){
-    
-    // TODO: Init only on frontent
+
     if($this->isEnabled()){
-      // Self assign to smarty
       $this->smarty->assign('tie',&$this);
-      // Register filters
       $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
     }
    
@@ -400,8 +397,7 @@ class touchInlineEdit extends CMSModule {
     return array_flip($plugins);
   }
 
-  // TODO: Singelton?
-  // TODO: rename getPlugin?
+  // TODO: Singleton...
   protected function getPlugin($plugin=null, $params=null){
 
     $config = $this->touch->cmsms('config');
@@ -410,26 +406,18 @@ class touchInlineEdit extends CMSModule {
       $this->editor;
     }
     
-    $pluginPath = $config['root_path'] . '/modules/' . get_class() 
-      . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
-    
-    if(!is_string($plugin) || !strlen($plugin) || !file_exists($pluginPath)){
-      
-      if($plugin !== null){
-        trigger_error('Invalid plugin: ' . $plugin, E_USER_WARNING);
-      }
-      
-      // Re define
+    if(!is_string($plugin) || !strlen($plugin)){
       $plugin = TIE_PLUGIN_DEFAULT;
-      $pluginPath = $config['root_path'] . '/modules/' . get_class() 
-        . '/'.TIE_PLUGIN_DIR  . $plugin . '/' . $plugin . '.plugin.php';
     }
-    
-    include_once $pluginPath;
+
+    if(file_exists($this->getModulePath().'/'.TIE_PLUGIN_DIR.$plugin.'/'.$plugin.'.plugin.php')){
+      require_once $this->getModulePath().'/'.TIE_PLUGIN_DIR.$plugin.'/'.$plugin.'.plugin.php';
+    }
     
     $this->editor = new $plugin($this);
     
     return $this->editor;
+    
   }
   
 }
