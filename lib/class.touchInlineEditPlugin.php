@@ -55,7 +55,7 @@ class touchInlineEditPlugin {
    * @var string
    * @access public
    */
-  public static $displayName;
+  var $displayName;
 
   /**
    * Name of the plugin author.
@@ -173,10 +173,23 @@ class touchInlineEditPlugin {
   }
 
   /**
-   * Get all admin config for this plugin, override by plugin.
+   * Get all settings for this plugin as array.
    */
-  public function getSettings($id,$returnid){}
-
+  public function getSettings()
+  {
+    $settings=array();
+    foreach($this->settings as $name => $value){
+      $settings[$name] = $this->get($name,$this->settings[$name]);
+    }
+    
+    return $settings;
+  }
+  
+  /**
+   * Get admin config tab code, override by plugin.
+   */
+  public function getAdminConfig($id,$returnid){}
+  
   /**
    * Get html header infos for this plugin, override by plugin.
    */

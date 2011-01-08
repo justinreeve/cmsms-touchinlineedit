@@ -483,6 +483,7 @@ class touchInlineEdit extends CMSModule {
 
   /**
    * Get plugin instance for given name or default.
+   * TODO: Singleton
    */
   protected function getPlugin($name=null)
   {

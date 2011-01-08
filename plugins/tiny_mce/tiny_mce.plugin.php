@@ -56,7 +56,9 @@ class tiny_mce extends touchInlineEditPlugin {
     "{$tie->touch->get(\'feUpdateAlertMessage\')}",
     {$tie->touch->get(\'feEditOnDblClick\')}
   );
-  touchInlineEdit.setParam(\'theme\',\'advanced\');
+{foreach from=$tie->plugin->getSettings() key=name item=value}
+  touchInlineEdit.setParam("{$name}","{$value}");
+{/foreach}
 </script>
 <!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->');
 
@@ -69,6 +71,16 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->displayName = 'tinyMCE';
     $this->settings = array(
       'JQueryLoad' => 1,
+      'theme' => 'advanced',
+      'skin' => 'o2k7',
+      'skin_variant' => 'silver',
+      'buttons1' => 'cut,paste,pastetext,pasteword,copy,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,styleselect,formatselect,fontselect,fontsizeselect',
+      'buttons2' => 'bold,italic,underline,strikethrough,advhr,separator,bullist,numlist,separator,outdent,indent,separator,undo,redo,separator,customdropdown,cmslinker,link,unlink,anchor,image,charmap,cleanup,separator,forecolor,backcolor,separator,code,spellchecker,fullscreen,help',
+      'force_br_newlines' => 0,
+      'force_p_newlines' => 1,
+      'forced_root_block' => 'p',
+      'entity_encoding' => 'raw',
+      'theme_advanced_resizing' => 1
     );
     parent::__construct($module);
   }
@@ -86,12 +98,92 @@ class tiny_mce extends touchInlineEditPlugin {
     // Form start
     $this->module->smarty->assign('formstart',$this->module->createFormStart($id,"saveeditor",$returnid));
 
-    // jquery lib
-    $this->module->smarty->assign($this->name.'JQueryLoad_label',$this->module->lang($this->name."JQueryLoad_label"));
-    $this->module->smarty->assign($this->name.'JQueryLoad_help',$this->module->lang($this->name."JQueryLoad_help"));
-    $this->module->smarty->assign($this->name.'JQueryLoad_input',$this->module->createInputDropdown($id,'JQueryLoad',
-      $yn,$this->get('JQueryLoad',1),"","\n"));
+    // jquery
+    $name = 'JQueryLoad';
+    $options = $yn;
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $yn,$this->get($name,$this->settings[$name]),"","\n"));
 
+    // theme
+    $name = 'theme';
+    $options = array('advanced' => 'advanced','simple' => 'simple');
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+
+    // Skin
+    $name = 'skin';
+    $options = array('default' => 'default','o2k7' => 'o2k7');
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+    
+    // Skin variant
+    $name = 'skin_variant';
+    $options = array('silver' => 'silver','black' => 'black');
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+    
+    // Buttons1
+    $name = 'buttons1';
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputText($id,$name,
+      $this->get($name,$this->settings[$name]),"","\n"));
+    
+    // Buttons2
+    $name = 'buttons2';
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputText($id,$name,
+      $this->get($name,$this->settings[$name]),"","\n"));
+    
+    // force rootblock
+    $name = 'forced_root_block';
+    $options = array($this->module->lang('yes') => 'p',$this->module->lang('no') => 0);
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+    
+    // Newlines p
+    $name = 'force_p_newlines';
+    $options = array($this->module->lang('yes') => 1,$this->module->lang('no') => 0);
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+    
+    // Newlines br
+    $name = 'force_br_newlines';
+    $options = array($this->module->lang('yes') => 1,$this->module->lang('no') => 0);
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+
+    // Newlines br
+    $name = 'entity_encoding';
+    $options = array('raw' => 'raw', 'named' => 'named', 'numeric' => 'numeric');
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),"","\n"));
+
+    // Resizing
+    $name = 'theme_advanced_resizing';
+    $options = $yn;
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $yn,$this->get($name,$this->settings[$name]),"","\n"));
+    
     // Submit / cancel
     $this->module->smarty->assign('submit',$this->module->createInputSubmit($id,"submit",$this->module->lang("save")));
     $this->module->smarty->assign('cancel',$this->module->createInputSubmit($id,"cancel",$this->module->lang("cancel")));

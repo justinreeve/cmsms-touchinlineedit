@@ -90,20 +90,32 @@ function touchInlineEdit(id,request,message,onClick){
   this.add = function(){
     tinyMCE.init({
       mode: 'none',
+      // Theme
       theme: self.getParam('theme'),
+      // Skin
+      skin: self.getParam('skin'),
+      skin_variant: self.getParam('skin_variant'),
       // Save
       plugins: 'save',
       save_enablewhendirty: false,
       save_onsavecallback: 'touchInlineEditSaveMCE',
-      // Buttons
-      theme_advanced_buttons3_add: 'save',
-      theme_advanced_toolbar_location : "top",
-      theme_advanced_toolbar_align : "left",
-      theme_advanced_statusbar_location : "bottom",
-      theme_advanced_resizing : true,
-      // Skin
-      skin : "o2k7",
-      skin_variant : "silver"
+      // Basic buttons
+      theme_advanced_buttons1_add_before: 'save',
+      theme_advanced_toolbar_location: 'top',
+      theme_advanced_toolbar_align: 'left',
+      theme_advanced_statusbar_location: 'bottom',
+      // Extra buttons
+      theme_advanced_buttons1: self.getParam('buttons1'),
+      theme_advanced_buttons2: self.getParam('buttons2'),
+      // Options
+      theme_advanced_resizing: self.getParam('theme_advanced_resizing'),
+      // Newlines
+      force_br_newlines: self.getParam('force_br_newlines'),
+      force_p_newlines: self.getParam('force_p_newlines'),
+      forced_root_block: self.getParam('forced_root_block'),
+      // Encoding
+      entity_encoding: self.getParam('entity_encoding'), 
+      button_tile_map: true
     });
     self.editor = tinyMCE.execCommand('mceAddControl', true, 'touchInlineEditId' + self.contentId);
   }
