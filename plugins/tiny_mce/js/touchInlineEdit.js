@@ -90,13 +90,14 @@ function touchInlineEdit(id,request,message,onClick){
   this.add = function(){
     tinyMCE.init({
       mode: 'none',
+      auto_focus: 'touchInlineEditId' + self.contentId,
       // Theme
       theme: self.getParam('theme'),
       // Skin
       skin: self.getParam('skin'),
       skin_variant: self.getParam('skin_variant'),
       // Save
-      plugins: 'save',
+      plugins: self.getParam('plugins'),
       save_enablewhendirty: false,
       save_onsavecallback: 'touchInlineEditSaveMCE',
       // Basic buttons
@@ -211,5 +212,5 @@ $(document).ready(function(){
       return false;
     });
   }
-  
+
 });

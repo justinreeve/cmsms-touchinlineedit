@@ -72,7 +72,8 @@ class touchModule {
    */
   public function set($name,$value)
   {
-    return $this->module->setPreference($this->name.'.'.$name,$value);
+    return $this->module->setPreference($this->name.'.'.$name,
+      is_array($value) ? implode(',',$value) : $value);
   }
   
   /**

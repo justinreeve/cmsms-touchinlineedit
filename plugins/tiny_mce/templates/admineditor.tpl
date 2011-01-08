@@ -16,6 +16,10 @@
     <p class="pageinput">{$tiny_mceskin_variant_input}<br/>{$tiny_mceskin_variant_help}</p>
   </div>
   <div class="pageoverflow">
+    <p class="pagetext">{$tiny_mceplugins_label}</p>
+    <p class="pageinput">{$tiny_mceplugins_input}<br/>{$tiny_mceplugins_help}</p>
+  </div>
+  <div class="pageoverflow">
     <p class="pagetext">{$tiny_mcebuttons1_label}</p>
     <p class="pageinput">{$tiny_mcebuttons1_input}<br/>{$tiny_mcebuttons1_help}</p>
   </div>

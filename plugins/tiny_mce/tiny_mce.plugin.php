@@ -80,7 +80,8 @@ class tiny_mce extends touchInlineEditPlugin {
       'force_p_newlines' => 1,
       'forced_root_block' => 'p',
       'entity_encoding' => 'raw',
-      'theme_advanced_resizing' => 1
+      'theme_advanced_resizing' => 1,
+      'plugins' => '',
     );
     parent::__construct($module);
   }
@@ -94,7 +95,7 @@ class tiny_mce extends touchInlineEditPlugin {
       $this->module->lang("no") => 0,
       $this->module->lang("yes") => 1
     );
-
+    
     // Form start
     $this->module->smarty->assign('formstart',$this->module->createFormStart($id,"saveeditor",$returnid));
 
@@ -104,45 +105,53 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $yn,$this->get($name,$this->settings[$name]),"","\n"));
-
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+      
     // theme
     $name = 'theme';
     $options = array('advanced' => 'advanced','simple' => 'simple');
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
-
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+    
     // Skin
     $name = 'skin';
     $options = array('default' => 'default','o2k7' => 'o2k7');
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
     
     // Skin variant
     $name = 'skin_variant';
-    $options = array('silver' => 'silver','black' => 'black');
+    $options = array('default' => '', 'silver' => 'silver','black' => 'black');
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
-    
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+
+    // Plugins
+    $name = 'plugins';
+    $options = $this->getPlugins();
+    $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
+    $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
+    $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputSelectList($id,$name.'[]',
+      $options,explode(',',$this->get($name,$this->settings[$name])),10,'style="width:200px"'));
+      
     // Buttons1
     $name = 'buttons1';
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputText($id,$name,
-      $this->get($name,$this->settings[$name]),"","\n"));
+      $this->get($name,$this->settings[$name]),80,255));
     
     // Buttons2
     $name = 'buttons2';
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputText($id,$name,
-      $this->get($name,$this->settings[$name]),"","\n"));
+      $this->get($name,$this->settings[$name]),80,255));
     
     // force rootblock
     $name = 'forced_root_block';
@@ -150,7 +159,7 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
     
     // Newlines p
     $name = 'force_p_newlines';
@@ -158,7 +167,7 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
     
     // Newlines br
     $name = 'force_br_newlines';
@@ -166,31 +175,31 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
-
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+      
     // Newlines br
     $name = 'entity_encoding';
     $options = array('raw' => 'raw', 'named' => 'named', 'numeric' => 'numeric');
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $options,$this->get($name,$this->settings[$name]),"","\n"));
-
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+    
     // Resizing
     $name = 'theme_advanced_resizing';
     $options = $yn;
     $this->module->smarty->assign($this->name.$name.'_label',$this->module->lang($this->name.$name.'_label'));
     $this->module->smarty->assign($this->name.$name.'_help',$this->module->lang($this->name.$name.'_help'));
     $this->module->smarty->assign($this->name.$name.'_input',$this->module->createInputDropdown($id,$name,
-      $yn,$this->get($name,$this->settings[$name]),"","\n"));
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
     
     // Submit / cancel
     $this->module->smarty->assign('submit',$this->module->createInputSubmit($id,"submit",$this->module->lang("save")));
     $this->module->smarty->assign('cancel',$this->module->createInputSubmit($id,"cancel",$this->module->lang("cancel")));
-
+    
     // Form end
     $this->module->smarty->assign('formend',$this->module->createFormEnd());
-
+    
     return $this->fetch("admineditor.tpl");
   }
 
@@ -201,7 +210,25 @@ class tiny_mce extends touchInlineEditPlugin {
   {
     return $this->fetch('header',true);
   }
+  
+  /**
+   * Get available module as array.
+   */
+  protected function getPlugins()
+  {
+    $config = $this->module->touch->cmsms('config');
 
+    $availablePlugins = array_diff(scandir($config['root_path']. '/' . $this->path 
+      . '/js/tiny_mce/plugins'),array('.','..','.svn','.htaccess')); 
+
+    $plugins = array();
+    foreach($availablePlugins as $plugin){
+      $plugins[$plugin] = $plugin;
+    }
+
+    return array_flip($plugins);
+  }
+  
 }
 
 ?>
