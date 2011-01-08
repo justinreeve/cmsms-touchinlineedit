@@ -48,7 +48,7 @@ class touchInlineEdit extends CMSModule {
    * @var object
    * @access public
    */
-  public $editor;
+  public $plugin;
   
   /**
    * Smarty reference.
@@ -69,7 +69,7 @@ class touchInlineEdit extends CMSModule {
    * @var array
    * @access public
    */
-  private $templates = array(
+  public $templates = array(
     'button' => '<button class="touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
   );
   
@@ -337,7 +337,7 @@ class touchInlineEdit extends CMSModule {
 
     // Support for frontend users
     if($this->touch->get('feFEUallow')){
-      $feu = $this->getModuleInstance('FrontEndUsers');
+      $feu = $this->touch->getModuleInstance('FrontEndUsers');
       if($feu && $feu->loggedInId()){
         if($this->touch->get('feFEUgroups')){
           $allowedGroups = explode(',',$this->touch->get('feFEUgroups'));
@@ -360,30 +360,6 @@ class touchInlineEdit extends CMSModule {
     }
 
     return $this->ENABLED;
-  }
-
-  /**
-   * Get module default template by name.
-   */
-  protected function getDefaultTemplate($template)
-  {
-    if(isset($this->templates[$template])){
-      return $this->templates[$template];
-    }
-    return false;
-  }
-
-  /**
-   * Wrapper for cmsms, get module as instance.
-   */
-  static public function getCMSModuleInstance($name)
-  {
-    if(function_exists('cmsms') && method_exists(cmsms(),'GetModuleInstance')){
-      return cmsms()->GetModuleInstance($name);
-    }else{
-      global $gCms;
-      return isset($gCms->modules[$name]) ? $gCms->modules[$name]['object'] : false;
-    }
   }
 
   /**
@@ -487,14 +463,6 @@ class touchInlineEdit extends CMSModule {
    */
 
   /**
-   * Get current request uri.
-   */
-  public function getRequestUri()
-  {
-    return $_SERVER["REQUEST_URI"];
-  }
-
-  /**
    * Get available module as array.
    */
   protected function getPlugins()
@@ -514,27 +482,27 @@ class touchInlineEdit extends CMSModule {
   }
 
   /**
-   * Get plugin instance.
+   * Get plugin instance for given name or default.
    */
-  protected function getPlugin($plugin=null, $params=null)
+  protected function getPlugin($name=null)
   {
     $config = $this->touch->cmsms('config');
     
-    if($this->editor){
-      $this->editor;
+    if($this->plugin){
+      $this->plugin;
     }
     
-    if(!is_string($plugin) || !strlen($plugin)){
-      $plugin = TIE_PLUGIN_DEFAULT;
+    if(!is_string($name) || !strlen($name)){
+      $name = TIE_PLUGIN_DEFAULT;
     }
 
-    if(file_exists($this->getModulePath().'/'.TIE_PLUGIN_DIR.$plugin.'/'.$plugin.'.plugin.php')){
-      require_once $this->getModulePath().'/'.TIE_PLUGIN_DIR.$plugin.'/'.$plugin.'.plugin.php';
+    if(file_exists($this->getModulePath().'/'.TIE_PLUGIN_DIR.$name.'/'.$name.'.plugin.php')){
+      require_once $this->getModulePath().'/'.TIE_PLUGIN_DIR.$name.'/'.$name.'.plugin.php';
     }
     
-    $this->editor = new $plugin($this);
+    $this->plugin = new $name($this);
     
-    return $this->editor;
+    return $this->plugin;
   }
 
 }

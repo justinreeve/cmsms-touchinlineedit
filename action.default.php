@@ -34,7 +34,7 @@
  *
  */
 
-$touchInlineEdit = touchInlineEdit::getCMSModuleInstance('touchInlineEdit');
+$touchInlineEdit = touchModule::getCMSModuleInstance('touchInlineEdit');
 
 if($touchInlineEdit){
   if($touchInlineEdit->isEnabled()){

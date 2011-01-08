@@ -49,7 +49,7 @@ $this->SetPreference('touchInlineEdit.feAdminAllow', 1);
 if(method_exists($this->getPlugin(),'install')){
   $this->getPlugin()->install();
 }
-$this->SetTemplate('touchInlineEdit.button', $this->getDefaultTemplate('button'));
+$this->SetTemplate('touchInlineEdit.button', $this->touch->getTemplate('button'));
 
 // Log install info
 $this->Audit(0, $this->GetFriendlyName(), $this->Lang('postinstall'));

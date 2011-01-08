@@ -40,7 +40,7 @@ if(!$this->CheckPermission('Modify Templates')){
 }
 
 if(isset($params['reset'])){
-  $this->SetTemplate($params['template'], $this->getDefaultTemplate($params['template']));
+  $this->SetTemplate($params['template'], $this->touch->getTemplate($params['template']));
 }elseif(isset($params["template_content"]) && !empty($params["template_content"])){
   $this->SetTemplate($params['template'], $params['template_content']);
 }

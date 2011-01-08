@@ -37,7 +37,7 @@
 class touchModule {
 
   /**
-   * CMSms module instance.
+   * Current CMSms module instance.
    * @var object
    * @access public
    */
@@ -151,7 +151,39 @@ class touchModule {
         return $cmsms;
     }
   }
+  
+  /**
+   * Wrapper for cmsms internal get module as instance.
+   */
+  static public function getCMSModuleInstance($name)
+  {
+    if(function_exists('cmsms') && method_exists(cmsms(),'GetModuleInstance')){
+      return cmsms()->GetModuleInstance($name);
+    }else{
+      global $gCms;
+      return isset($gCms->modules[$name]) ? $gCms->modules[$name]['object'] : false;
+    }
+  }
+  
+  /**
+   * Get default template by name for current module.
+   */
+  public function getTemplate($template)
+  {
+    if(isset($this->module->templates[$template])){
+      return $this->module->templates[$template];
+    }
+    return false;
+  }
 
+  /**
+   * Get current request uri for smarty calls.
+   */
+  public function getRequestUri()
+  {
+    return $_SERVER["REQUEST_URI"];
+  }
+  
 }
 
 ?>

@@ -46,7 +46,7 @@ if(version_compare($oldversion, '1.6', '<')){
   $this->SetPreference('touchInlineEdit.feEditOnDblClick', 'true');
   $this->AddEventHandler('Core', 'ContentPostRender', false);
   $this->AddEventHandler('Core', 'SmartyPreCompile', false);
-  $this->SetTemplate('touchInlineEditContextMenu', $this->getDefaultTemplate('touchInlineEditContextMenu'));
+  $this->SetTemplate('touchInlineEditContextMenu', $this->touch->getTemplate('touchInlineEditContextMenu'));
 }
 if(version_compare($oldversion, '1.7', '<')){
   $this->SetPreference('touchInlineEdit.fePlugin', 'nicedit');
@@ -79,7 +79,7 @@ if(version_compare($oldversion, '1.7.4', '<')){
 }
 if(version_compare($oldversion, '1.8.0', '<')){
   $this->DeleteTemplate('touchInlineEditButton');
-  $this->SetTemplate('touchInlineEdit.button', $this->getDefaultTemplate('button'));
+  $this->SetTemplate('touchInlineEdit.button', $this->touch->getTemplate('button'));
   $this->RemovePreference('touchInlineEdit.feUpdateAlert');
   $this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
   $this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));

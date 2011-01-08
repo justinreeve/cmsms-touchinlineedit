@@ -39,7 +39,7 @@ if(!$this->CheckPermission('Modify Site Settings')){
   return;
 }
 
-$this->getPluginInstance()->update($params);
+$this->getPlugin()->update($params);
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "editor"));
 

@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchInlineEdit tinyMCE plugin
+ * touchInlineEdit Module tinyMCE plugin
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -36,26 +36,35 @@
 
 class tiny_mce extends touchInlineEditPlugin {
 
-  var $templates = array(
+  /**
+   * Templates for this module.
+   * @var array
+   * @access public
+   */
+  public $templates = array(
     'header' => 
-'<!-- {$tie->getName()} :: {$tie->editor->displayName} module -->
-<script src="{$tie->editor->path}/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-{if $tie->editor->get(\'JQueryLoad\')}
-  <script src="{$tie->editor->path}/js/jquery.js" type="text/javascript"></script>
+'<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->
+<script src="{$tie->plugin->path}/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+{if $tie->plugin->get(\'JQueryLoad\')}
+  <script src="{$tie->plugin->path}/js/jquery.js" type="text/javascript"></script>
 {/if}
-<script src="{$tie->editor->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/touchInlineEdit.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
   var touchInlineEdit = new touchInlineEdit(
     {$tie->getContentId()},
-    "{$tie->getRequestUri()}",
+    "{$tie->touch->getRequestUri()}",
     "{$tie->touch->get(\'feUpdateAlertMessage\')}",
     {$tie->touch->get(\'feEditOnDblClick\')}
   );
   touchInlineEdit.setParam(\'theme\',\'advanced\');
 </script>
-<!-- {$tie->getName()} :: {$tie->editor->displayName} module -->');
+<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->');
 
-  function __construct(&$module){
+  /**
+   * Construct a new plugin and call parent.
+   */
+  function __construct(&$module)
+  {
     $this->name = 'tiny_mce';
     $this->displayName = 'tinyMCE';
     $this->settings = array(
@@ -64,8 +73,11 @@ class tiny_mce extends touchInlineEditPlugin {
     parent::__construct($module);
   }
 
-  public function getAdminConfig($id,$returnid){
-
+  /**
+   * Get admin config tab code.
+   */
+  public function getAdminConfig($id,$returnid)
+  {
     $yn = array(
       $this->module->lang("no") => 0,
       $this->module->lang("yes") => 1
@@ -90,10 +102,14 @@ class tiny_mce extends touchInlineEditPlugin {
     return $this->fetch("admineditor.tpl");
   }
 
-  // TODO: Rename
-  public function getHeader(){
+  /**
+   * Get plugin header html.
+   */
+  public function getHeader()
+  {
     return $this->fetch('header',true);
   }
+
 }
 
 ?>
