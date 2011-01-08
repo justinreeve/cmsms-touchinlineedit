@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchModule base class
+ * touchInlineEdit Module
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -14,14 +14,6 @@
  * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
- *
- * 
- * --
- *
- * Usage: 
- *
- * {cms_module module="touchInlineEdit"}
- *
  *
  *
  * --
@@ -68,7 +60,8 @@ class touchModule {
   /**
    * Constructor.
    */
-  function __construct(&$module){
+  function __construct(&$module)
+  {
     $this->module = $module;
     $this->name = $module->getName();
     $this->path = 'modules/' . $module->getName();
@@ -77,22 +70,24 @@ class touchModule {
   /**
    * Set plugin config.
    */
-  public function set($name,$value){
+  public function set($name,$value)
+  {
     return $this->module->setPreference($this->name.'.'.$name,$value);
   }
   
   /**
    * Get module config.
    */
-  public function get($name,$default=null){
+  public function get($name,$default=null)
+  {
     return $this->module->getPreference($this->name.'.'.$name,$default);
   }
   
   /**
    * Fetch smarty template relative to module.
    */
-  public function fetch($template,$database=false){
-    
+  public function fetch($template,$database=false)
+  {
     $config = $this->cmsms('config');
     $smarty = $this->cmsms('smarty');
     
@@ -107,7 +102,8 @@ class touchModule {
   /**
    * Set or update config for this module. 
    */
-  public function update($params){
+  public function update($params)
+  {
     foreach($params as $name => $value){
       if(isset($this->settings[$name])){
         $this->set($name,$value);
@@ -118,8 +114,8 @@ class touchModule {
   /**
    * Check for AJAX request. 
    */
-  public function isAJAXRequest(){
-
+  public function isAJAXRequest()
+  {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
       && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
       == 'xmlhttprequest' ? true : false;
@@ -128,8 +124,8 @@ class touchModule {
   /**
    * Get magic cmsms objects.
    */
-  public function cmsms($case=null){
-    
+  public function cmsms($case=null)
+  {  
     if(function_exists('cmsms')){
       $cmsms = cmsms();
     }else{
@@ -154,8 +150,8 @@ class touchModule {
       default:
         return $cmsms;
     }
-
   }
+
 }
 
 ?>

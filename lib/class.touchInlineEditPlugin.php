@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchInlineEdit tinyMCE plugin
+ * touchInlineEdit Module
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -14,14 +14,6 @@
  * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
- *
- * 
- * --
- *
- * Usage: 
- *
- * {cms_module module="touchInlineEdit"}
- *
  *
  *
  * --
@@ -117,20 +109,20 @@ class touchInlineEditPlugin {
   /**
    * Construct a new editor plugin.
    */
-  function __construct(&$module){
-  
+  function __construct(&$module)
+  {
     $this->module = $module;
     $this->path = 'modules/' . $this->module->getName() . '/' 
       . TIE_PLUGIN_DIR . $this->name;
     $this->installed = $this->module->touch->get('fePlugin') 
       == $this->name ? true : false;
-
   }
 
   /**
    * Plugin install method.
    */
-  public function install(){
+  public function install()
+  {
     //if(!$this->installed){
       $this->update($this->settings);
       foreach($this->templates as $name => $content){
@@ -142,7 +134,8 @@ class touchInlineEditPlugin {
   /**
    * Plugin uninstall method.
    */
-  public function uninstall(){
+  public function uninstall()
+  {
     foreach($this->templates as $name => $content){
       $this->module->deleteTemplate('touchInlineEdit.'.$this->name.'.'.$name);
     }
@@ -151,21 +144,24 @@ class touchInlineEditPlugin {
   /**
    * Set plugin config
    */
-  public function set($name,$value){
+  public function set($name,$value)
+  {
     return $this->module->touch->set($this->name.'.'.$name,$value);
   }
   
   /**
    * Get plugin config
    */
-  public function get($name,$default=null){
+  public function get($name,$default=null)
+  {
     return $this->module->touch->get($this->name.'.'.$name,$default);
   }
   
   /**
    * Fetch smarty template relative to $path.
    */
-  public function fetch($template,$database=false){
+  public function fetch($template,$database=false)
+  {
     if($database){
       return $this->module->touch->fetch($this->name.'.'.$template,$database);
     }
@@ -177,25 +173,27 @@ class touchInlineEditPlugin {
   }
 
   /**
-   * Get all admin config for this plugin. 
+   * Get all admin config for this plugin, override by plugin.
    */
   public function getSettings($id,$returnid){}
 
   /**
-   * Get html header infos for this plugin. 
+   * Get html header infos for this plugin, override by plugin.
    */
   public function getHeader(){}
 
   /**
    * Set or update admin config for this plugin. 
    */
-  public function update($params){
+  public function update($params)
+  {
     foreach($params as $name => $value){
       if(isset($this->settings[$name])){
         $this->set($name,$value);
       }
     }
   }
+
 }
 
 ?>

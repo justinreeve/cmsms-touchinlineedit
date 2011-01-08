@@ -10,9 +10,13 @@ Add touchModule base class
 Rewrite plugins tinyMCE
 Update/Rewrite touchinlineedit.js as clean javascript class
 Add admin description for module manager
+Add description for module
 Rename method hasInlineEditRights -> isEnabled
 Import plugin templates to DB (editable)
 Add plugin uninstall method (remove unused templates, vars...)
+Detach events from module class and call from parent DoEvent
+Cleanup code and comments
+Use cmsms autoloader for internal touch classes
 
 /// Version 1.7.4
 

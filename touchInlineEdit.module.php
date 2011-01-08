@@ -79,9 +79,12 @@ class touchInlineEdit extends CMSModule {
    * @access public
    */
   const ENABLED = null;
-  
-  public function __construct(){
 
+  /**
+   * Construct a new module.
+   */
+  public function __construct()
+  {
     parent::__construct();
     
     $this->touch = new touchModule($this);
@@ -90,31 +93,64 @@ class touchInlineEdit extends CMSModule {
     
     // TODO: Check if this the right place?
     $this->init();
-
   }
 
-  public function init(){
-
+  /**
+   * Init touchInlineEdit and do smarty assigns.
+   */
+  public function init()
+  {
     if($this->isEnabled()){
       $this->smarty->assign('tie',&$this);
       $this->smarty->register_prefilter(array($this,'smartyPreCompile'));
     }
-   
   }
 
-  public function GetName(){ 
+  /**
+   * Get module name.
+   */
+  public function GetName()
+  {
     return 'touchInlineEdit'; 
   }
 
-  public function GetFriendlyName(){ 
+  /**
+   * Get module friendly name.
+   */
+  public function GetFriendlyName()
+  {
     return 'TouchInlineEdit'; 
   }
-
-  public function GetVersion(){ 
+  
+  /**
+   * Get module version.
+   */
+  public function GetVersion()
+  {
     return '1.8.0';
   }
+  
+  /**
+   * Get module author.
+   */
+  public function GetAuthor()
+  {
+    return 'Christoph Gruber <touchDesign.de>';
+  }
 
-  public function GetHelp(){
+  /**
+   * Get module author emailaddress.
+   */
+  public function GetAuthorEmail()
+  {
+    return 'c.gruber@touchdesign.de';
+  }
+  
+  /**
+   * Get module help and apppend static README.
+   */
+  public function GetHelp()
+  {
     $config = $this->touch->cmsms('config');
     
     // Get help string
@@ -130,11 +166,27 @@ class touchInlineEdit extends CMSModule {
     return $html;
   }
   
-  function GetAdminDescription(){
-    return $this->Lang('admdescription');
+  /**
+   * Get module description.
+   */
+  function GetDescription()
+  {
+    return $this->Lang('description');
   }
   
-  function GetChangeLog(){
+  /**
+   * Get module admin description.
+   */
+  function GetAdminDescription()
+  {
+    return $this->Lang('admdescription');
+  }
+
+  /**
+   * Get module changelog and append static CHANGELOG.
+   */
+  function GetChangeLog()
+  {
     $config = $this->getConfig();
     
     $html = '<pre>';
@@ -144,59 +196,92 @@ class touchInlineEdit extends CMSModule {
     
     return $html;
   }
-  
-  public function IsPluginModule(){
+
+  /**
+   * Is plugin module.
+   */
+  public function IsPluginModule()
+  {
     return true;
   }
-  
-  public function HasAdmin(){
+
+  /**
+   * Has admin.
+   */
+  public function HasAdmin()
+  {
     return true; 
   }
 
-  public function GetAuthor(){
-    return 'Christoph Gruber <touchDesign.de>';
-  }
-
-  public function GetAuthorEmail(){
-    return 'c.gruber@touchdesign.de';
-  }
-
-  public function GetAdminSection(){
+  /**
+   * Get admin section for module.
+   */
+  public function GetAdminSection()
+  {
     return 'extensions';
   }
 
-  public function SetParameters(){    
+  /**
+   * Set module paramaters.
+   */
+  public function SetParameters()
+  {
     /* Nothing yet */
   }
 
-  public function InstallPostMessage(){
+  /**
+   * Get post install message.
+   */
+  public function InstallPostMessage()
+  {
     return $this->Lang('postinstall');
   }
 
-  public function UninstallPostMessage(){
+  /**
+   * Get post uninstall message.
+   */
+  public function UninstallPostMessage()
+  {
     return $this->Lang('postuninstall');
   }
 
-  public function UninstallPreMessage(){
+  /**
+   * Get pre install message.
+   */
+  public function UninstallPreMessage()
+  {
     return $this->Lang('preuninstall');
   }
 
-  public function MinimumCMSVersion(){
+  /**
+   * Get cmsms minimum version for touchInlineEdit.
+   */
+  public function MinimumCMSVersion()
+  {
     return "1.6.4";
   }
 
-  public function MaximumCMSVersion(){
+  /**
+   * Get cmsms minimum version for touchInlineEdit.
+   */
+  public function MaximumCMSVersion()
+  {
     return "1.9.2";
   }
 
-  public function HandlesEvents() {
+  /**
+   * Handle events.
+   */
+  public function HandlesEvents()
+  {
     return true;
   }
 
-  /* ----- Events ----- */
-
-  function smartyPreCompile($templateSource, &$smarty=null){
-
+  /**
+   * Smarty pre compile event, touch in :) touchInlineEdit.
+   */
+  function smartyPreCompile($templateSource, &$smarty=null)
+  {
     if($smarty === null){
       return $templateSource;
     }
@@ -229,27 +314,25 @@ class touchInlineEdit extends CMSModule {
     }
 
     return $templateSource;
-    
   }
 
-  public function DoEvent( $originator, $eventname, &$params ){
-    if($originator == 'Core' && $eventname == 'ContentPostRender'){
-      if($this->isEnabled()){
-        // Before close header
-        $params['content'] = str_replace('</head>', $this->getPlugin()->getHeader() 
-          . '</head>', $params['content']);
-      }
-    }
+  /**
+   * Module specific event handling.
+   */
+  public function DoEvent($originator, $eventname, &$params)
+  {
+    parent::DoEvent($originator, $eventname, &$params);
   }
 
-  /* ----- Functions ----- */
- 
-  public function isEnabled(){
-
+  /**
+   * Check if the user is granted to use TouchInlineEdit.
+   */
+  public function isEnabled()
+  {
     if(isset($this->ENABLED)){
       return $this->ENABLED;
     }
-    
+
     $this->ENABLED = false;
 
     // Support for frontend users
@@ -279,16 +362,22 @@ class touchInlineEdit extends CMSModule {
     return $this->ENABLED;
   }
 
-  protected function getDefaultTemplate($template){
-
+  /**
+   * Get module default template by name.
+   */
+  protected function getDefaultTemplate($template)
+  {
     if(isset($this->templates[$template])){
       return $this->templates[$template];
     }
     return false;
   }
 
-  static public function getCMSModuleInstance($name){
-
+  /**
+   * Wrapper for cmsms, get module as instance.
+   */
+  static public function getCMSModuleInstance($name)
+  {
     if(function_exists('cmsms') && method_exists(cmsms(),'GetModuleInstance')){
       return cmsms()->GetModuleInstance($name);
     }else{
@@ -297,10 +386,17 @@ class touchInlineEdit extends CMSModule {
     }
   }
 
-  /* ----- Content operations ----- */
+  /**
+   * ------------------------------------------------------------------
+   * Content operations for touchInlineEdit Ajax requests
+   * ------------------------------------------------------------------
+   */
 
-  public function getContentId(){
-
+  /**
+   * Get current content Id.
+   */
+  public function getContentId()
+  {
     if(function_exists('cmsms') && method_exists(cmsms(),'get_variable')){
       return cmsms()->get_variable('content_id');
     }else{
@@ -309,7 +405,11 @@ class touchInlineEdit extends CMSModule {
     }
   }
 
-  private function getContentObj($contentId=null){
+  /**
+   * Get content object for current content id.
+   */
+  private function getContentObj($contentId=null)
+  {
     global $gCms;
 
     if($contentId === null){
@@ -326,8 +426,11 @@ class touchInlineEdit extends CMSModule {
     return $node->GetContent(true,true);
   }
 
-  protected function getContent($block="content_en",$fetch=false){
-
+  /**
+   * Fetch content for current content object.
+   */
+  protected function getContent($block="content_en",$fetch=false)
+  {
     $contentObj = &$this->getContentObj();
 
     $content = "Empty...";
@@ -344,8 +447,11 @@ class touchInlineEdit extends CMSModule {
     return $content;
   }
 
-  protected function updateContent($block="content_en"){
-
+  /**
+   * Update current content from POST.
+   */
+  protected function updateContent($block="content_en")
+  {
     $contentObj = &$this->getContentObj();
 
     $params[$block] = $_POST['content'];
@@ -374,19 +480,29 @@ class touchInlineEdit extends CMSModule {
     return $this->getContent($block,true);
   }
   
-  public function getRequestUri(){
+  /**
+   * ------------------------------------------------------------------
+   * Helper Functions
+   * ------------------------------------------------------------------
+   */
+
+  /**
+   * Get current request uri.
+   */
+  public function getRequestUri()
+  {
     return $_SERVER["REQUEST_URI"];
   }
-  
-  /* ----- Plugin functions ----- */
 
-  protected function getPlugins(){
-
+  /**
+   * Get available module as array.
+   */
+  protected function getPlugins()
+  {
     $config = $this->touch->cmsms('config');
 
-    $availablePlugins = array_diff(scandir($config['root_path'] 
-      . '/modules/' . $this->getName()
-      .'/'.TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
+    $availablePlugins = array_diff(scandir($this->getModulePath().'/'
+      .TIE_PLUGIN_DIR),array('.','..','.svn','.htaccess')); 
 
     $plugins = array();
     foreach($availablePlugins as $plugin){
@@ -397,9 +513,11 @@ class touchInlineEdit extends CMSModule {
     return array_flip($plugins);
   }
 
-  // TODO: Singleton...
-  protected function getPlugin($plugin=null, $params=null){
-
+  /**
+   * Get plugin instance.
+   */
+  protected function getPlugin($plugin=null, $params=null)
+  {
     $config = $this->touch->cmsms('config');
     
     if($this->editor){
@@ -417,9 +535,8 @@ class touchInlineEdit extends CMSModule {
     $this->editor = new $plugin($this);
     
     return $this->editor;
-    
   }
-  
+
 }
 
 ?>

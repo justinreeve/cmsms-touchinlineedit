@@ -1,5 +1,6 @@
 <?php
 
+$lang['description'] = 'A powerfully frontend inline editor module.';
 $lang['admdescription'] = 'A powerfully frontend inline editor module.';
 
 $lang['help'] = '<h3>Usage</h3>
