@@ -52,12 +52,13 @@ if(isset($params["feEditButtonText"])){
   $this->SetPreference("touchInlineEdit.feEditButtonText",$params["feEditButtonText"]);
 }
 if(isset($params["fePlugin"]) && !empty($params["fePlugin"])){
-  // TODO: Current plugin uninstall
-  $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
   $editor = $this->getPlugin($params["fePlugin"]);
   if(method_exists($editor,'install')){
-    $editor->install();
+    if($editor->install()){
+      $this->getPlugin()->uninstall();
+    }
   }
+  $this->SetPreference("touchInlineEdit.fePlugin",$params["fePlugin"]);
 }
 
 $this->Redirect($id, 'defaultadmin', '', array("module_message" => $this->Lang("settingssaved"),"tab" => "settings"));

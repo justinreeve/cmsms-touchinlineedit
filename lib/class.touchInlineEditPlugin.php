@@ -134,8 +134,7 @@ class touchInlineEditPlugin {
     $this->module = $module;
     $this->path = 'modules/' . $this->module->getName() . '/' 
       . TIE_PLUGIN_DIR . $this->name;
-    $this->installed = $this->module->touch->get('fePlugin') 
-      == $this->name ? true : false;
+    $this->installed = $this->module->touch->get('fePlugin') == $this->name ? true : false;
   }
 
   /**
@@ -143,12 +142,13 @@ class touchInlineEditPlugin {
    */
   public function install()
   {
-    //if(!$this->installed){
+    if(!$this->installed){
       $this->update($this->settings);
       foreach($this->templates as $name => $content){
         $this->module->setTemplate('touchInlineEdit.'.$this->name.'.'.$name, $content);
       }
-    //}
+      return true;
+    }
   }
   
   /**
@@ -159,6 +159,7 @@ class touchInlineEditPlugin {
     foreach($this->templates as $name => $content){
       $this->module->deleteTemplate('touchInlineEdit.'.$this->name.'.'.$name);
     }
+    return true;
   }
   
   /**

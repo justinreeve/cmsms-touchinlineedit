@@ -42,13 +42,13 @@ $this->SetPreference('touchInlineEdit.feEditButton', 1);
 $this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
 $this->SetPreference('touchInlineEdit.feEditOnDblClick', 1);
 $this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));
-$this->SetPreference('touchInlineEdit.fePlugin', TIE_PLUGIN_DEFAULT);
 $this->SetPreference('touchInlineEdit.feFEUallow', 0);
 $this->SetPreference('touchInlineEdit.feFEUgroups', '');
 $this->SetPreference('touchInlineEdit.feAdminAllow', 1);
 if(method_exists($this->getPlugin(),'install')){
-  $this->getPlugin()->install();
+  $this->getPlugin()->install(TIE_PLUGIN_DEFAULT);
 }
+$this->SetPreference('touchInlineEdit.fePlugin', TIE_PLUGIN_DEFAULT);
 $this->SetTemplate('touchInlineEdit.button', $this->touch->getTemplate('button'));
 
 // Log install info
