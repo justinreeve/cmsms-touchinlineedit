@@ -77,7 +77,8 @@ $this->smarty->assign('feUpdateAlertMessage_input',$this->CreateInputText($id,"f
   $this->GetPreference("touchInlineEdit.feUpdateAlertMessage","Success..."),"","\n"));
   
 // Submit / cancel
-$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
+$this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")
+  ,"","",$this->Lang("settingsconfirm",$this->GetPreference("touchInlineEdit.fePlugin"))));
 $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
 
 // Form end

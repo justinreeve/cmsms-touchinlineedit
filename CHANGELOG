@@ -20,6 +20,7 @@ Use cmsms autoloader for internal touch classes
 Add maxheight and buttonlist parameter in nicEdit plugin
 Add some options for tinyMCE plugin (tiny plugin support,width,height,editable button list,themes,skins and much more...)
 Fix lost editor settings on save settings if is current editor bug #5922
+Add confirm message on change settings
 
 /// Version 1.7.4
 
