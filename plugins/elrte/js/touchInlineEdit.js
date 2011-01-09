@@ -1,5 +1,5 @@
 /**
- * $Id: touchInlineEdit.js 51 2010-09-13 14:06:25Z touchdesign $
+ * $Id: touchInlineEdit.js 104 2010-12-28 16:49:25Z touchdesign $
  *
  * touchInlineEdit Module
  *
@@ -32,83 +32,161 @@
  * Or read it online: http://www.gnu.org/licenses/licenses.html#GPL
  *
  */
+ 
+function touchInlineEdit(id,request,message,onClick){
 
-function touchInlineEditInitEditor(){
-
-  var opts = {
-    cssClass : 'el-rte',
-    // lang     : 'ru',
-    height   : 'auto',
-    toolbar  : tieToolbar,
-    cssfiles : ['css/elrte-inner.css']
-  }
-  //$('#touchInlineEditId' + tieContentId).elrte(opts);
-  cBlockMain = new elRTE(document.getElementById('touchInlineEditId' + tieContentId), opts);
-}
-
-function touchInlineEditRemoveEditor(){
-
-  cBlockMain.editor.hide(); // Remove editor
-  cBlockMain.editor.prev().show(); // Display tie div
-  cBlockMain = null; // Destroy editor
-}
-
-function touchInlineEditToggleEditor(){
-
-  if(!cBlockMain){
-    touchInlineEditInitContent();
-    touchInlineEditInitEditor();
-  }else{
-    touchInlineEditRemoveEditor();
-  }
-}
-
-function touchInlineEditInitContent(){
-
-  $.ajax({async:false,
-    type: 'POST',
-    url: tieRequestUri,
-    data: 'method=getContent&id=' + tieContentId,
-    success: function(data){
-      $('#touchInlineEditId' + tieContentId).html(data);
-    }
-  });
-}
-
-function touchInlineEditSave(id,content){
-
-  $.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
-    function(data){
-      if(tieUpdateAlert){
-        alert(tieUpdateAlertMessage);
+  /**
+   * Self instance.
+   * @var object
+   * @access public
+   */ 
+  var self = this;
+  
+  /**
+   * Editor instance.
+   * @var object
+   * @access public
+   */
+  this.editor;
+  
+  /**
+   * Content id for current block.
+   * @var integer
+   * @access public
+   */
+  this.contentId = id;
+  
+  /**
+   * Request uri.
+   * @var string
+   * @access public
+   */
+  this.requestUri = request;
+  
+  /**
+   * Alert message on save success.
+   * @var string
+   * @access public
+   */
+  this.message = message;
+  
+  /**
+   * Init on dbl click.
+   * @var integer
+   * @access public
+   */
+  this.onClick = onClick;
+  
+  /**
+   * Optional params.
+   * @var object
+   * @access public
+   */  
+  this.params = new Object();
+  
+  /**
+   * Add editor instance.
+   */
+  this.add = function(){
+    self.editor = new elRTE(document.getElementById('touchInlineEditId' + self.contentId),
+      {
+        cssClass: 'el-rte',
+        lang: 'en',
+        toolbar: self.getParam('toolbar'),
+        cssfiles: ['css/elrte-inner.css']
       }
-      touchInlineEditToggleEditor();
-      $('#touchInlineEditId' + tieContentId).html(data);
+    );
+  }
+
+  /**
+   * Remove editor instance.
+   */
+  this.remove = function(){
+    self.editor.editor.hide(); // Remove editor
+    self.editor.editor.prev().show(); // Display tie div
+    self.editor = null; // Destroy editor
+  }
+  
+  /**
+   * Toggle editor instance.
+   */
+  this.toggle = function(){
+    if(!self.editor){
+      self.fetch();
+      self.add();
+    }else{
+      self.remove();
     }
-  );
+  }
+  
+  /**
+   * Ajax fetch content.
+   */
+  this.fetch = function(){
+    //console.debug('Read self.contentId:' + self.contentId);
+    $.ajax({async:false,
+      type: 'POST',
+      url: self.requestUri,
+      data: 'method=getContent&id=' + self.contentId,
+      success: function(data){
+        $('#touchInlineEditId' + self.contentId).html(data);
+      }
+    });
+  }
+  
+  /**
+   * Ajax save content.
+   */
+  this.save = function(id,content){
+    //console.debug('Save self.contentId:' + self.contentId + ', content:' + content);
+    $.post(self.requestUri, { method: "updateContent", id: self.contentId, content: content },
+      function(data){
+        if(self.message){
+          alert(self.message);
+        }
+        self.toggle();
+        $('#touchInlineEditId' + self.contentId).html(data);
+      }
+    );
+  }
+  
+  /**
+   * Param setter.
+   */
+  this.setParam = function(name,value){
+    //console.debug('Add param ' + name + '=' + value);
+    if(name){
+      self.params[name] = value;
+    }
+  }
+  
+  /**
+   * Param getter.
+   */
+  this.getParam = function(name){
+    if(self.params[name]){
+      return self.params[name];
+    }
+  }
 }
 
-// Add save handler
-elRTE.prototype.save = function () {
-
-  touchInlineEditSave(tieContentId,this.filter.source($(this.doc.body).html()));
+// Add elRTE save handler
+elRTE.prototype.save = function(){
+  touchInlineEdit.save(touchInlineEdit.contentId,this.filter.source($(this.doc.body).html()));
 };
 
-function functionExists(name){
-  return (typeof name == 'function');
-}
-
 $(document).ready(function(){
-
+  
   $('.touchInlineEditButton').click(function(){
-    touchInlineEditToggleEditor();
+    touchInlineEdit.toggle();
     return false;
   });
-
-  if(tieEditOnDblClick){
+  
+  if(touchInlineEdit.onClick){
     $('.touchInlineEdit').dblclick(function(){
-      touchInlineEditToggleEditor();
+      touchInlineEdit.toggle();
       return false;
     });
   }
+
 });

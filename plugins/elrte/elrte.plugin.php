@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchInlineEdit elrte plugin
+ * touchInlineEdit Module nicEdit plugin
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -34,148 +34,101 @@
  *
  */
 
-class elrte extends touchInlineEdit {
+class elrte extends touchInlineEditPlugin {
 
   /**
-   * Plugin name.
-   * @var string
-   * @access public
-   */
-  var $name = 'elrte';
-
-  /**
-   * Plugin display name.
-   * @var string
-   * @access public
-   */
-  var $displayName = 'elRTE';
-
-  /**
-   * Name of the plugin author.
-   * @var string
-   * @access public
-   */
-  var $author;
-
-  /**
-   * Plugin description.
-   * @var string
-   * @access public
-   */
-  var $description;
-
-  /**
-   * Plugin dir.
-   * @var string
+   * Plugin specific templates.
+   * @var array
    * @access public
    */  
-  var $pluginDir;
+  public $templates = array(
+    'header' => 
+'<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->
+<script src="{$tie->plugin->path}/js/{$tie->plugin->name}/{$tie->plugin->name}.js" type="text/javascript"></script>
+{if $tie->plugin->get(\'jquery_load\')}
+  <script src="{$tie->plugin->path}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+  <script src="{$tie->plugin->path}/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="{$tie->plugin->path}/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
+{/if}
+<script src="{$tie->plugin->path}/js/elrte.min.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/i18n/elrte.ru.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$tie->plugin->path}/css/elrte.full.css" type="text/css" media="screen" charset="utf-8" />
+<script src="{$tie->plugin->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+  {$tieExtraScript}
+  var touchInlineEdit = new touchInlineEdit(
+    {$tie->getContentId()},
+    "{$tie->touch->getRequestUri()}",
+    "{$tie->touch->get(\'feUpdateAlertMessage\')}",
+    {$tie->touch->get(\'feEditOnDblClick\')}
+  );
+{foreach from=$tie->plugin->getSettings() key=name item=value}
+  touchInlineEdit.setParam("{$name}","{$value}");
+{/foreach}
+</script>
+<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->');
 
-  function __construct(){
-
-    $this->pluginDir = 'modules/' . $this->getName() . '/' 
-      . TIE_PLUGIN_DIR . $this->name;
-
-    parent::__construct($this->name);
+  /**
+   * Construct a new plugin and call parent.
+   */
+  function __construct(&$module)
+  {
+    $this->name = 'elrte';
+    $this->displayName = 'elRTE';    
+    parent::__construct($module);
+    $this->settings = array(
+      'jquery_load' => 1,
+      'toolbar' => 'complete'
+    );
   }
 
-  public function install(){
-    $this->SetPreference("touchInlineEdit.".$this->name.".Toolbar","compact");
-    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1);
-  }
-
-  private function fetch($template){
-
-    $config = $this->getCMSConfig();
-
-    return $this->smarty->fetch($config['root_path'] . '/'
-      . $this->pluginDir
-      . '/templates/' . $template);
-  }
-
-  public function getAdminConfig($id,$returnid){
-
+  /**
+   * Get admin config tab code.
+   */
+  public function getAdminConfig($id,$returnid)
+  {
     $yn = array(
-      $this->Lang("no") => 0,
-      $this->Lang("yes") => 1
+      $this->module->lang("no") => 0,
+      $this->module->lang("yes") => 1
     );
-    
+
     // Form start
-    $this->smarty->assign('formstart',$this->CreateFormStart($id,"saveeditor",$returnid));
+    $this->module->smarty->assign('formstart',$this->module->createFormStart($id,"saveeditor",$returnid));
 
-    $toolbars = array(
-      'tiny','compact','normal','complete','maxi'
-    );
-
-    // Enable full panel in FE
-    $this->smarty->assign($this->name.'Toolbar_label',$this->Lang($this->name."Toolbar_label"));
-    $this->smarty->assign($this->name.'Toolbar_help',$this->Lang($this->name."Toolbar_help"));
-    $this->smarty->assign($this->name.'Toolbar_input',$this->CreateInputDropdown($id,$this->name."Toolbar",
-      array_combine($toolbars,$toolbars),"",$this->GetPreference("touchInlineEdit.".$this->name.".Toolbar","compact"),"\n"));
-
-    // jquery lib
-    $this->smarty->assign($this->name.'JQueryLoad_label',$this->Lang($this->name."JQueryLoad_label"));
-    $this->smarty->assign($this->name.'JQueryLoad_help',$this->Lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputDropdown($id,$this->name."JQueryLoad",
-      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1),"","\n"));
-
+    // jquery
+    $name = 'jquery_load';
+    $options = $yn;
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+    
+    // Toolbar
+    $name = 'toolbar';
+    $options = array('tiny' => 'tiny','compact' => 'compact','normal' => 'normal','complete' => 'complete','maxi' => 'maxi');
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+      
     // Submit / cancel
-    $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
-    $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
-
+    $this->module->smarty->assign('submit',$this->module->createInputSubmit($id,"submit",$this->module->lang("save")));
+    $this->module->smarty->assign('cancel',$this->module->createInputSubmit($id,"cancel",$this->module->lang("cancel")));
+    
     // Form end
-    $this->smarty->assign('formend',$this->CreateFormEnd());
-
-    echo $this->fetch("admineditor.tpl");
+    $this->module->smarty->assign('formend',$this->module->createFormEnd());
+    
+    return $this->fetch("admineditor.tpl");
   }
 
-  public function saveAdminConfig($params){
-
-    if(isset($params[$this->name."Toolbar"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".Toolbar",$params[$this->name."Toolbar"]);
-    }
-    if(isset($params[$this->name."JQueryLoad"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",intval($params[$this->name."JQueryLoad"]));
-    }
+  /**
+   * Get plugin header html.
+   */
+  public function getHeader()
+  {
+    return $this->fetch('header',true);
   }
-
-  public function getHeader(){
-
-    $tiePref = $this->GetPrefVars();
-
-    $tieLang = $this->GetLangVars();
-
-    $head = '<!-- '.$this->getName().' module -->' . "\n";
-
-    // jQuery
-    if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
-      $head.= '<script src="'.$this->pluginDir.'/js/jquery-1.4.2.min.js" type="text/javascript"></script>' . "\n";
-      $head.= '<script src="'.$this->pluginDir.'/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>' . "\n";
-      $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />';
-    }
-
-    // elrte
-    $head.= '<script src="'.$this->pluginDir.'/js/elrte.min.js" type="text/javascript"></script>' . "\n";
-    $head.= '<script src="'.$this->pluginDir.'/js/i18n/elrte.ru.js" type="text/javascript"></script>' . "\n";
-    $head.= '<link rel="stylesheet" href="'.$this->pluginDir.'/css/elrte.full.css" type="text/css" media="screen" charset="utf-8" />';
-
-    // touchInlineEdit
-    $head.= '<script src="'.$this->pluginDir.'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
-
-    // Script
-    $script = '<script type="text/javascript" charset="utf-8">' . "\n";
-    $script.= '  var cBlockMain;' . "\n";
-    $script.= '  var tieContentId = '.$this->getContentId().';' . "\n";
-    $script.= '  var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
-    $script.= '  var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
-    $script.= '  var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
-    $script.= '  var tieToolbar = "'.$this->GetPreference("touchInlineEdit.".$this->name.".Toolbar").'";' . "\n";
-    $script.= '  var tieEditOnDblClick = '.$tiePref['feEditOnDblClick'].';' . "\n";
-    $script.= '</script>' . "\n";
-    $script.= '<!-- '.$this->getName().' module -->' . "\n";
-
-    return $head . $script;
-  }
+  
 }
 
 ?>
