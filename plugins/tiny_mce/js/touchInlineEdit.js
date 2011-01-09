@@ -96,18 +96,31 @@ function touchInlineEdit(id,request,message,onClick){
       // Skin
       skin: self.getParam('skin'),
       skin_variant: self.getParam('skin_variant'),
+      // Size
+      width: self.getParam('width'),
+      height: self.getParam('height'),
+      // Plugins
+      plugins: 'save,-cmslinker,' + self.getParam('plugins'),
+      // Extras
+      visual: true,  
+      accessibility_warnings: false,
+      fix_list_elements: true,
+      verify_html: true,
+      verify_css_classes: false,
+      relative_urls: true,
+      remove_script_host: true,
       // Save
-      plugins: self.getParam('plugins'),
       save_enablewhendirty: false,
       save_onsavecallback: 'touchInlineEditSaveMCE',
       // Basic buttons
-      theme_advanced_buttons1_add_before: 'save',
+      theme_advanced_buttons1_add_before: 'save,cmslinker',
       theme_advanced_toolbar_location: 'top',
       theme_advanced_toolbar_align: 'left',
       theme_advanced_statusbar_location: 'bottom',
       // Extra buttons
       theme_advanced_buttons1: self.getParam('buttons1'),
       theme_advanced_buttons2: self.getParam('buttons2'),
+      theme_advanced_buttons3: self.getParam('buttons3'),
       // Options
       theme_advanced_resizing: self.getParam('theme_advanced_resizing'),
       // Newlines
