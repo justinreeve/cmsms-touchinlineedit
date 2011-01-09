@@ -334,7 +334,7 @@ class touchInlineEdit extends CMSModule {
     }
 
     $this->ENABLED = false;
-
+    
     // Support for frontend users
     if($this->touch->get('feFEUallow')){
       $feu = $this->touch->getModuleInstance('FrontEndUsers');
@@ -480,15 +480,14 @@ class touchInlineEdit extends CMSModule {
   }
 
   /**
-   * Get plugin instance for given name or default.
-   * TODO: Singleton
+   * Get plugin instance for given name, current or default.
    */
   protected function getPlugin($name=null)
   {
     $config = $this->touch->cmsms('config');
     
-    if($this->plugin){
-      $this->plugin;
+    if(!$name){
+      $name = $this->touch->get('fePlugin');
     }
     
     if(!is_string($name) || !strlen($name)){

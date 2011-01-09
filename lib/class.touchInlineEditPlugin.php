@@ -97,7 +97,27 @@ class touchInlineEditPlugin {
    * @var array
    * @access public
    */  
-  var $templates = array();
+  public $templates = array(
+    'header' => 
+'<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->
+<script src="{$tie->plugin->path}/js/{$tie->plugin->name}.js" type="text/javascript"></script>
+{if $tie->plugin->get(\'jquery_load\')}
+  <script src="{$tie->plugin->path}/js/jquery.js" type="text/javascript"></script>
+{/if}
+<script src="{$tie->plugin->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+  {$tieExtraScript}
+  var touchInlineEdit = new touchInlineEdit(
+    {$tie->getContentId()},
+    "{$tie->touch->getRequestUri()}",
+    "{$tie->touch->get(\'feUpdateAlertMessage\')}",
+    {$tie->touch->get(\'feEditOnDblClick\')}
+  );
+{foreach from=$tie->plugin->getSettings() key=name item=value}
+  touchInlineEdit.setParam("{$name}","{$value}");
+{/foreach}
+</script>
+<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->');
   
   /**
    * Plugin specific settings.

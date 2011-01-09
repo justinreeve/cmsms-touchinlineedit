@@ -34,12 +34,8 @@
  *
  */
 
-global $gCms;
-
-$smarty = &$gCms->smarty;
-
-$smarty->clear_compiled_tpl();
-$smarty->clear_all_cache();
+$this->smarty->clear_compiled_tpl();
+$this->smarty->clear_all_cache();
 
 if(version_compare($oldversion, '1.6', '<')){
   $this->SetPreference('touchInlineEdit.feContextMenu', 'false');

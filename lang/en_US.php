@@ -72,14 +72,50 @@ $lang['preuninstall'] = 'Are you sure you want to uninstall this module and dest
 
 /* ---- Plugins ---- */
 
-$lang['niceditFullPanel_label'] = 'Extended toolbar?';
-$lang['niceditFullPanel_help'] = 'Use extended toolbar.';
-$lang['niceditJQueryLoad_label'] ='Load jQuery libary';
-$lang['niceditJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+// nicedit
+$lang['nicedit_full_panel_label'] = 'Extended toolbar?';
+$lang['nicedit_full_panel_help'] = 'Use extended toolbar.';
+$lang['nicedit_jquery_load_label'] ='Load jQuery libary';
+$lang['nicedit_jquery_load_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+$lang['nicedit_button_list_label'] ='Load jQuery libary';
+$lang['nicedit_button_list_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+$lang['nicedit_height_label'] ='Maximum height';
+$lang['nicedit_height_help'] ='Set maximum height in px default is "auto".';
 
-$lang['elrteToolbar_label'] = 'Which toolbar?';
-$lang['elrteToolbar_help'] = 'Choose any toolbar you like.';
-$lang['elrteJQueryLoad_label'] ='Load jQuery libary';
-$lang['elrteJQueryLoad_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+// elrte
+$lang['elrte_toolbar_label'] = 'Which toolbar?';
+$lang['elrte_toolbar_help'] = 'Choose any toolbar you like.';
+$lang['elrte_jquery_load_label'] ='Load jQuery libary';
+$lang['elrte_jquery_load_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+
+// tinymce
+$lang['tiny_mce_jquery_load_label'] ='Load jQuery libary';
+$lang['tiny_mce_jquery_load_help'] ='Let InlineEdit load required jQuery libary in header of pages.';
+$lang['tiny_mce_theme_label'] ='Theme';
+$lang['tiny_mce_theme_help'] ='Choose any theme you want.';
+$lang['tiny_mce_skin_label'] ='Skin';
+$lang['tiny_mce_skin_help'] ='Choose any skin you like.';
+$lang['tiny_mce_skin_variant_label'] ='Skin variant';
+$lang['tiny_mce_skin_variant_help'] ='Choose any skin variant you like.';
+$lang['tiny_mce_width_label'] ='Width';
+$lang['tiny_mce_width_help'] ='Editor width in pixel default auto.';
+$lang['tiny_mce_height_label'] ='Height';
+$lang['tiny_mce_height_help'] ='Editor height in pixel default auto.';
+$lang['tiny_mce_plugins_label'] ='Plugins';
+$lang['tiny_mce_plugins_help'] ='Check the plugins you want to use (strg for multiple plugins).';
+$lang['tiny_mce_buttons1_label'] ='First toolbar';
+$lang['tiny_mce_buttons1_help'] ='Customize and inert buttons for you first toolbar.';
+$lang['tiny_mce_buttons2_label'] ='Second toolbar';
+$lang['tiny_mce_buttons2_help'] ='Customize and inert buttons for you second toolbar.';
+$lang['tiny_mce_forced_root_block_label'] ='Force root block';
+$lang['tiny_mce_forced_root_block_help'] ='Enable focre root block.';
+$lang['tiny_mce_force_br_newlines_label'] ='Newlines BR';
+$lang['tiny_mce_force_br_newlines_help'] ='Enable break tag BR for newlines.';
+$lang['tiny_mce_force_p_newlines_label'] ='Newlines P';
+$lang['tiny_mce_force_p_newlines_help'] ='Enable paragraph tag P for newlines.';
+$lang['tiny_mce_entity_encoding_label'] ='Entity encoding';
+$lang['tiny_mce_entity_encoding_help'] ='Choose entity encoding.';
+$lang['tiny_mce_theme_advanced_resizing_label'] ='Resizing';
+$lang['tiny_mce_theme_advanced_resizing_help'] ='Enable resizing.';
 
 ?>
