@@ -7,7 +7,7 @@ Add trigger_error in getPluginInstance
 Add/Rewrite touchInlineEditPlugin base class
 Improve plugins to store more infos about plugins: name,description,author...
 Add touchModule base class
-Rewrite plugins tinyMCE
+Rewrite/Update plugins tinyMCE, nicEdit, elRTE
 Update/Rewrite touchinlineedit.js as clean javascript class
 Add admin description for module manager
 Add description for module
@@ -17,6 +17,8 @@ Add plugin uninstall method (remove unused templates, vars...)
 Detach events from module class and call from parent DoEvent
 Cleanup code and comments
 Use cmsms autoloader for internal touch classes
+Add maxheight and buttonlist parameter in nicEdit plugin
+Add some options for tinyMCE plugin (tiny plugin support,width,height,editable button list,themes,skins and much more...)
 
 /// Version 1.7.4
 
