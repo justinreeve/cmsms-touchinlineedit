@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchInlineEdit nicedit plugin
+ * touchInlineEdit Module nicEdit plugin
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -34,141 +34,77 @@
  *
  */
 
-class nicedit extends touchInlineEdit {
+class nicedit extends touchInlineEditPlugin {
 
   /**
-   * Plugin name.
-   * @var string
-   * @access public
+   * Construct a new plugin and call parent.
    */
-  var $name = 'nicedit';
-
-  /**
-   * Plugin display name.
-   * @var string
-   * @access public
-   */
-  var $displayName = 'NicEdit';
-
-  /**
-   * Name of the plugin author.
-   * @var string
-   * @access public
-   */
-  var $author;
-
-  /**
-   * Plugin description.
-   * @var string
-   * @access public
-   */
-  var $description;
-
-  /**
-   * Plugin dir.
-   * @var string
-   * @access public
-   */  
-  var $pluginDir;
-
-  function __construct(){
-
-    $this->pluginDir = 'modules/' . $this->getName() . '/' 
-      . TIE_PLUGIN_DIR . $this->name;
-
-    parent::__construct($this->name);
+  function __construct(&$module)
+  {
+    $this->name = 'nicedit';
+    $this->displayName = 'nicEdit';
+    parent::__construct($module);
+    $this->settings = array(
+      'jquery_load' => 1,
+      'button_list' => 'save,bold,italic,underline,left,center,right,justify,ol,ul,subscript,superscript,strikethrough,removeformat,indent,outdent,hr,image,forecolor,bgcolor,link,unlink,fontSize,fontFamily,fontFormat,xhtml',
+      'height' => 'auto',
+      'icons_path' => $this->path . '/img/icons.gif'
+    );
   }
 
-  public function install(){
-    $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel",1);
-    $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1);
-  }
-
-  private function fetch($template){
-
-    $config = $this->getCMSConfig();
-
-    return $this->smarty->fetch($config['root_path'] . '/'
-      . $this->pluginDir
-      . '/templates/' . $template);
-  }
-
-  public function getAdminConfig($id,$returnid){
-
+  /**
+   * Get admin config tab code.
+   */
+  public function getAdminConfig($id,$returnid)
+  {
     $yn = array(
-      $this->Lang("no") => 0,
-      $this->Lang("yes") => 1
+      $this->module->lang("no") => 0,
+      $this->module->lang("yes") => 1
     );
 
     // Form start
-    $this->smarty->assign('formstart',$this->CreateFormStart($id,"saveeditor",$returnid));
+    $this->module->smarty->assign('formstart',$this->module->createFormStart($id,"saveeditor",$returnid));
 
-    // Enable full panel in FE
-    $this->smarty->assign($this->name.'FullPanel_label',$this->Lang($this->name."FullPanel_label"));
-    $this->smarty->assign($this->name.'FullPanel_help',$this->Lang($this->name."FullPanel_help"));
-    $this->smarty->assign($this->name.'FullPanel_input',$this->CreateInputDropdown($id,$this->name."FullPanel",
-      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".FullPanel",1),"","\n"));
-
-    // jquery lib
-    $this->smarty->assign($this->name.'JQueryLoad_label',$this->Lang($this->name."JQueryLoad_label"));
-    $this->smarty->assign($this->name.'JQueryLoad_help',$this->Lang($this->name."JQueryLoad_help"));
-    $this->smarty->assign($this->name.'JQueryLoad_input',$this->CreateInputDropdown($id,$this->name."JQueryLoad",
-      $yn,$this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad",1),"","\n"));
-
+    // jquery
+    $name = 'jquery_load';
+    $options = $yn;
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+    
+    // Buttons
+    $name = 'button_list';
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputText($id,$name,
+      $this->get($name,$this->settings[$name]),80,255));
+    
+    // Height
+    $name = 'height';
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputText($id,$name,
+      $this->get($name,$this->settings[$name]),10,4));
+    
     // Submit / cancel
-    $this->smarty->assign('submit',$this->CreateInputSubmit($id,"submit",$this->Lang("save")));
-    $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang("cancel")));
-
+    $this->module->smarty->assign('submit',$this->module->createInputSubmit($id,"submit",$this->module->lang("save")));
+    $this->module->smarty->assign('cancel',$this->module->createInputSubmit($id,"cancel",$this->module->lang("cancel")));
+    
     // Form end
-    $this->smarty->assign('formend',$this->CreateFormEnd());
-
-    echo $this->fetch("admineditor.tpl");
+    $this->module->smarty->assign('formend',$this->module->createFormEnd());
+    
+    return $this->fetch("admineditor.tpl");
   }
 
-  public function saveAdminConfig($params){
-
-    if(isset($params[$this->name."FullPanel"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".FullPanel",intval($params[$this->name."FullPanel"]));
-    }
-    if(isset($params[$this->name."JQueryLoad"])){
-      $this->SetPreference("touchInlineEdit.".$this->name.".JQueryLoad",intval($params[$this->name."JQueryLoad"]));
-    }
+  /**
+   * Get plugin header html.
+   */
+  public function getHeader()
+  {
+    return $this->fetch('header',true);
   }
-
-  public function getHeader(){
-
-    $tiePref = $this->GetPrefVars();
-
-    $tieLang = $this->GetLangVars();
-
-    $head = '<!-- '.$this->getName().' module -->' . "\n";
-
-    // nicEdit
-    $head.= '<script src="'.$this->pluginDir.'/js/nicEdit.js" type="text/javascript"></script>' . "\n";
-
-    // jQuery
-    if($this->GetPreference("touchInlineEdit.".$this->name.".JQueryLoad")){
-      $head.= '<script src="'.$this->pluginDir.'/js/jquery.js" type="text/javascript"></script>' . "\n";
-    }
-
-    // touchInlineEdit
-    $head.= '<script src="'.$this->pluginDir.'/js/touchInlineEdit.js" type="text/javascript"></script>' . "\n";
-
-    // Script
-    $script = '<script type="text/javascript" charset="utf-8">' . "\n";
-    $script.= '  var cBlockMain;' . "\n";
-    $script.= '  var tieContentId = '.$this->getContentId().';' . "\n";
-    $script.= '  var tieRequestUri = "'.$_SERVER["REQUEST_URI"].'";' . "\n";
-    $script.= '  var tieUpdateAlert = '.$tiePref['feUpdateAlert'].';' . "\n";
-    $script.= '  var tieUpdateAlertMessage = "'.$tieLang['feUpdateAlert'].'";' . "\n";
-    $script.= '  var tieFullPanel = '.$this->GetPreference("touchInlineEdit.".$this->name.".FullPanel").';' . "\n";
-    $script.= '  var tieIconsPath = "'.$this->pluginDir.'/img/nicEditorIcons.gif"'. "\n";
-    $script.= '  var tieEditOnDblClick = '.$tiePref['feEditOnDblClick'].';' . "\n";
-    $script.= '</script>' . "\n";
-    $script.= '<!-- '.$this->getName().' module -->' . "\n";
-
-    return $head . $script;
-  }
+  
 }
 
 ?>

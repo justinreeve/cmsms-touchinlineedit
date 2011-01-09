@@ -32,75 +32,156 @@
  * Or read it online: http://www.gnu.org/licenses/licenses.html#GPL
  *
  */
+ 
+function touchInlineEdit(id,request,message,onClick){
 
-function touchInlineEditInitEditor(){
-
-  cBlockMain = new nicEditor({
-    fullPanel: tieFullPanel,
-    iconsPath: tieIconsPath,
-    onSave: function(content,id,instance){touchInlineEditSave(id,content)}
-  }).panelInstance(
-    'touchInlineEditId' + tieContentId,
-    {hasPanel : true}
-  );
-}
-
-function touchInlineEditRemoveEditor(){
-
-  cBlockMain.removeInstance('touchInlineEditId' + tieContentId);
-  cBlockMain = null;
-}
-
-function touchInlineEditToggleEditor(){
-
-  if(!cBlockMain){
-    touchInlineEditInitContent();
-    touchInlineEditInitEditor();
-  }else{
-    touchInlineEditRemoveEditor();
+  /**
+   * Self instance.
+   * @var object
+   * @access public
+   */ 
+  var self = this;
+  
+  /**
+   * Editor instance.
+   * @var object
+   * @access public
+   */
+  this.editor;
+  
+  /**
+   * Content id for current block.
+   * @var integer
+   * @access public
+   */
+  this.contentId = id;
+  
+  /**
+   * Request uri.
+   * @var string
+   * @access public
+   */
+  this.requestUri = request;
+  
+  /**
+   * Alert message on save success.
+   * @var string
+   * @access public
+   */
+  this.message = message;
+  
+  /**
+   * Init on dbl click.
+   * @var integer
+   * @access public
+   */
+  this.onClick = onClick;
+  
+  /**
+   * Optional params.
+   * @var object
+   * @access public
+   */  
+  this.params = new Object();
+  
+  /**
+   * Add editor instance.
+   */
+  this.add = function(){
+    self.editor = new nicEditor({
+      iconsPath: self.getParam('icons_path'),
+      buttonList: self.getParam('button_list').split(','),
+      maxHeight: self.getParam('height'),
+      onSave: function(content,id,instance){self.save(id,content)}
+    }).panelInstance(
+      'touchInlineEditId' + self.contentId,
+      {hasPanel : true}
+    );
   }
-}
 
-function touchInlineEditInitContent(){
-
-  $.ajax({async:false,
-    type: 'POST',
-    url: tieRequestUri,
-    data: 'method=getContent&id=' + tieContentId,
-    success: function(data){
-      $('#touchInlineEditId' + tieContentId).html(data);
+  /**
+   * Remove editor instance.
+   */
+  this.remove = function(){
+    self.editor.removeInstance('touchInlineEditId' + self.contentId);
+    self.editor = null;
+  }
+  
+  /**
+   * Toggle editor instance.
+   */
+  this.toggle = function(){
+    if(!self.editor){
+      self.fetch();
+      self.add();
+    }else{
+      self.remove();
     }
-  });
-}
-
-function touchInlineEditSave(id,content){
-
-  $.post(tieRequestUri, { method: "updateContent", id: tieContentId, content: content },
-    function(data){
-      if(tieUpdateAlert){
-        alert(tieUpdateAlertMessage);
+  }
+  
+  /**
+   * Ajax fetch content.
+   */
+  this.fetch = function(){
+    //console.debug('Read self.contentId:' + self.contentId);
+    $.ajax({async:false,
+      type: 'POST',
+      url: self.requestUri,
+      data: 'method=getContent&id=' + self.contentId,
+      success: function(data){
+        $('#touchInlineEditId' + self.contentId).html(data);
       }
-      touchInlineEditToggleEditor();
-      $('#touchInlineEditId' + tieContentId).html(data);
+    });
+  }
+  
+  /**
+   * Ajax save content.
+   */
+  this.save = function(id,content){
+    //console.debug('Save self.contentId:' + self.contentId + ', content:' + content);
+    $.post(self.requestUri, { method: "updateContent", id: self.contentId, content: content },
+      function(data){
+        if(self.message){
+          alert(self.message);
+        }
+        self.toggle();
+        $('#touchInlineEditId' + self.contentId).html(data);
+      }
+    );
+  }
+  
+  /**
+   * Param setter.
+   */
+  this.setParam = function(name,value){
+    //console.debug('Add param ' + name + '=' + value);
+    if(name){
+      self.params[name] = value;
     }
-  );
-}
-
-function functionExists(name){
-  return (typeof name == 'function');
+  }
+  
+  /**
+   * Param getter.
+   */
+  this.getParam = function(name){
+    if(self.params[name]){
+      return self.params[name];
+    }
+  }
 }
 
 $(document).ready(function(){
-
+  
   $('.touchInlineEditButton').click(function(){
-    touchInlineEditToggleEditor();
+    touchInlineEdit.toggle();
     return false;
   });
-
-  if(tieEditOnDblClick){
+  
+  if(touchInlineEdit.onClick){
     $('.touchInlineEdit').dblclick(function(){
-      touchInlineEditToggleEditor();
+      touchInlineEdit.toggle();
       return false;
     });
   }
+
 });
