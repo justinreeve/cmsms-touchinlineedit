@@ -113,9 +113,12 @@ var bkElement = bkClass.extend({
 					this.className = st[itm];
 					break;
 				default:
-					//if(document.compatMode || itm != "cursor") { // Nasty Workaround for IE 5.5
-						elmStyle[itm] = st[itm];
-					//}		
+					if(document.compatMode || itm != "cursor") { // Nasty Workaround for IE 5.5
+						if(bkLib.isMSIE && itm == "maxHeight"){
+              continue; // Fix: IE bug
+            }
+            elmStyle[itm] = st[itm];
+          }
 			}
 		}
 		return this;
@@ -1347,7 +1350,8 @@ var nicEditorSaveButton = nicEditorButton.extend({
 	mouseClick : function() {
 		var onSave = this.ne.options.onSave;
 		var selectedInstance = this.ne.selectedInstance;
-		onSave(selectedInstance.getContent(), selectedInstance.elm.id, selectedInstance);
+    // Fix selectedInstance.elm.id -> selectedInstance.e.id
+		onSave(selectedInstance.getContent(), selectedInstance.e.id, selectedInstance);
 	}
 });
 
