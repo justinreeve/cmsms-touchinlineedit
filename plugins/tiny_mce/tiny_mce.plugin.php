@@ -46,9 +46,10 @@ class tiny_mce extends touchInlineEditPlugin {
 '<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->
 <script src="{$tie->plugin->path}/js/{$tie->plugin->name}/{$tie->plugin->name}.js" type="text/javascript"></script>
 {if $tie->plugin->get(\'jquery_load\')}
-  <script src="{$tie->plugin->path}/js/jquery.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/jquery.js" type="text/javascript"></script>
 {/if}
-<script src="{$tie->plugin->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->touch->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/touchInlineEditInstance.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
   {$tieExtraScript}
   var touchInlineEdit = new touchInlineEdit(

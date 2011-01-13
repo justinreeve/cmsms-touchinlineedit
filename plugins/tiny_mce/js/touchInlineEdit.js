@@ -1,5 +1,5 @@
 /**
- * $Id: touchInlineEdit.js 104 2010-12-28 16:49:25Z touchdesign $
+ * $Id: touchInlineEdit.js 141 2011-01-09 19:18:57Z touchdesign $
  *
  * touchInlineEdit Module
  *
@@ -32,7 +32,7 @@
  * Or read it online: http://www.gnu.org/licenses/licenses.html#GPL
  *
  */
- 
+
 function touchInlineEdit(id,request,message,onClick){
 
   /**
@@ -41,13 +41,6 @@ function touchInlineEdit(id,request,message,onClick){
    * @access public
    */ 
   var self = this;
-  
-  /**
-   * Editor instance.
-   * @var object
-   * @access public
-   */
-  this.editor;
   
   /**
    * Content id for current block.
@@ -85,12 +78,58 @@ function touchInlineEdit(id,request,message,onClick){
   this.params = new Object();
   
   /**
+   * Hold each editor instance.
+   * @var object
+   * @access public
+   */  
+  this.instances = new Object();
+
+  /**
+   * Add editor instance.
+   */
+  this.addInstance = function(name){
+    //console.debug('Add instance=' + name);
+    self.parseContentId(name);
+    if(!self.instances[self.block]){
+      self.instances[self.block] = {
+        editor: null,
+        id: self.id,
+        block: self.block,
+        contentId: self.contentId
+      };
+    }
+  }
+
+  /**
+   * Get curent editor instance.
+   */
+  this.getInstance = function(){
+    //console.debug('Get instance for block=' + self.block);
+    if(!self.instances[self.block]){
+      self.instances[self.block] = self;
+    }
+    return self.instances[self.block];
+  }
+  
+  /**
+   *  current editor instance.
+   */
+  this.removeInstance = function(){
+    //console.debug('Remove instance=' + self.getInstance().block);
+    if(self.instances[self.getInstance().block]){
+      self.instances[self.getInstance().block] = null;
+    }
+  }
+
+  /**
    * Add editor instance.
    */
   this.add = function(){
+    //console.debug('Add editor instance for id=' + self.getInstance().id + ', block=' + self.getInstance().block);
+    //alert('Add editor instance for id=' + self.getInstance().id + ', block=' + self.getInstance().block);
     tinyMCE.init({
       mode: 'none',
-      auto_focus: 'touchInlineEditId' + self.contentId,
+      auto_focus: 'touchInlineEditId' + self.getInstance().contentId,
       // Theme
       theme: self.getParam('theme'),
       // Skin
@@ -131,27 +170,36 @@ function touchInlineEdit(id,request,message,onClick){
       entity_encoding: self.getParam('entity_encoding'), 
       button_tile_map: true
     });
-    self.editor = tinyMCE.execCommand('mceAddControl', true, 'touchInlineEditId' + self.contentId);
+    self.instances[self.getInstance().block]['editor'] = tinyMCE.execCommand('mceAddControl', true, self.getInstance().contentId);
   }
 
   /**
    * Remove editor instance.
    */
   this.remove = function(){
-    tinyMCE.execCommand('mceFocus', false, 'touchInlineEditId' + self.contentId);  
-    tinyMCE.execCommand('mceRemoveControl', true, 'touchInlineEditId' + self.contentId);
-    self.editor = null;
+    tinyMCE.execCommand('mceFocus', false, self.getInstance().contentId);  
+    tinyMCE.execCommand('mceRemoveControl', true, self.getInstance().contentId);
+    self.removeInstance();
   }
   
   /**
    * Toggle editor instance.
    */
   this.toggle = function(){
-    if(!self.editor){
-      self.fetch();
+    //alert(self.instances[self.getInstance().block]['editor']);
+    //console.debug('Toggle editor for instance=' + self.getInstance().block);
+    if(!self.getInstance().editor){
       self.add();
+      self.fetch();
+/*       $('.touchInlineEditButton').attr('disabled', 'disabled');
+      $('.touchInlineEditButton').unbind('click');
+      $('.touchInlineEdit').unbind('dblclick'); */
     }else{
       self.remove();
+      self.fetch();
+/*       $('.touchInlineEditButton').removeAttr('disabled');
+      $('.touchInlineEditButton').bind('click',onEvent);
+      $('.touchInlineEdit').bind('dblclick',onEvent); */
     }
   }
   
@@ -159,13 +207,13 @@ function touchInlineEdit(id,request,message,onClick){
    * Ajax fetch content.
    */
   this.fetch = function(){
-    //console.debug('Read self.contentId:' + self.contentId);
+    //console.debug('Read id=' + self.getInstance().id + ', block=' + self.getInstance().block);
     $.ajax({async:false,
       type: 'POST',
       url: self.requestUri,
-      data: 'method=getContent&id=' + self.contentId,
+      data: 'method=getContent&contentId=' + self.getInstance().contentId + '&id=' + self.getInstance().id + '&block=' + self.getInstance().block,
       success: function(data){
-        $('#touchInlineEditId' + self.contentId).html(data);
+        $('#' + self.getInstance().contentId).html(data);
       }
     });
   }
@@ -174,14 +222,13 @@ function touchInlineEdit(id,request,message,onClick){
    * Ajax save content.
    */
   this.save = function(id,content){
-    //console.debug('Save self.contentId:' + self.contentId + ', content:' + content);
-    $.post(self.requestUri, { method: "updateContent", id: self.contentId, content: content },
+    //console.debug('Save contentId=' + self.getInstance().contentId + ', content=' + content);
+    $.post(self.requestUri, { method: "updateContent", contentId: self.getInstance().contentId, id: self.getInstance().id, block: self.getInstance().block, content: content },
       function(data){
         if(self.message){
           alert(self.message);
         }
         self.toggle();
-        $('#touchInlineEditId' + self.contentId).html(data);
       }
     );
   }
@@ -190,7 +237,7 @@ function touchInlineEdit(id,request,message,onClick){
    * Param setter.
    */
   this.setParam = function(name,value){
-    //console.debug('Add param ' + name + '=' + value);
+    //console.debug('Add param=' + name + ':' + value);
     if(name){
       self.params[name] = value;
     }
@@ -200,30 +247,40 @@ function touchInlineEdit(id,request,message,onClick){
    * Param getter.
    */
   this.getParam = function(name){
+    //console.debug('Get param=' + name);
     if(self.params[name]){
       return self.params[name];
     }
+  }
+  
+  /**
+   * Set current content id.
+   */
+  this.parseContentId = function(name){
+    //console.debug('Parse contentid=' + name);
+    var ids = name.split(' ');
+    self.id = ids[0].substr(1);
+    self.block = ids[1].substr(1);
+    self.contentId = 'touchInlineEditId-' + self.id + '-' + self.block;
+    //console.debug('Parsed result id=' + self.id + ',block=' + self.block + ',contentid=' + self.contentId);
   }
 }
 
 // TODO: find a better w...
 function touchInlineEditSaveMCE(){
-  touchInlineEdit.save(touchInlineEdit.contentId,tinyMCE.get('touchInlineEditId' 
-    + touchInlineEdit.contentId).getContent());
+  touchInlineEdit.save(touchInlineEdit.getInstance().contentId,
+    tinyMCE.get(touchInlineEdit.getInstance().contentId).getContent());
+}
+
+var onEvent = function(){
+  touchInlineEdit.addInstance($(this).attr('class'));
+  touchInlineEdit.toggle();
+  return false;
 }
 
 $(document).ready(function(){
-  
-  $('.touchInlineEditButton').click(function(){
-    touchInlineEdit.toggle();
-    return false;
-  });
-  
+  $('.touchInlineEditButton').click(onEvent);
   if(touchInlineEdit.onClick){
-    $('.touchInlineEdit').dblclick(function(){
-      touchInlineEdit.toggle();
-      return false;
-    });
+    $('.touchInlineEdit').dblclick(onEvent);
   }
-
 });

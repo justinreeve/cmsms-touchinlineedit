@@ -1,5 +1,5 @@
 /**
- * $Id: touchInlineEdit.js 104 2010-12-28 16:49:25Z touchdesign $
+ * $Id: touchInlineEdit.js 141 2011-01-09 19:18:57Z touchdesign $
  *
  * touchInlineEdit Module
  *
@@ -32,7 +32,7 @@
  * Or read it online: http://www.gnu.org/licenses/licenses.html#GPL
  *
  */
- 
+
 function touchInlineEdit(id,request,message,onClick){
 
   /**
@@ -41,13 +41,6 @@ function touchInlineEdit(id,request,message,onClick){
    * @access public
    */ 
   var self = this;
-  
-  /**
-   * Editor instance.
-   * @var object
-   * @access public
-   */
-  this.editor;
   
   /**
    * Content id for current block.
@@ -85,10 +78,56 @@ function touchInlineEdit(id,request,message,onClick){
   this.params = new Object();
   
   /**
+   * Hold each editor instance.
+   * @var object
+   * @access public
+   */  
+  this.instances = new Object();
+
+  /**
+   * Add editor instance.
+   */
+  this.addInstance = function(name){
+    //console.debug('Add instance=' + name);
+    self.parseContentId(name);
+    if(!self.instances[self.block]){
+      self.instances[self.block] = {
+        editor: null,
+        id: self.id,
+        block: self.block,
+        contentId: self.contentId
+      };
+    }
+  }
+
+  /**
+   * Get curent editor instance.
+   */
+  this.getInstance = function(){
+    //console.debug('Get instance for block=' + self.block);
+    if(!self.instances[self.block]){
+      self.instances[self.block] = self;
+    }
+    return self.instances[self.block];
+  }
+  
+  /**
+   *  current editor instance.
+   */
+  this.removeInstance = function(){
+    //console.debug('Remove instance=' + self.getInstance().block);
+    if(self.instances[self.getInstance().block]){
+      self.instances[self.getInstance().block] = null;
+    }
+  }
+
+  /**
    * Add editor instance.
    */
   this.add = function(){
-    self.editor = new elRTE(document.getElementById('touchInlineEditId' + self.contentId),
+    //console.debug('Add editor instance for id=' + self.getInstance().id + ', block=' + self.getInstance().block);
+    //alert('Add editor instance for id=' + self.getInstance().id + ', block=' + self.getInstance().block);
+    self.instances[self.getInstance().block]['editor'] = new elRTE(document.getElementById(self.getInstance().contentId),
       {
         cssClass: 'el-rte',
         lang: 'en',
@@ -102,20 +141,29 @@ function touchInlineEdit(id,request,message,onClick){
    * Remove editor instance.
    */
   this.remove = function(){
-    self.editor.editor.hide(); // Remove editor
-    self.editor.editor.prev().show(); // Display tie div
-    self.editor = null; // Destroy editor
+    self.getInstance().editor.editor.hide(); // Remove editor
+    self.getInstance().editor.editor.prev().show(); // Display tie div
+    self.removeInstance(); // Destroy editor
   }
   
   /**
    * Toggle editor instance.
    */
   this.toggle = function(){
-    if(!self.editor){
-      self.fetch();
+    //alert(self.instances[self.getInstance().block]['editor']);
+    //console.debug('Toggle editor for instance=' + self.getInstance().block);
+    if(!self.getInstance().editor){
       self.add();
+      self.fetch();
+/*       $('.touchInlineEditButton').attr('disabled', 'disabled');
+      $('.touchInlineEditButton').unbind('click');
+      $('.touchInlineEdit').unbind('dblclick'); */
     }else{
       self.remove();
+      self.fetch();
+/*       $('.touchInlineEditButton').removeAttr('disabled');
+      $('.touchInlineEditButton').bind('click',onEvent);
+      $('.touchInlineEdit').bind('dblclick',onEvent); */
     }
   }
   
@@ -123,13 +171,13 @@ function touchInlineEdit(id,request,message,onClick){
    * Ajax fetch content.
    */
   this.fetch = function(){
-    //console.debug('Read self.contentId:' + self.contentId);
+    console.debug('Read id=' + self.getInstance().id + ', block=' + self.getInstance().block);
     $.ajax({async:false,
       type: 'POST',
       url: self.requestUri,
-      data: 'method=getContent&id=' + self.contentId,
-      success: function(data){
-        $('#touchInlineEditId' + self.contentId).html(data);
+      data: 'method=getContent&contentId=' + self.getInstance().contentId + '&id=' + self.getInstance().id + '&block=' + self.getInstance().block,
+      success: function(data){alert(data);
+        $('#' + self.getInstance().contentId).html(data);
       }
     });
   }
@@ -138,14 +186,13 @@ function touchInlineEdit(id,request,message,onClick){
    * Ajax save content.
    */
   this.save = function(id,content){
-    //console.debug('Save self.contentId:' + self.contentId + ', content:' + content);
-    $.post(self.requestUri, { method: "updateContent", id: self.contentId, content: content },
+    //console.debug('Save contentId=' + self.getInstance().contentId + ', content=' + content);
+    $.post(self.requestUri, { method: "updateContent", contentId: self.getInstance().contentId, id: self.getInstance().id, block: self.getInstance().block, content: content },
       function(data){
         if(self.message){
           alert(self.message);
         }
         self.toggle();
-        $('#touchInlineEditId' + self.contentId).html(data);
       }
     );
   }
@@ -154,7 +201,7 @@ function touchInlineEdit(id,request,message,onClick){
    * Param setter.
    */
   this.setParam = function(name,value){
-    //console.debug('Add param ' + name + '=' + value);
+    //console.debug('Add param=' + name + ':' + value);
     if(name){
       self.params[name] = value;
     }
@@ -164,29 +211,39 @@ function touchInlineEdit(id,request,message,onClick){
    * Param getter.
    */
   this.getParam = function(name){
+    //console.debug('Get param=' + name);
     if(self.params[name]){
       return self.params[name];
     }
+  }
+  
+  /**
+   * Set current content id.
+   */
+  this.parseContentId = function(name){
+    //console.debug('Parse contentid=' + name);
+    var ids = name.split(' ');
+    self.id = ids[0].substr(1);
+    self.block = ids[1].substr(1);
+    self.contentId = 'touchInlineEditId-' + self.id + '-' + self.block;
+    //console.debug('Parsed result id=' + self.id + ',block=' + self.block + ',contentid=' + self.contentId);
   }
 }
 
 // Add elRTE save handler
 elRTE.prototype.save = function(){
-  touchInlineEdit.save(touchInlineEdit.contentId,this.filter.source($(this.doc.body).html()));
+  touchInlineEdit.save(touchInlineEdit.getInstance().contentId,this.filter.source($(this.doc.body).html()));
 };
 
-$(document).ready(function(){
-  
-  $('.touchInlineEditButton').click(function(){
-    touchInlineEdit.toggle();
-    return false;
-  });
-  
-  if(touchInlineEdit.onClick){
-    $('.touchInlineEdit').dblclick(function(){
-      touchInlineEdit.toggle();
-      return false;
-    });
-  }
+var onEvent = function(){
+  touchInlineEdit.addInstance($(this).attr('class'));
+  touchInlineEdit.toggle();
+  return false;
+}
 
+$(document).ready(function(){
+  $('.touchInlineEditButton').click(onEvent);
+  if(touchInlineEdit.onClick){
+    $('.touchInlineEdit').dblclick(onEvent);
+  }
 });
