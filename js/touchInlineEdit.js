@@ -84,7 +84,33 @@ function touchInlineEdit(id,uri,message){
   }
 
   /**
-   * Get current editor instance.
+   * Count instances.
+   */
+  this.countInstances = function()
+  {
+    //console.debug('Count instances');
+    var count = 0;
+    for(var prop in self.instances){
+      count++;
+    }
+    return count;
+  }
+
+  /**
+   * Find instance.
+   */
+  this.findInstance = function(selector)
+  {
+    //console.debug('Find instance by selector=' + selector);
+    for(var prop in self.instances){
+      if(self.instances[prop].selector == selector){
+        return self.getInstance(self.instances[prop].block);
+      }
+    }
+  }
+  
+  /**
+   * Get editor instance.
    */
   this.getInstance = function(name)
   {
