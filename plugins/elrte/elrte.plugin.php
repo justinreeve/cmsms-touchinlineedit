@@ -2,7 +2,7 @@
 /**
  * $Id$
  *
- * touchInlineEdit Module nicEdit plugin
+ * touchInlineEdit Module
  *
  * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
  *
@@ -46,14 +46,15 @@ class elrte extends touchInlineEditPlugin {
 '<!-- {$tie->getName()} :: {$tie->plugin->displayName} module -->
 <script src="{$tie->plugin->path}/js/{$tie->plugin->name}/{$tie->plugin->name}.js" type="text/javascript"></script>
 {if $tie->plugin->get(\'jquery_load\')}
-  <script src="{$tie->plugin->path}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-  <script src="{$tie->plugin->path}/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="{$tie->plugin->path}/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
+<script src="{$tie->plugin->path}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$tie->plugin->path}/js/ui-themes/smoothness/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
 {/if}
 <script src="{$tie->plugin->path}/js/elrte.min.js" type="text/javascript"></script>
 <script src="{$tie->plugin->path}/js/i18n/elrte.ru.js" type="text/javascript"></script>
 <link rel="stylesheet" href="{$tie->plugin->path}/css/elrte.full.css" type="text/css" media="screen" charset="utf-8" />
-<script src="{$tie->plugin->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->touch->path}/js/touchInlineEdit.js" type="text/javascript"></script>
+<script src="{$tie->plugin->path}/js/touchInlineEditInstance.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
   {$tieExtraScript}
   var touchInlineEdit = new touchInlineEdit(
