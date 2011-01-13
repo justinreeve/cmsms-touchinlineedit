@@ -70,7 +70,7 @@ class touchInlineEdit extends CMSModule {
    * @access public
    */
   public $templates = array(
-    'button' => '<button class="touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
+    'button' => '<button class="P{$content_id} B{$tieCurrentBlock} touchInlineEditButton">{$tie->touch->get(\'feEditButtonText\')}</button>'
   );
   
   /**
@@ -290,18 +290,20 @@ class touchInlineEdit extends CMSModule {
 
     // Only type:content,block:content_en yet
     // TODO: Support for multiple blocks and editors
-    if($result[0] == 'content' && $result[1] == 'content_en'){
+    if($result[0] == 'content'){
 
       if($this->touch->isAjaxRequest()){
         return $templateSource;
       }
-
+      
+      $smarty->assign('tieCurrentBlock',$result[1]);
+      
       // Before content
       $contentBefore = '{if $tie->isEnabled()}';
       $contentBefore.= '  {if $tie->touch->get(\'feEditButton\')}';
       $contentBefore.= '    {$tie->touch->fetch(\'button\',true)}';
       $contentBefore.= '  {/if}';
-      $contentBefore.= '  <div id="touchInlineEditId{$content_id}" class="touchInlineEdit">';
+      $contentBefore.= '  <div id="touchInlineEditId-{$content_id}-{$tieCurrentBlock}" class="P{$content_id} B{$tieCurrentBlock} touchInlineEdit">';
       $contentBefore.= '{/if}';
 
       // After content
@@ -406,7 +408,14 @@ class touchInlineEdit extends CMSModule {
   protected function getContent($block="content_en",$fetch=false)
   {
     $contentObj = &$this->getContentObj();
-
+    
+    if(isset($_POST['block'])){
+      $block = $_POST['block'];
+    }
+    if(isset($_POST['fetch']) && !empty($_POST['fetch'])){
+      $fetch = $_POST['fetch'];
+    }
+    
     $content = "Empty...";
     if($contentObj->HasProperty($block)){
       $content = $contentObj->GetPropertyValue($block);
@@ -428,6 +437,7 @@ class touchInlineEdit extends CMSModule {
   {
     $contentObj = &$this->getContentObj();
 
+    $block = $_POST['block'];
     $params[$block] = $_POST['content'];
 
     // Fix: Attempt to load admin realm from non admin action notice if alias already used
