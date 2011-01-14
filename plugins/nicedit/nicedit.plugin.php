@@ -43,6 +43,7 @@ class nicedit extends touchInlineEditPlugin {
   {
     $this->name = 'nicedit';
     $this->displayName = 'nicEdit';
+    $this->supportsMultiple = true;
     parent::__construct($module);
     $this->settings = array(
       'jquery_load' => 1,

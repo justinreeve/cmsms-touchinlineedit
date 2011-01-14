@@ -288,9 +288,8 @@ class touchInlineEdit extends CMSModule {
     
     $result = explode(':', $smarty->_current_file);
 
-    // Only type:content,block:content_en yet
-    // TODO: Support for multiple blocks and editors
-    if($result[0] == 'content'){
+    if($result[0] == 'content' && ($this->getPlugin()->supportsMultiple 
+      || $result[1] == 'content_en')){
 
       if($this->touch->isAjaxRequest()){
         return $templateSource;

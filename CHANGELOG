@@ -23,6 +23,8 @@ Fix lost editor settings on save settings if is current editor bug #5922
 Add confirm message on change settings
 Add multiple block support
 Fix maxHeight IE bug nicEdit
+Add new flag supportsMultiple
+Disable multiple support for elRTE
 
 /// Version 1.7.4
 

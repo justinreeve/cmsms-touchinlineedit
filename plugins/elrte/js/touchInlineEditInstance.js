@@ -95,7 +95,7 @@ function touchInlineEditInstance(id,block,selector){
    */
   this.save = function(content)
   {
-    //console.debug('Save ' + self.block);
+    console.debug('Save ' + self.block);
     touchInlineEdit.save(self.id,self.block,self.selector,content);
   }
 

@@ -126,7 +126,14 @@ class touchInlineEditPlugin {
    * @access public
    */  
   var $settings = array();  
-  
+
+  /**
+   * Supports multiple content blocks.
+   * @var boolean
+   * @access public
+   */  
+  var $supportsMultiple = false;
+
   /**
    * Construct a new editor plugin.
    */

@@ -71,6 +71,7 @@ class tiny_mce extends touchInlineEditPlugin {
   {
     $this->name = 'tiny_mce';
     $this->displayName = 'tinyMCE';
+    $this->supportsMultiple = true;
     parent::__construct($module);
     $this->settings = array(
       'jquery_load' => 1,
