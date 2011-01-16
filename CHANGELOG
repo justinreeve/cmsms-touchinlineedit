@@ -25,6 +25,8 @@ Add multiple block support
 Fix maxHeight IE bug nicEdit
 Add new flag supportsMultiple
 Disable multiple support for elRTE
+Add feedback box
+Remove unused template admineditor.tpl
 
 /// Version 1.7.4
 

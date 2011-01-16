@@ -44,5 +44,6 @@ if(!$this->VisibleToAdminUser()){
 }
 
 echo $this->getPlugin()->getAdminConfig($id,$returnid);
+echo $this->ProcessTemplate("ressources.tpl");
 
 ?>

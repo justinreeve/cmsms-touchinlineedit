@@ -1,3 +1,4 @@
+<div id="touchForm">
 {$formstart}
   {if $feFEUallow_input && $feFEUgroups_input}
   <div class="pageoverflow">
@@ -23,3 +24,4 @@
     <p class="pageinput">{$submit}{$cancel}</p>
   </div>
 {$formend}
+</div>

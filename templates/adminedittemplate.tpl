@@ -1,3 +1,4 @@
+<div id="touchForm">
 {$formstart}
   {$template}
   <div class="pageoverflow">
@@ -9,3 +10,4 @@
     <p class="pageinput">{$submit}{$reset}</p>
   </div>
 {$formend}
+</div>

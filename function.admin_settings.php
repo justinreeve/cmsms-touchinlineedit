@@ -85,5 +85,6 @@ $this->smarty->assign('cancel',$this->CreateInputSubmit($id,"cancel",$this->Lang
 $this->smarty->assign('formend',$this->CreateFormEnd());
 
 echo $this->ProcessTemplate("adminsettings.tpl");
+echo $this->ProcessTemplate("ressources.tpl");
 
 ?>

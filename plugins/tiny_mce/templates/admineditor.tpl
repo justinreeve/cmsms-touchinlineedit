@@ -1,3 +1,4 @@
+<div id="touchForm">
 {$formstart}
   <div class="pageoverflow">
     <p class="pagetext">{$tiny_mce_jquery_load_label}</p>
@@ -60,3 +61,4 @@
     <p class="pageinput">{$submit}{$cancel}</p>
   </div>
 {$formend}
+</div>
