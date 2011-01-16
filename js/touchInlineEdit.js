@@ -33,7 +33,7 @@
  *
  */
  
-function touchInlineEdit(id,uri,message){
+function touchInlineEdit(id,uri,message,event){
 
   /**
    * Self instance.
@@ -70,6 +70,13 @@ function touchInlineEdit(id,uri,message){
    */
   this.message = message;
 
+  /**
+   * Init on event.
+   * @var boolean
+   * @access public
+   */
+  this.event = event;
+  
   /**
    * Add editor instance.
    */
@@ -235,7 +242,7 @@ var onEvent = function(){
 
 $(document).ready(function(){
   $('.touchInlineEditButton').click(onEvent);
-  if(touchInlineEdit.onClick){
+  if(touchInlineEdit.event){
     $('.touchInlineEdit').dblclick(onEvent);
   }
 });
