@@ -40,6 +40,7 @@ $this->DeleteTemplate();
 
 $this->smarty->clear_compiled_tpl();
 $this->smarty->clear_all_cache();
+$this->RemoveEventHandler('Core', 'ContentPostRender');
 
 // Log uninstall info
 $this->Audit(0, $this->GetFriendlyName(), $this->Lang('postuninstall'));

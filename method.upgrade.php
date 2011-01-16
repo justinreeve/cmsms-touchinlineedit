@@ -79,6 +79,7 @@ if(version_compare($oldversion, '1.8.0', '<')){
   $this->RemovePreference('touchInlineEdit.feUpdateAlert');
   $this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
   $this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));
+  $this->AddEventHandler('Core', 'ContentPostRender', false);
 }
 
 // Log upgrade info

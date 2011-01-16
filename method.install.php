@@ -50,6 +50,7 @@ if(method_exists($this->getPlugin(),'install')){
 }
 $this->SetPreference('touchInlineEdit.fePlugin', TIE_PLUGIN_DEFAULT);
 $this->SetTemplate('touchInlineEdit.button', $this->touch->getTemplate('button'));
+$this->AddEventHandler('Core', 'ContentPostRender', false);
 
 // Log install info
 $this->Audit(0, $this->GetFriendlyName(), $this->Lang('postinstall'));
