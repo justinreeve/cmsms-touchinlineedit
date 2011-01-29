@@ -338,7 +338,7 @@ class touchInlineEdit extends CMSModule {
     
     // Support for frontend users
     if($this->touch->get('feFEUallow')){
-      $feu = $this->touch->getModuleInstance('FrontEndUsers');
+      $feu = $this->touch->getCMSModuleInstance('FrontEndUsers');
       if($feu && $feu->loggedInId()){
         if($this->touch->get('feFEUgroups')){
           $allowedGroups = explode(',',$this->touch->get('feFEUgroups'));

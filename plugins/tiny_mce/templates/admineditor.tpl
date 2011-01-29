@@ -41,6 +41,10 @@
     <p class="pageinput">{$tiny_mce_buttons3_input}<br/>{$tiny_mce_buttons3_help}</p>
   </div>
   <div class="pageoverflow">
+    <p class="pagetext">{$tiny_mce_forced_root_block_label}</p>
+    <p class="pageinput">{$tiny_mce_forced_root_block_input}<br/>{$tiny_mce_forced_root_block_help}</p>
+  </div>
+  <div class="pageoverflow">
     <p class="pagetext">{$tiny_mce_force_p_newlines_label}</p>
     <p class="pageinput">{$tiny_mce_force_p_newlines_input}<br/>{$tiny_mce_force_p_newlines_help}</p>
   </div>

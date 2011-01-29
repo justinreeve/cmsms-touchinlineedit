@@ -83,7 +83,7 @@ class tiny_mce extends touchInlineEditPlugin {
       'buttons3' => 'cmslinker,search,replace,separator,separator,fullscreen,preview,code,styleprops,visualchars,cleanup,separator,tablecontrols,separator,help',
       'force_br_newlines' => 0,
       'force_p_newlines' => 1,
-      'forced_root_block' => 'p',
+      'forced_root_block' => 1,
       'entity_encoding' => 'raw',
       'theme_advanced_resizing' => 1,
       'plugins' => 'searchreplace,fullscreen,inlinepopups,media,preview,print,style,table,visualchars',
@@ -179,8 +179,16 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
     $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputText($id,$name,
       $this->get($name,$this->settings[$name]),80,255));
-    
-    // Newlines p
+
+    // Forced root block
+    $name = 'forced_root_block';
+    $options = $yn;
+    $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_help',$this->module->lang($this->name.'_'.$name.'_help'));
+    $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputDropdown($id,$name,
+      $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
+      
+    // Forced p newlines
     $name = 'force_p_newlines';
     $options = $yn;
     $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
@@ -196,7 +204,7 @@ class tiny_mce extends touchInlineEditPlugin {
     $this->module->smarty->assign($this->name.'_'.$name.'_input',$this->module->createInputDropdown($id,$name,
       $options,$this->get($name,$this->settings[$name]),$this->get($name,$this->settings[$name])));
       
-    // Newlines br
+    // Encoding
     $name = 'entity_encoding';
     $options = array('raw' => 'raw', 'named' => 'named', 'numeric' => 'numeric');
     $this->module->smarty->assign($this->name.'_'.$name.'_label',$this->module->lang($this->name.'_'.$name.'_label'));
