@@ -1,3 +1,8 @@
+//// Version 1.8.1
+
+Fix Fatal error call getModuleInstance()
+Remove devel/source stuff for better compression
+
 //// Version 1.8.0
 
 Fix plugin elRTE xhtml link element close tag /> #5918
