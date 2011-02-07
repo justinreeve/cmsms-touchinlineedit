@@ -1,3 +1,7 @@
+//// Version 1.8.2
+
+Set new cmsms max version 1.9.9
+
 //// Version 1.8.1
 
 Fix Fatal error call getModuleInstance()
