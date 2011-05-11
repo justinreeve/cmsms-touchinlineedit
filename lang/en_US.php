@@ -34,6 +34,7 @@ $lang['reset'] = 'Reset';
 $lang['settingssaved'] = 'Settings saved.';
 $lang['templatessaved'] = 'Template saved.';
 $lang['settingsconfirm'] = 'On change the editor plugin (and only then!) all customized templates and settings for current edior plugin %s will be lost.';
+$lang['nopermission'] = 'Permission denied to modify TouchInlineEdit preferences';
 
 $lang['fePlugin_label'] = 'Which editor you want?';
 $lang['fePlugin_help'] = 'Select an editor.';
