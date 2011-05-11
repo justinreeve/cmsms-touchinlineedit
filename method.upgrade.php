@@ -81,7 +81,9 @@ if(version_compare($oldversion, '1.8.0', '<')){
   $this->SetPreference('touchInlineEdit.feUpdateAlertMessage', $this->Lang('feUpdateAlertMessage_default'));
   $this->AddEventHandler('Core', 'ContentPostRender', false);
 }
-
+if(version_compare($oldversion, '1.8.2', '<')){
+  $this->CreatePermission('Modify touchInlineEdit Preferences', 'Modify touchInlineEdit Preferences');
+}
 // Log upgrade info
 $this->Audit(0, $this->GetFriendlyName(), 
   $this->Lang('postupgrade', $this->GetVersion()));

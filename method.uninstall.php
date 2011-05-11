@@ -36,6 +36,7 @@
 
 $this->RemovePreference();
 $this->RemovePermission('Use touchInlineEdit');
+$this->RemovePermission('Modify touchInlineEdit Preferences');
 $this->DeleteTemplate();
 
 $this->smarty->clear_compiled_tpl();
