@@ -127,7 +127,7 @@ class touchInlineEdit extends CMSModule {
    */
   public function GetVersion()
   {
-    return '1.8.1';
+    return '1.8.2';
   }
   
   /**
