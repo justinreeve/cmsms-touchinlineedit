@@ -38,6 +38,7 @@ $smarty->clear_compiled_tpl();
 $smarty->clear_all_cache();
 
 $this->CreatePermission('Use touchInlineEdit', 'Use touchInlineEdit');
+$this->CreatePermission('Modify touchInlineEdit Preferences', 'Modify touchInlineEdit Preferences');
 $this->SetPreference('touchInlineEdit.feEditButton', 1);
 $this->SetPreference('touchInlineEdit.feEditButtonText', $this->Lang('feEditButtonText_default'));
 $this->SetPreference('touchInlineEdit.feEditOnDblClick', 1);

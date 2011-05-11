@@ -38,7 +38,7 @@ if(!isset($gCms)){
   exit;
 }
 
-if(!$this->CheckPermission('Use touchInlineEdit')){
+if(!$this->CheckPermission('Modify touchInlineEdit Preferences')){
   echo $this->lang("nopermission");
   return;
 }
@@ -69,7 +69,9 @@ echo $this->StartTabHeaders();
 
 echo $this->SetTabHeader("settings",$this->Lang("settings"),($activeTab == 'settings' ? true : false));
 echo $this->SetTabHeader("permissions",$this->Lang("permissions"),($activeTab == 'permissions' ? true : false));
-echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
+if($this->CheckPermission('Modify Templates')){
+  echo $this->SetTabHeader("templates",$this->Lang("templates"),($activeTab == 'templates' ? true : false));
+}
 echo $this->SetTabHeader("editor",$this->Lang("editor"),($activeTab == 'editor' ? true : false));
 
 echo $this->EndTabHeaders();
