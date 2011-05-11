@@ -1,6 +1,8 @@
 //// Version 1.8.2
 
 Set new cmsms max version 1.9.9
+Add new permission 'Modify touchInlineEdit Preferences'
+Fix check permission 'Modify Templates'
 
 //// Version 1.8.1
 
