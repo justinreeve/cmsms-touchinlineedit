@@ -34,7 +34,7 @@
  *
  */
 
-if(!$this->CheckPermission('Modify Site Settings')){
+if(!$this->CheckPermission('Modify touchInlineEdit Preferences')){
   echo $this->lang("nopermission");
   return;
 }

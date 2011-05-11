@@ -34,7 +34,7 @@
  *
  */
 
-if(!$this->CheckPermission('Modify Templates')){
+if(!$this->CheckPermission('Modify touchInlineEdit Preferences') || !$this->CheckPermission('Modify Templates')){
   echo $this->lang("nopermission");
   return;
 }
