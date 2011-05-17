@@ -89,7 +89,7 @@ class touchInlineEdit extends CMSModule {
     
     $this->touch = new touchModule($this);
     $this->smarty = $this->touch->cmsms('smarty');
-    $this->smarty->force_compile = true;
+    //$this->smarty->force_compile = true;
     
     // TODO: Check if this the right place?
     $this->init();
