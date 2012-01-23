@@ -3,12 +3,12 @@
  *
  * touchInlineEdit Module
  *
- * Copyright (c) 2010 touchDesign, <www.touchdesign.de>
+ * Copyright (c) 2010 touchdesign, <www.touchdesign.de>
  *
  * @category Module
  * @author Christoph Gruber <www.touchdesign.de>
- * @version 1.8.2
- * @copyright 04.08.2010 touchDesign
+ * @version 1.8.3
+ * @copyright 04.08.2010 touchdesign
  * @link http://www.touchdesign.de/
  * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit

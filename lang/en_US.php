@@ -12,7 +12,7 @@ $lang['help'] = '<h3>Usage</h3>
 </ul>
 <h3>About</h3>
 <ul>
-  <li>Copyright by <a href="http://www.touchdesign.de/">touchDesign</a></li>
+  <li>Copyright by <a href="http://www.touchdesign.de/">touchdesign</a></li>
   <li>Author Christoph Gruber</li>
   <li>CMSms TouchInlineEdit <a href="http://dev.cmsmadesimple.org/projects/touchinlineedit">project page</a></li>
   <li>Support via <a href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
