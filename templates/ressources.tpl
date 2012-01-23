@@ -5,24 +5,22 @@ float:left;
 }
 
 #touchRessources {
-color:#384654;
+height:170px;
+width:170px;
+color:#000;
 float:left;
-border: 1px solid #cccccc;
-padding:15px;
-background:url(../modules/touchInlineEdit/img/touchBackground.png) #F1F5FA no-repeat;
-background-position:right bottom;
+padding:15px 15px;
+background:url(../modules/touchInlineEdit/img/touchBackground.png) #ffffff no-repeat;
+background-position:center bottom;
 margin:20px 0px 0px 100px;
 }
 
 #touchRessources h1 {
-color:#fff;
-padding:5px;
-border-bottom: 1px solid #ffffff;
+font-size:1em;
 }
 
 #touchRessources ul {
-margin:0px;
-padding:0px 0px 0px 15px;
+margin:25px 0px 0px 15px;
 }
 
 #touchRessources ul li {
@@ -32,12 +30,13 @@ list-style-type:square;
 {/literal}
 
 <div id="touchRessources">
-  <h2>Feedback is welcome</h2>
   <ul>
+    <li><h1>Keep in touch</h1></li>
+    <li>Visit us on <a target="_blank" href="http://www.touchdesign.de/">touchdesign</a></li>
+    <li>Status updates <a target="_blank" href="http://twitter.com/touchdesignde">twitter</a></li>
+    <li>Link us on <a target="_blank" href="http://facebook.touchdesign.de/">facebook</a></li>
     <li>CMSms <a target="_blank" href="http://dev.cmsmadesimple.org/projects/touchinlineedit">project</a> page.</li>
-    <li>Support via <a target="_blank" href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
-    <li>International Forums <a target="_blank" href="http://forum.cmsmadesimple.org/viewtopic.php?f=7&t=47390"> (English)</a></li>
-    <li>Visit us on <a target="_blank" href="http://www.touchdesign.de/">www.touchDesign.de</a></li>
+    <li>Commmunity <a target="_blank" href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
   </ul>
 </div>
 
