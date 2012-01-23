@@ -266,7 +266,7 @@ class touchInlineEdit extends CMSModule {
    */
   public function MaximumCMSVersion()
   {
-    return "1.9.9";
+    return "1.10.9";
   }
 
   /**
@@ -294,9 +294,9 @@ class touchInlineEdit extends CMSModule {
       if($this->touch->isAjaxRequest()){
         return $templateSource;
       }
-      
+
       $smarty->assign('tieCurrentBlock',$result[1]);
-      
+
       // Before content
       $contentBefore = '{if $tie->isEnabled()}';
       $contentBefore.= '  {if $tie->touch->get(\'feEditButton\')}';
@@ -448,12 +448,10 @@ class touchInlineEdit extends CMSModule {
       // TODO: throw errors
       return "Invalid content";
     }
-
-    // Fix: Alias rename
-    // Ref: http://dev.cmsmadesimple.org/bug/view/5805
-    $contentObj->mAlias = $contentObj->mOldAlias;
-
-    $contentObj->Update();
+    
+    $contentObj->LoadFromId($this->getContentId());
+    
+    $contentObj->Save();
 
     // Log update info
     $this->Audit(0, $this->GetFriendlyName(), 
