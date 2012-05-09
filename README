@@ -5,7 +5,7 @@ What is TouchInlineEdit?
 -----------------
 
 TouchInlineEdit is a frontend inline editor module for the popular Content management 
-system CMSmadesimple. It allows admins and frontend users to edit content directly 
+system CMS mades imple. It allows admins and frontend users to edit content directly 
 without visit (or login into) the admin backend.
 
 Features
@@ -35,7 +35,7 @@ Author & Copyright
 ------------------
 
 Copyright by: touchdesign
-Chief developer: Christoph Gruber
+Chief developer: Christin Gruber
 
 Licenses
 --------
@@ -56,5 +56,4 @@ users (set permission: Use touchInlineEdit) or optional setup the front end user
 at the cmsms front end.
 
 [1]: http://dev.cmsmadesimple.org/projects/touchinlineedit
-[2]: http://www.homepage-community.de/index.php?topic=1680.0
-[3]: http://www.touchdesign.de/loesungen/cms-made-simple/module.htm
+[2]: http://www.touchdesign.de/loesungen/cms-made-simple/module.htm

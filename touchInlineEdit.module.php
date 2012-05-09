@@ -7,11 +7,10 @@
  * Copyright (c) 2010 touchdesign, <www.touchdesign.de>
  *
  * @category Module
- * @author Christoph Gruber <www.touchdesign.de>
+ * @author Christin Gruber <www.touchdesign.de>
  * @version 1.8.3
  * @copyright 04.08.2010 touchdesign
  * @link http://www.touchdesign.de/
- * @link http://www.homepage-community.de/index.php?topic=1680.0
  * @link http://dev.cmsmadesimple.org/projects/touchInlineEdit
  * @license http://www.gnu.org/licenses/licenses.html#GPL GNU General Public License (GPL 2.0)
  *
@@ -135,7 +134,7 @@ class touchInlineEdit extends CMSModule {
    */
   public function GetAuthor()
   {
-    return 'Christoph Gruber <touchdesign.de>';
+    return 'Christin Gruber <touchdesign.de>';
   }
 
   /**

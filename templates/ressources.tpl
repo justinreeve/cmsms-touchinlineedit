@@ -36,7 +36,6 @@ list-style-type:square;
     <li>Status updates <a target="_blank" href="http://twitter.com/touchdesignde">twitter</a></li>
     <li>Link us on <a target="_blank" href="http://facebook.touchdesign.de/">facebook</a></li>
     <li>CMSms <a target="_blank" href="http://dev.cmsmadesimple.org/projects/touchinlineedit">project</a> page.</li>
-    <li>Commmunity <a target="_blank" href="http://www.homepage-community.de/index.php?topic=1680.0">HPC</a></li>
   </ul>
 </div>
 
